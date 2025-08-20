@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-text-primary;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-text-primary;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white font-semibold py-3 px-8 rounded-full 
+           transition-all duration-300 hover:scale-105 
+           shadow-glow-purple-sm hover:shadow-glow-purple;
+  }
+
+  .btn-secondary {
+    @apply bg-white border-2 border-primary text-primary font-semibold py-3 px-8 
+           rounded-full transition-all duration-300 hover:bg-primary hover:text-white
+           hover:shadow-glow-purple;
+  }
+
+  .btn-accent {
+    @apply bg-accent text-black font-bold py-3 px-8 rounded-full 
+           transition-all duration-300 hover:scale-105
+           shadow-glow-lime-sm hover:shadow-glow-lime;
+  }
+
+  .btn-neon {
+    @apply bg-transparent border-2 border-accent text-accent font-bold py-3 px-8 
+           rounded-full transition-all duration-300 hover:bg-accent hover:text-black
+           hover:shadow-neon-lime;
+  }
+
+  .card-neon {
+    @apply bg-white rounded-2xl p-6 border-2 border-primary/20
+           hover:border-primary hover:shadow-glow-purple transition-all duration-300;
+  }
+
+  .card-lime {
+    @apply bg-white rounded-2xl p-6 border-2 border-accent/20
+           hover:border-accent hover:shadow-glow-lime transition-all duration-300;
+  }
+
+  .text-glow-purple {
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+
+  .text-glow-lime {
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+
+  .badge-purple {
+    @apply bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-semibold
+           border border-primary/20;
+  }
+
+  .badge-lime {
+    @apply bg-accent/10 text-black px-3 py-1 rounded-full text-sm font-semibold
+           border border-accent/30;
+  }
+
+  .section-padding {
+    @apply py-20 px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .floating-card {
+    @apply absolute bg-white rounded-xl p-4 shadow-float;
+  }
+}
+
+/* Neon glow animations */
+@keyframes neon-pulse-purple {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.6), 
+                0 0 30px rgba(139, 92, 246, 0.4),
+                inset 0 0 15px rgba(139, 92, 246, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 
+                0 0 40px rgba(139, 92, 246, 0.6),
+                inset 0 0 20px rgba(139, 92, 246, 0.15);
+  }
+}
+
+@keyframes neon-pulse-lime {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.6), 
+                0 0 30px rgba(139, 92, 246, 0.4),
+                inset 0 0 15px rgba(139, 92, 246, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 
+                0 0 40px rgba(139, 92, 246, 0.6),
+                inset 0 0 20px rgba(139, 92, 246, 0.15);
+  }
+}
+
+.animate-neon-purple {
+  animation: neon-pulse-purple 2s ease-in-out infinite;
+}
+
+.animate-neon-lime {
+  animation: neon-pulse-lime 2s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-dark;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}

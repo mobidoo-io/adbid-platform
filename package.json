@@ -1,0 +1,39 @@
+{
+  "name": "adbid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "./deploy.sh",
+    "deploy:setup": "chmod +x deploy.sh setup-server.sh",
+    "docker:build": "docker build -t adbid .",
+    "docker:run": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "kamal:setup": "kamal setup",
+    "kamal:deploy": "kamal deploy",
+    "kamal:rollback": "kamal rollback",
+    "kamal:logs": "kamal app logs -f"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.21",
+    "framer-motion": "^12.23.12",
+    "lucide-react": "^0.540.0",
+    "postcss": "^8.5.6",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "recharts": "^3.1.2",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.2"
+  }
+}

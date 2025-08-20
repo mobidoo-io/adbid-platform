@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Sets Modals - AdBid</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-overlay.hidden {
+            display: none;
+        }
+        
+        /* Modal Container */
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal.small {
+            max-width: 600px;
+        }
+        
+        /* Modal Header */
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .cancel-btn {
+            padding: 8px 20px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .cancel-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .select-btn, .save-btn {
+            padding: 8px 24px;
+            background: #FFD93D;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .select-btn:hover, .save-btn:hover {
+            background: #ffcf0d;
+        }
+        
+        .select-btn:disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+        
+        /* Modal Body */
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .empty-state-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 40px;
+        }
+        
+        .new-creative-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: #FFD93D;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .new-creative-btn:hover {
+            background: #ffcf0d;
+        }
+        
+        /* New Creative Set Form */
+        .creative-form {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .form-main {
+            flex: 1;
+        }
+        
+        .form-preview {
+            width: 400px;
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 24px;
+        }
+        
+        /* Format Tabs */
+        .format-tabs {
+            display: inline-flex;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 2px;
+            margin-bottom: 24px;
+        }
+        
+        .format-tab {
+            padding: 8px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .format-tab.active {
+            background: white;
+            color: #111;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Carousel Counter */
+        .carousel-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 20px;
+        }
+        
+        .counter-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .counter-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .counter-value {
+            font-size: 14px;
+            color: #111;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        /* Format Selector */
+        .format-selector {
+            float: right;
+            padding: 8px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        /* Form Section */
+        .form-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .section-sublabel {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .optional-label {
+            color: #6b7280;
+            font-weight: normal;
+        }
+        
+        /* Media Section */
+        .media-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .media-button:hover {
+            background: #e5e7eb;
+        }
+        
+        /* Guide Link */
+        .guide-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 13px;
+            margin-left: 12px;
+        }
+        
+        .guide-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Preview Section */
+        .preview-placeholder {
+            height: 400px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 14px;
+            text-align: center;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .preview-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #6b7280;
+        }
+        
+        .preview-subtext {
+            font-size: 13px;
+            color: #9ca3af;
+        }
+        
+        /* Call to Action */
+        .cta-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        /* Character Counter */
+        .char-counter {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        /* Demo Buttons */
+        .demo-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .demo-btn {
+            padding: 10px 20px;
+            background: #8B5CF6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .demo-btn:hover {
+            background: #7C3AED;
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo Buttons -->
+    <div class="demo-buttons">
+        <button class="demo-btn" onclick="showModal('creative-sets')">Show Creative Sets</button>
+        <button class="demo-btn" onclick="showModal('new-creative')">Show New Creative Set</button>
+    </div>
+    
+    <!-- Creative Sets Modal -->
+    <div id="creative-sets-modal" class="modal-overlay hidden">
+        <div class="modal small">
+            <div class="modal-header">
+                <h2 class="modal-title">Creative sets</h2>
+                <div class="modal-actions">
+                    <button class="cancel-btn" onclick="closeModal('creative-sets')">Cancel</button>
+                    <button class="select-btn" disabled>Select</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="empty-state">
+                    <h3 class="empty-state-title">Create your first saved creative set</h3>
+                    <button class="new-creative-btn" onclick="switchToNewCreative()">
+                        <span>+</span>
+                        <span>New creative set</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Creative Set Modal -->
+    <div id="new-creative-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">New creative set</h2>
+                <div class="modal-actions">
+                    <button class="cancel-btn" onclick="closeModal('new-creative')">Cancel</button>
+                    <button class="save-btn">Save</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="creative-form">
+                    <div class="form-main">
+                        <!-- Format Selection -->
+                        <div style="margin-bottom: 24px;">
+                            <div class="format-tabs">
+                                <button class="format-tab active">Image or video</button>
+                                <button class="format-tab">Carousel</button>
+                            </div>
+                            
+                            <div class="carousel-counter" style="display: none;">
+                                <button class="counter-btn">←</button>
+                                <span class="counter-value">0 / 0</span>
+                                <button class="counter-btn">→</button>
+                            </div>
+                            
+                            <select class="format-selector">
+                                <option>Desktop feed standard</option>
+                                <option>Mobile feed standard</option>
+                                <option>Stories</option>
+                                <option>Reels</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Ad Account Library -->
+                        <div class="form-section">
+                            <label class="section-label">Ad account library</label>
+                            <div style="padding: 12px 16px; background: #f9fafb; border-radius: 8px; font-size: 14px; color: #111;">
+                                [T4Y]deus_yess_1
+                            </div>
+                        </div>
+                        
+                        <!-- Media -->
+                        <div class="form-section">
+                            <label class="section-label">Media</label>
+                            <div style="display: flex; align-items: center;">
+                                <button class="media-button">
+                                    <span>+</span>
+                                    <span>Select media</span>
+                                </button>
+                                <a href="#" class="guide-link">
+                                    <span>📘</span>
+                                    <span>Facebook Ads Guide</span>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Primary Text -->
+                        <div class="form-section">
+                            <label class="section-label">Primary text</label>
+                            <div class="input-wrapper">
+                                <textarea class="form-textarea" placeholder="Tell people what your ad is about" maxlength="125"></textarea>
+                                <span class="char-counter">😊</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Headline -->
+                        <div class="form-section">
+                            <label class="section-label">
+                                Headline
+                                <span class="optional-label">- Optional</span>
+                            </label>
+                            <input type="text" class="form-input" placeholder="Write a short headline">
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="form-section">
+                            <label class="section-label">
+                                Description
+                                <span class="optional-label">- Optional</span>
+                            </label>
+                            <input type="text" class="form-input" placeholder="Include additional details">
+                        </div>
+                        
+                        <!-- Website URL -->
+                        <div class="form-section">
+                            <label class="section-label">Website URL</label>
+                            <input type="url" class="form-input" placeholder="Include website urls">
+                        </div>
+                        
+                        <!-- Display Link -->
+                        <div class="form-section">
+                            <label class="section-label">
+                                Display link
+                                <span class="optional-label">- Optional</span>
+                            </label>
+                            <input type="text" class="form-input" placeholder="Include display urls">
+                        </div>
+                        
+                        <!-- Call to Action -->
+                        <div class="form-section">
+                            <label class="section-label">Call to action</label>
+                            <select class="cta-select">
+                                <option>None</option>
+                                <option>Shop Now</option>
+                                <option>Learn More</option>
+                                <option>Sign Up</option>
+                                <option>Download</option>
+                                <option>Get Offer</option>
+                                <option>Contact Us</option>
+                                <option>Book Now</option>
+                                <option>Watch More</option>
+                                <option>Apply Now</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-preview">
+                        <div class="preview-placeholder">
+                            <div class="preview-text">No preview available yet</div>
+                            <div class="preview-subtext">Complete the form to display preview</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showModal(type) {
+            if (type === 'creative-sets') {
+                document.getElementById('creative-sets-modal').classList.remove('hidden');
+            } else if (type === 'new-creative') {
+                document.getElementById('new-creative-modal').classList.remove('hidden');
+            }
+        }
+        
+        function closeModal(type) {
+            if (type === 'creative-sets') {
+                document.getElementById('creative-sets-modal').classList.add('hidden');
+            } else if (type === 'new-creative') {
+                document.getElementById('new-creative-modal').classList.add('hidden');
+            }
+        }
+        
+        function switchToNewCreative() {
+            closeModal('creative-sets');
+            setTimeout(() => showModal('new-creative'), 300);
+        }
+        
+        // Format tabs functionality
+        document.querySelectorAll('.format-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.format-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show/hide carousel counter
+                const isCarousel = this.textContent === 'Carousel';
+                document.querySelector('.carousel-counter').style.display = isCarousel ? 'inline-flex' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

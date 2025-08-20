@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Campaign - Ad Sets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn:hover {
+            background: #f3f4f6;
+            border-radius: 8px;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #222;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .save-template-btn {
+            background: white;
+            border: 1px solid #d1d5db;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .save-template-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .next-btn {
+            background: #FFD93D;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .next-btn:hover {
+            background: #ffcf0d;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(255, 217, 61, 0.3);
+        }
+        
+        /* Progress Steps */
+        .progress-container {
+            background: white;
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #9ca3af;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .step.active {
+            color: #222;
+        }
+        
+        .step.completed {
+            color: #10b981;
+        }
+        
+        .step-circle {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e5e7eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            transition: all 0.2s;
+        }
+        
+        .step.active .step-circle {
+            border-color: #222;
+            background: #222;
+            color: white;
+        }
+        
+        .step.completed .step-circle {
+            border-color: #10b981;
+            background: #10b981;
+            color: white;
+        }
+        
+        .step.completed .step-circle::before {
+            content: "✓";
+            font-size: 12px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+        
+        /* Form Section */
+        .form-section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 8px;
+        }
+        
+        .form-sublabel {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        
+        /* Two column layout */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        /* Date picker */
+        .date-input-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .date-input {
+            flex: 1;
+        }
+        
+        .time-select {
+            width: 120px;
+        }
+        
+        /* Placement checkboxes */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .checkbox-input {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #8B5CF6;
+        }
+        
+        /* Toggle section */
+        .toggle-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .toggle-content {
+            flex: 1;
+        }
+        
+        .toggle-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 4px;
+        }
+        
+        .toggle-description {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d1d5db;
+            transition: .3s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #10b981;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        
+        /* Info badge */
+        .info-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #f3f4f6;
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+        
+        /* Budget input group */
+        .budget-input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .currency-prefix {
+            font-size: 16px;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .budget-input {
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .budget-period {
+            font-size: 14px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.location.href='campaign-step2.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                </svg>
+            </button>
+            <h1 class="page-title">New campaign</h1>
+        </div>
+        <div class="header-right">
+            <button class="save-template-btn">Save template</button>
+            <button class="next-btn" onclick="nextStep()">Next</button>
+        </div>
+    </div>
+    
+    <!-- Progress Steps -->
+    <div class="progress-container">
+        <div class="progress-steps">
+            <div class="step completed" data-step="upload">
+                <span class="step-circle"></span>
+                <span>Upload</span>
+            </div>
+            <div class="step completed" data-step="campaign">
+                <span class="step-circle"></span>
+                <span>Campaign</span>
+            </div>
+            <div class="step active" data-step="adsets">
+                <span class="step-circle"></span>
+                <span>Ad sets</span>
+            </div>
+            <div class="step" data-step="ads">
+                <span class="step-circle"></span>
+                <span>Ads</span>
+            </div>
+            <div class="step" data-step="review">
+                <span class="step-circle"></span>
+                <span>Review</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Ad Set Name -->
+        <div class="form-section">
+            <div class="form-group">
+                <label class="form-label">Ad set name</label>
+                <input type="text" class="form-input" placeholder="Enter ad set name" value="Ad Set 1">
+            </div>
+        </div>
+        
+        <!-- Optimization & Delivery -->
+        <div class="form-section">
+            <h2 class="section-title">Optimization & delivery</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Optimization goal</label>
+                <select class="form-select">
+                    <option>App installs</option>
+                    <option>Link clicks</option>
+                    <option>Daily unique reach</option>
+                    <option>Impressions</option>
+                    <option>Landing page views</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Billing event</label>
+                <select class="form-select">
+                    <option>Impressions</option>
+                    <option>Link clicks</option>
+                    <option>App installs</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Bid strategy</label>
+                <select class="form-select">
+                    <option>Lowest cost</option>
+                    <option>Cost cap</option>
+                    <option>Bid cap</option>
+                    <option>Target cost</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Audience -->
+        <div class="form-section">
+            <h2 class="section-title">Audience</h2>
+            
+            <div class="toggle-section">
+                <div class="toggle-content">
+                    <div class="toggle-title">Use a saved audience</div>
+                    <div class="toggle-description">Select from audiences you've already created</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Locations</label>
+                    <input type="text" class="form-input" placeholder="United States" value="United States">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Age</label>
+                    <div class="date-input-group">
+                        <input type="number" class="form-input" placeholder="18" value="18" min="13" max="65">
+                        <span>-</span>
+                        <input type="number" class="form-input" placeholder="65+" value="65" min="13" max="65">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Gender</label>
+                    <select class="form-select">
+                        <option>All</option>
+                        <option>Men</option>
+                        <option>Women</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Languages</label>
+                    <input type="text" class="form-input" placeholder="All languages" value="All languages">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    Detailed targeting
+                    <span class="info-badge">optional</span>
+                </label>
+                <input type="text" class="form-input" placeholder="Add demographics, interests, or behaviors">
+            </div>
+        </div>
+        
+        <!-- Placements -->
+        <div class="form-section">
+            <h2 class="section-title">Placements</h2>
+            
+            <div class="toggle-section">
+                <div class="toggle-content">
+                    <div class="toggle-title">Advantage+ placements</div>
+                    <div class="toggle-description">We'll automatically find the placements likely to get the best results</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Manual placements</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input" checked>
+                        Facebook Feed
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input" checked>
+                        Instagram Feed
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input" checked>
+                        Instagram Stories
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input">
+                        Facebook Marketplace
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input">
+                        Messenger Inbox
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="checkbox-input" checked>
+                        Audience Network
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Budget & Schedule -->
+        <div class="form-section">
+            <h2 class="section-title">Budget & schedule</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Budget</label>
+                <div class="budget-input-group">
+                    <span class="currency-prefix">$</span>
+                    <input type="number" class="form-input budget-input" placeholder="0.00" value="50.00" step="0.01">
+                    <select class="form-select" style="width: 150px;">
+                        <option>Daily budget</option>
+                        <option>Lifetime budget</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Start date</label>
+                    <div class="date-input-group">
+                        <input type="date" class="form-input date-input">
+                        <select class="form-select time-select">
+                            <option>12:00 AM</option>
+                            <option>1:00 AM</option>
+                            <option>2:00 AM</option>
+                            <option>3:00 AM</option>
+                            <option>4:00 AM</option>
+                            <option>5:00 AM</option>
+                            <option>6:00 AM</option>
+                            <option>7:00 AM</option>
+                            <option>8:00 AM</option>
+                            <option>9:00 AM</option>
+                            <option>10:00 AM</option>
+                            <option>11:00 AM</option>
+                            <option>12:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        End date
+                        <span class="info-badge">optional</span>
+                    </label>
+                    <div class="date-input-group">
+                        <input type="date" class="form-input date-input">
+                        <select class="form-select time-select">
+                            <option>11:59 PM</option>
+                            <option>12:00 AM</option>
+                            <option>1:00 AM</option>
+                            <option>2:00 AM</option>
+                            <option>3:00 AM</option>
+                            <option>4:00 AM</option>
+                            <option>5:00 AM</option>
+                            <option>6:00 AM</option>
+                            <option>7:00 AM</option>
+                            <option>8:00 AM</option>
+                            <option>9:00 AM</option>
+                            <option>10:00 AM</option>
+                            <option>11:00 AM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="toggle-section">
+                <div class="toggle-content">
+                    <div class="toggle-title">Run ads on a schedule</div>
+                    <div class="toggle-description">Run ads only during specific hours of the day</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Step navigation
+        function nextStep() {
+            window.location.href = 'campaign-step4.html';
+        }
+        
+        // Step click navigation
+        document.querySelectorAll('.step').forEach(step => {
+            step.addEventListener('click', function() {
+                const stepName = this.dataset.step;
+                if (stepName === 'upload') {
+                    window.location.href = 'new-campaign.html';
+                } else if (stepName === 'campaign') {
+                    window.location.href = 'campaign-step2.html';
+                }
+            });
+        });
+        
+        // Set today's date as default
+        const today = new Date().toISOString().split('T')[0];
+        document.querySelectorAll('input[type="date"]').forEach(input => {
+            if (!input.value) {
+                input.value = today;
+            }
+        });
+    </script>
+</body>
+</html>

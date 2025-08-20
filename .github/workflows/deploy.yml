@@ -1,0 +1,147 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:  # Позволяет запускать вручную
+
+env:
+  SERVER_IP: 165.227.11.220
+  DOMAIN: adbid.me
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run tests (if any)
+      run: npm test --if-present
+      continue-on-error: true
+    
+    - name: Build project
+      run: npm run build
+    
+    - name: Create deployment package
+      run: |
+        mkdir -p deploy_package
+        cp -r dist/* deploy_package/ 2>/dev/null || true
+        cp -r *.html deploy_package/ 2>/dev/null || true
+        cp -r Dashboard deploy_package/ 2>/dev/null || true
+        cp nginx.conf deploy_package/ 2>/dev/null || true
+        
+        # Добавляем информацию о версии
+        echo '{
+          "version": "'$GITHUB_SHA'",
+          "deployed": "'$(date -u +"%Y-%m-%d %H:%M:%S UTC")'",
+          "branch": "'$GITHUB_REF_NAME'",
+          "run_id": "'$GITHUB_RUN_ID'"
+        }' > deploy_package/version.json
+        
+        tar -czf deploy.tar.gz -C deploy_package .
+    
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ env.SERVER_IP }} >> ~/.ssh/known_hosts
+    
+    - name: Deploy to server
+      run: |
+        # Загрузка файлов
+        scp deploy.tar.gz root@${{ env.SERVER_IP }}:/tmp/
+        scp nginx.conf root@${{ env.SERVER_IP }}:/tmp/ 2>/dev/null || true
+        
+        # Развертывание
+        ssh root@${{ env.SERVER_IP }} << 'ENDSSH'
+          set -e
+          
+          # Создание директорий
+          mkdir -p /var/www/adbid
+          mkdir -p /var/www/backups
+          
+          cd /var/www/adbid
+          
+          # Бекап текущей версии
+          if [ -d "current" ]; then
+            BACKUP_NAME="backup-$(date +'%Y%m%d-%H%M%S')"
+            cp -r current /var/www/backups/${BACKUP_NAME}
+            
+            # Удаление старых бекапов
+            cd /var/www/backups
+            ls -t | tail -n +6 | xargs -r rm -rf
+            cd /var/www/adbid
+          fi
+          
+          # Развертывание новой версии
+          rm -rf new_version
+          mkdir new_version
+          tar -xzf /tmp/deploy.tar.gz -C new_version/
+          
+          # Переключение версий
+          if [ -d "current" ]; then
+            rm -rf previous
+            mv current previous
+          fi
+          mv new_version current
+          
+          # Установка прав
+          chown -R www-data:www-data /var/www/adbid
+          chmod -R 755 /var/www/adbid
+          
+          # Обновление nginx если есть новая конфигурация
+          if [ -f "/tmp/nginx.conf" ]; then
+            cp /tmp/nginx.conf /etc/nginx/sites-available/adbid
+            nginx -t && systemctl reload nginx
+          fi
+          
+          # Очистка
+          rm -f /tmp/deploy.tar.gz
+          rm -f /tmp/nginx.conf
+          
+          echo "Deployment completed successfully!"
+        ENDSSH
+    
+    - name: Check deployment
+      run: |
+        # Проверка доступности сайта
+        sleep 5
+        if curl -f -s -o /dev/null "http://${{ env.DOMAIN }}"; then
+          echo "✅ Site is accessible at http://${{ env.DOMAIN }}"
+        elif curl -f -s -o /dev/null "http://${{ env.SERVER_IP }}"; then
+          echo "✅ Site is accessible at http://${{ env.SERVER_IP }}"
+        else
+          echo "❌ Site is not accessible!"
+          exit 1
+        fi
+    
+    - name: Notify success
+      if: success()
+      run: |
+        echo "🎉 Deployment successful!"
+        echo "View site: http://${{ env.DOMAIN }}"
+    
+    - name: Rollback on failure
+      if: failure()
+      run: |
+        ssh root@${{ env.SERVER_IP }} << 'ENDSSH'
+          cd /var/www/adbid
+          if [ -d "previous" ]; then
+            rm -rf current
+            mv previous current
+            systemctl reload nginx
+            echo "⚠️ Rolled back to previous version"
+          fi
+        ENDSSH

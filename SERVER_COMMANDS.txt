@@ -1,0 +1,99 @@
+===============================================
+🚀 КОМАНДЫ ДЛЯ DIGITALOCEAN СЕРВЕРА
+===============================================
+
+GitHub готов: https://github.com/mobidoo-io/adbid ✅
+
+ИНСТРУКЦИЯ:
+-----------
+1. Откройте: https://cloud.digitalocean.com/droplets
+2. Найдите droplet: 165.227.11.220
+3. Нажмите: Access → Launch Droplet Console
+4. Скопируйте и выполните ВСЕ команды ниже
+
+=============== СКОПИРУЙТЕ ВСЁ НИЖЕ ===============
+
+# Установка необходимых пакетов
+apt update && apt install -y git nginx certbot python3-certbot-nginx
+
+# Удаление старой версии и клонирование проекта
+cd /var/www
+rm -rf adbid.backup
+mv adbid adbid.backup 2>/dev/null || true
+git clone https://github.com/mobidoo-io/adbid.git
+cd adbid
+
+# Настройка Nginx
+cat > /etc/nginx/sites-available/adbid << 'EOF'
+server {
+    listen 80;
+    server_name adbid.me www.adbid.me 165.227.11.220;
+    root /var/www/adbid/dist;
+    index index.html;
+    
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+    
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+    
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/javascript application/json;
+}
+EOF
+
+# Активация сайта
+ln -sf /etc/nginx/sites-available/adbid /etc/nginx/sites-enabled/
+rm -f /etc/nginx/sites-enabled/default
+
+# Установка прав доступа
+chown -R www-data:www-data /var/www/adbid
+chmod -R 755 /var/www/adbid
+
+# Перезапуск Nginx
+nginx -t && systemctl restart nginx
+
+# Проверка работы
+echo "========================================="
+echo "Проверка..."
+curl -I http://localhost | head -n 1
+echo "========================================="
+echo "✅ ГОТОВО! Сайт доступен по адресу:"
+echo "   http://adbid.me"
+echo "   http://165.227.11.220"
+echo "========================================="
+
+# SSL сертификат (выполните для HTTPS)
+echo ""
+echo "Установить SSL сертификат? (рекомендуется)"
+echo "Выполните эту команду:"
+echo ""
+echo "certbot --nginx -d adbid.me -d www.adbid.me --non-interactive --agree-tos -m admin@adbid.me"
+echo ""
+echo "После этого сайт будет доступен по: https://adbid.me"
+
+=============== КОНЕЦ КОМАНД ===============
+
+ПРОВЕРКА ПОСЛЕ ВЫПОЛНЕНИЯ:
+--------------------------
+✅ http://adbid.me - должен открыться сайт
+✅ http://165.227.11.220 - должен открыться сайт
+✅ https://adbid.me - будет работать после SSL
+
+ЕСЛИ ЧТО-ТО НЕ РАБОТАЕТ:
+------------------------
+1. Проверьте статус nginx:
+   systemctl status nginx
+
+2. Проверьте логи:
+   tail -f /var/log/nginx/error.log
+
+3. Проверьте файлы:
+   ls -la /var/www/adbid/dist/
+
+===============================================

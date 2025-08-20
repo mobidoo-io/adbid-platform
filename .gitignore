@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+.env
+.env.local
+.env.production
+deploy.tar.gz
+*.tar.gz
+add-ssh-to-droplet.sh
+do-mcp.sh
+setup-do-mcp.sh

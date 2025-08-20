@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 6eae9883f4d58cde694de5b34a787090508451b2 macucer <macucer@macucers-MacBook-Air.local> 1755675153 +0300	commit (initial): Initial commit: Adbid project ready for deployment
+6eae9883f4d58cde694de5b34a787090508451b2 6276790ec56b505a2b9da2427f2a42479b188fc1 macucer <macucer@macucers-MacBook-Air.local> 1755693936 +0300	commit: Ready for deployment to adbid.me
+6276790ec56b505a2b9da2427f2a42479b188fc1 b3b75554e4574991d3121c187f947d012231fddf macucer <macucer@macucers-MacBook-Air.local> 1755703534 +0300	commit: Initial commit: Adbid app
+b3b75554e4574991d3121c187f947d012231fddf b36e3ba97a8d4f21cfc2dfe69044084c12bc7ae1 macucer <macucer@macucers-MacBook-Air.local> 1755703977 +0300	commit: Initial commit: AdBid platform setup
+b36e3ba97a8d4f21cfc2dfe69044084c12bc7ae1 5a41f8ac715fabdc019e02bed478928439b0d905 macucer <macucer@macucers-MacBook-Air.local> 1755704410 +0300	commit: Remove sensitive files and update gitignore

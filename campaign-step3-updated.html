@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Campaign - Ad Sets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn:hover {
+            background: #f3f4f6;
+            border-radius: 8px;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .save-template-btn {
+            background: white;
+            border: 1px solid #d1d5db;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .save-template-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .next-btn {
+            background: #FFD93D;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .next-btn:hover {
+            background: #ffcf0d;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(255, 217, 61, 0.3);
+        }
+        
+        /* Progress Steps */
+        .progress-container {
+            background: white;
+            padding: 24px;
+        }
+        
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #9ca3af;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+            position: relative;
+        }
+        
+        .step.active {
+            color: #111;
+        }
+        
+        .step.completed {
+            color: #111;
+        }
+        
+        .step-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #10b981;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .step.pending .step-circle {
+            background: white;
+            border: 2px solid #e5e7eb;
+            color: #9ca3af;
+        }
+        
+        .step.completed .step-circle::before,
+        .step.active .step-circle::before {
+            content: "✓";
+        }
+        
+        .step.active::after {
+            content: "";
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #111;
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        
+        /* Section */
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 20px;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 12px;
+        }
+        
+        .form-sublabel {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .input-with-button {
+            position: relative;
+        }
+        
+        .input-with-button .form-input {
+            padding-right: 100px;
+        }
+        
+        .macros-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 6px 16px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .macros-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .preview-text {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+        
+        /* Audiences Section */
+        .audience-card {
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .audience-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .audience-content {
+            flex: 1;
+        }
+        
+        .audience-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        
+        .audience-description {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .select-audience-btn {
+            padding: 8px 20px;
+            background: #FFD93D;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .select-audience-btn:hover {
+            background: #ffcf0d;
+        }
+        
+        .new-audience-btn {
+            padding: 8px 20px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .new-audience-btn:hover {
+            background: #f9fafb;
+        }
+        
+        /* EU Warning */
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .warning-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #f59e0b;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        
+        .warning-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+        
+        .warning-text {
+            font-size: 13px;
+            color: #78350f;
+            line-height: 1.5;
+            margin-left: 32px;
+        }
+        
+        .warning-link {
+            color: #78350f;
+            font-weight: 500;
+        }
+        
+        /* Radio Options */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+        
+        .radio-label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .radio-circle {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            margin-right: 12px;
+            position: relative;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .radio-option input[type="radio"]:checked + .radio-label .radio-circle {
+            border-color: #fbbf24;
+        }
+        
+        .radio-option input[type="radio"]:checked + .radio-label .radio-circle::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fbbf24;
+        }
+        
+        .radio-content {
+            flex: 1;
+        }
+        
+        .radio-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        
+        .radio-description {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+        
+        /* Date inputs */
+        .date-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+        }
+        
+        .date-group {
+            flex: 1;
+        }
+        
+        .date-input-wrapper {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .date-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+        
+        .time-select {
+            width: 140px;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #374151;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+        
+        .checkbox-label input {
+            margin-right: 8px;
+        }
+        
+        .timezone-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+            margin-top: 20px;
+        }
+        
+        /* Budget */
+        .budget-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            max-width: 400px;
+        }
+        
+        .budget-input-container {
+            position: relative;
+            flex: 1;
+        }
+        
+        .currency-symbol {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #111;
+            font-size: 16px;
+            pointer-events: none;
+        }
+        
+        .budget-input {
+            width: 100%;
+            padding: 12px 16px;
+            padding-left: 36px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .budget-type-select {
+            width: 150px;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        .helper-text {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+        
+        /* Placements */
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-top: 24px;
+        }
+        
+        .platform-section {
+            min-width: 0;
+        }
+        
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding: 8px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+        
+        .platform-icon {
+            width: 20px;
+            height: 20px;
+            background: #fbbf24;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .platform-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .placement-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .placement-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .placement-checkbox {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            accent-color: #fbbf24;
+        }
+        
+        .device-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+            margin-bottom: 16px;
+        }
+        
+        .show-more-link {
+            color: #10b981;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 16px;
+        }
+        
+        .show-more-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+    
+    <!-- Modal Styles -->
+    <style>
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        /* Modal Container */
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Modal Header */
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .modal-cancel-btn {
+            padding: 8px 20px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-cancel-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .modal-select-btn {
+            padding: 8px 24px;
+            background: #FFD93D;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-select-btn:hover {
+            background: #ffcf0d;
+        }
+        
+        .modal-select-btn:disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+        
+        /* Modal Body */
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .empty-state-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 40px;
+        }
+        
+        .modal-new-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: #FFD93D;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-new-btn:hover {
+            background: #ffcf0d;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.location.href='campaign-step2.html'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                </svg>
+            </button>
+            <h1 class="page-title">New campaign</h1>
+        </div>
+        <div class="header-right">
+            <button class="save-template-btn">Save template</button>
+            <button class="next-btn" onclick="nextStep()">Next</button>
+        </div>
+    </div>
+    
+    <!-- Progress Steps -->
+    <div class="progress-container">
+        <div class="progress-steps">
+            <div class="step completed" data-step="upload">
+                <span class="step-circle"></span>
+                <span>Upload</span>
+            </div>
+            <div class="step completed" data-step="campaign">
+                <span class="step-circle"></span>
+                <span>Campaign</span>
+            </div>
+            <div class="step active" data-step="adsets">
+                <span class="step-circle"></span>
+                <span>Ad sets</span>
+            </div>
+            <div class="step pending" data-step="ads">
+                <span class="step-circle"></span>
+                <span>Ads</span>
+            </div>
+            <div class="step pending" data-step="review">
+                <span class="step-circle"></span>
+                <span>Review</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Ad Set Name -->
+        <div class="section">
+            <div class="form-group">
+                <label class="form-label">Ad set name</label>
+                <div class="input-with-button">
+                    <input type="text" class="form-input" value="{{audience_name}} | {{locations}}">
+                    <button class="macros-btn">+ Macros</button>
+                </div>
+                <p class="preview-text">Preview: FB page fans | NYC</p>
+            </div>
+        </div>
+        
+        <!-- Audiences -->
+        <div class="section">
+            <h2 class="section-title">Audiences</h2>
+            
+            <div class="audience-card">
+                <div class="audience-icon">✨</div>
+                <div class="audience-content">
+                    <div class="audience-title">Top audiences</div>
+                    <div class="audience-description">Learn how to use Top audiences in a Bulk creation</div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="select-audience-btn" onclick="openAudienceModal()">Select audience</button>
+                <button class="new-audience-btn">
+                    <span>+</span>
+                    <span>New audience</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- EU Requirements Warning -->
+        <div class="section">
+            <h3 class="form-label">Requirements for EU-targeted ads</h3>
+            
+            <div class="warning-box">
+                <div>
+                    <span class="warning-icon">!</span>
+                    <span class="warning-title">Complete the fields below as required by the EU Digital Services Act (DSA)</span>
+                </div>
+                <div class="warning-text">
+                    You also need to complete these fields in your <a href="#" class="warning-link">Ad account profile</a><br>
+                    otherwise the ads will not be launched
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Beneficiary</label>
+                <input type="text" class="form-input" placeholder="Enter beneficiary details">
+                <div class="checkbox-label" style="margin-top: 12px;">
+                    <input type="checkbox" id="differentOrg">
+                    <label for="differentOrg">A different organization or person is paying</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Payer</label>
+                <input type="text" class="form-input" placeholder="Same as beneficiary">
+            </div>
+        </div>
+        
+        <!-- Budget -->
+        <div class="section">
+            <h2 class="section-title">Budget</h2>
+            
+            <div class="budget-input-wrapper">
+                <div class="budget-input-container">
+                    <span class="currency-symbol">$</span>
+                    <input type="number" class="budget-input" value="10" min="1" step="0.01">
+                </div>
+                <select class="budget-type-select">
+                    <option>Daily</option>
+                    <option>Lifetime</option>
+                </select>
+            </div>
+            <p class="helper-text">Actual amount spent per day may vary.</p>
+        </div>
+        
+        <!-- Schedule -->
+        <div class="section">
+            <h2 class="section-title">Schedule</h2>
+            
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" id="continuous" name="schedule" checked>
+                    <label for="continuous" class="radio-label">
+                        <span class="radio-circle"></span>
+                        <span class="radio-content">
+                            <div class="radio-title">Run ads continuously starting right now</div>
+                        </span>
+                    </label>
+                </div>
+                
+                <div class="radio-option">
+                    <input type="radio" id="scheduled" name="schedule">
+                    <label for="scheduled" class="radio-label">
+                        <span class="radio-circle"></span>
+                        <span class="radio-content">
+                            <div class="radio-title">Set start and end dates</div>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            
+            <div id="dateFields" style="display: none; margin-top: 20px;">
+                <div class="date-row">
+                    <div class="date-group">
+                        <label class="form-label">Start date</label>
+                        <div class="date-input-wrapper">
+                            <input type="text" class="date-input" value="Aug 18, 2025">
+                            <select class="time-select">
+                                <option>12:00 AM</option>
+                                <option>1:00 AM</option>
+                                <option>2:00 AM</option>
+                                <option>3:00 AM</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="date-group">
+                        <label class="form-label">End date</label>
+                        <div class="date-input-wrapper">
+                            <input type="text" class="date-input" value="Sep 01, 2025">
+                            <select class="time-select">
+                                <option>12:00 AM</option>
+                                <option>11:00 PM</option>
+                                <option>10:00 PM</option>
+                                <option>9:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    Don't schedule end date, run as ongoing
+                </label>
+            </div>
+            
+            <select class="timezone-select">
+                <option>Timezone: Ad account (GMT (+04:00) Dubai)</option>
+                <option>Account timezone</option>
+                <option>Viewer's timezone</option>
+            </select>
+        </div>
+        
+        <!-- Placements -->
+        <div class="section">
+            <h2 class="section-title">Placements</h2>
+            
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" id="advantage" name="placements" checked>
+                    <label for="advantage" class="radio-label">
+                        <span class="radio-circle"></span>
+                        <span class="radio-content">
+                            <div class="radio-title">Advantage+ placements (recommended)</div>
+                            <div class="radio-description">Use Advantage+ placements to maximise your budget and help show your ads to more people. Meta's delivery system will allocate your ad set's budget across multiple placements based on where they're likely to perform best.</div>
+                        </span>
+                    </label>
+                </div>
+                
+                <div class="radio-option">
+                    <input type="radio" id="manual" name="placements">
+                    <label for="manual" class="radio-label">
+                        <span class="radio-circle"></span>
+                        <span class="radio-content">
+                            <div class="radio-title">Manual</div>
+                            <div class="radio-description">Manually choose the places to show your ad. The more placements you select, the more opportunities you'll have to reach your target audience and achieve your business goals.</div>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            
+            <div id="manualPlacements" style="display: none;">
+                <div class="form-group" style="margin-top: 24px;">
+                    <label class="form-label">Devices</label>
+                    <select class="device-select">
+                        <option>Mobile</option>
+                        <option>Desktop</option>
+                        <option>Mobile and Desktop</option>
+                    </select>
+                    
+                    <label class="form-label">Specific mobile devices</label>
+                    <select class="device-select">
+                        <option>Android devices only</option>
+                        <option>iOS devices only</option>
+                        <option>All mobile devices</option>
+                    </select>
+                    
+                    <label class="checkbox-label">
+                        <input type="checkbox">
+                        only when connected to Wi-Fi
+                    </label>
+                </div>
+                
+                <div class="form-label" style="margin-top: 24px;">Platforms</div>
+                
+                <div class="platforms-grid">
+                    <div class="platform-section">
+                        <div class="platform-header">
+                            <span class="platform-icon" style="background: #1877f2;">f</span>
+                            <span class="platform-name">Facebook</span>
+                        </div>
+                        <div class="placement-list">
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                News Feed
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Marketplace
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Video feeds
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox">
+                                Right column
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Instant Articles
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                In-stream videos
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Stories
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Search results
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-section">
+                        <div class="platform-header">
+                            <span class="platform-icon" style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);">📷</span>
+                            <span class="platform-name">Instagram</span>
+                        </div>
+                        <div class="placement-list">
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Feed
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Stories
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Explore
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Reels
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-section">
+                        <div class="platform-header">
+                            <span class="platform-icon" style="background: #ff9500;">A</span>
+                            <span class="platform-name">Audience Network</span>
+                        </div>
+                        <div class="placement-list">
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox">
+                                In-stream videos
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Rewarded videos
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Native, Banner and Interstitial
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-section">
+                        <div class="platform-header">
+                            <span class="platform-icon" style="background: #0088cc;">M</span>
+                            <span class="platform-name">Messenger</span>
+                        </div>
+                        <div class="placement-list">
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox">
+                                Inbox
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox" checked>
+                                Stories
+                            </label>
+                            <label class="placement-item">
+                                <input type="checkbox" class="placement-checkbox">
+                                Sponsored messages
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Optimization and delivery -->
+        <div class="section">
+            <h2 class="section-title">Optimization and delivery</h2>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    Optimization for ad delivery
+                    <span style="display: inline-block; width: 16px; height: 16px; background: #d1d5db; border-radius: 50%; text-align: center; line-height: 16px; font-size: 11px; color: #6b7280; margin-left: 8px; cursor: help;">?</span>
+                </label>
+                <select class="device-select">
+                    <option>Value</option>
+                    <option>App installs</option>
+                    <option>Link clicks</option>
+                    <option>Daily unique reach</option>
+                    <option>Impressions</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Ad set bid strategy</label>
+                <select class="device-select">
+                    <option>Highest volume</option>
+                    <option>Cost cap</option>
+                    <option>Bid cap</option>
+                    <option>Target cost</option>
+                </select>
+            </div>
+            
+            <a href="#" class="show-more-link">Show more options</a>
+        </div>
+    </div>
+    
+    <script>
+        // Step navigation
+        function nextStep() {
+            window.location.href = 'campaign-step4.html';
+        }
+        
+        // Step click navigation
+        document.querySelectorAll('.step').forEach(step => {
+            step.addEventListener('click', function() {
+                const stepName = this.dataset.step;
+                if (stepName === 'upload') {
+                    window.location.href = 'new-campaign.html';
+                } else if (stepName === 'campaign') {
+                    window.location.href = 'campaign-step2.html';
+                }
+            });
+        });
+        
+        // Schedule radio toggle
+        document.getElementById('scheduled').addEventListener('change', function() {
+            document.getElementById('dateFields').style.display = this.checked ? 'block' : 'none';
+        });
+        
+        document.getElementById('continuous').addEventListener('change', function() {
+            document.getElementById('dateFields').style.display = this.checked ? 'none' : 'block';
+        });
+        
+        // Placements radio toggle
+        document.getElementById('manual').addEventListener('change', function() {
+            document.getElementById('manualPlacements').style.display = this.checked ? 'block' : 'none';
+        });
+        
+        document.getElementById('advantage').addEventListener('change', function() {
+            document.getElementById('manualPlacements').style.display = this.checked ? 'none' : 'block';
+        });
+    </script>
+    <!-- Saved Audiences Modal -->
+    <div id="saved-audiences-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Saved audiences</h2>
+                <div class="modal-actions">
+                    <button class="modal-cancel-btn" onclick="closeAudienceModal()">Cancel</button>
+                    <button class="modal-select-btn" disabled>Select</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="empty-state">
+                    <h3 class="empty-state-title">Create your first saved audience</h3>
+                    <button class="modal-new-btn" onclick="alert('Opening new audience creation...')">
+                        <span>+</span>
+                        <span>New audience</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Audience Modal Functions
+        function openAudienceModal() {
+            document.getElementById('saved-audiences-modal').classList.add('active');
+        }
+        
+        function closeAudienceModal() {
+            document.getElementById('saved-audiences-modal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

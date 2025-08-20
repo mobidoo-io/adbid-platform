@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBid - Creative Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn:hover {
+            background: #f3f4f6;
+            border-radius: 8px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .header-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .header-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .header-btn.primary {
+            background: #FFD93D;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .header-btn.primary:hover {
+            background: #ffcf0d;
+            transform: translateY(-1px);
+        }
+        
+        /* Filters Bar */
+        .filters-bar {
+            background: white;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .filter-select {
+            padding: 6px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .search-box {
+            padding: 8px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 250px;
+            margin-left: auto;
+        }
+        
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            background: #f3f4f6;
+            border-radius: 6px;
+            padding: 2px;
+        }
+        
+        .view-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .view-btn.active {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111;
+        }
+        
+        /* Creative Grid */
+        .creative-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .creative-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .creative-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .creative-preview {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .creative-preview.image {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23f3f4f6"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="%236b7280" font-size="14">Image</text></svg>') center/cover;
+        }
+        
+        .creative-preview.video {
+            background: #111;
+        }
+        
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #111;
+            font-size: 20px;
+        }
+        
+        .creative-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 12px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .creative-info {
+            padding: 16px;
+        }
+        
+        .creative-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .creative-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        
+        .creative-stats {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-top: 12px;
+            border-top: 1px solid #f3f4f6;
+        }
+        
+        .creative-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .creative-stat-label {
+            font-size: 11px;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+        
+        .creative-stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        /* Upload Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 700px;
+            max-height: 90vh;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+        
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .upload-area:hover {
+            border-color: #8B5CF6;
+            background: #faf5ff;
+        }
+        
+        .upload-icon {
+            width: 60px;
+            height: 60px;
+            background: #f3f4f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+        }
+        
+        .upload-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .upload-subtext {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn.cancel {
+            background: white;
+            border: 1px solid #d1d5db;
+        }
+        
+        .modal-btn.cancel:hover {
+            background: #f3f4f6;
+        }
+        
+        .modal-btn.upload {
+            background: #8B5CF6;
+            color: white;
+            border: none;
+        }
+        
+        .modal-btn.upload:hover {
+            background: #7c3aed;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                </svg>
+            </button>
+            <h1 class="page-title">Creative Library</h1>
+        </div>
+        <div class="header-right">
+            <button class="header-btn">Generate with AI</button>
+            <button class="header-btn primary" onclick="openUploadModal()">+ Upload Creative</button>
+        </div>
+    </div>
+    
+    <!-- Filters Bar -->
+    <div class="filters-bar">
+        <div class="filter-group">
+            <span class="filter-label">Type:</span>
+            <select class="filter-select">
+                <option>All Types</option>
+                <option>Images</option>
+                <option>Videos</option>
+                <option>Carousels</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <span class="filter-label">Format:</span>
+            <select class="filter-select">
+                <option>All Formats</option>
+                <option>Square (1:1)</option>
+                <option>Vertical (9:16)</option>
+                <option>Horizontal (16:9)</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <span class="filter-label">Status:</span>
+            <select class="filter-select">
+                <option>All</option>
+                <option>Active</option>
+                <option>Draft</option>
+                <option>Archived</option>
+            </select>
+        </div>
+        
+        <div class="view-toggle">
+            <button class="view-btn active">Grid</button>
+            <button class="view-btn">List</button>
+        </div>
+        
+        <input type="text" class="search-box" placeholder="Search creatives...">
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Creatives</div>
+                <div class="stat-value">248</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Active in Campaigns</div>
+                <div class="stat-value">67</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg. CTR</div>
+                <div class="stat-value">3.2%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Top Performer</div>
+                <div class="stat-value">5.8%</div>
+            </div>
+        </div>
+        
+        <!-- Creative Grid -->
+        <div class="creative-grid">
+            <div class="creative-card">
+                <div class="creative-preview image">
+                    <span class="creative-badge">IMAGE</span>
+                </div>
+                <div class="creative-info">
+                    <div class="creative-name">Summer Sale Banner v2</div>
+                    <div class="creative-meta">
+                        <span>1080x1080</span>
+                        <span>•</span>
+                        <span>2 days ago</span>
+                    </div>
+                    <div class="creative-stats">
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">CTR</span>
+                            <span class="creative-stat-value">4.2%</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Impressions</span>
+                            <span class="creative-stat-value">124K</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Clicks</span>
+                            <span class="creative-stat-value">5.2K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="creative-card">
+                <div class="creative-preview video">
+                    <div class="play-btn">▶</div>
+                    <span class="creative-badge">VIDEO</span>
+                </div>
+                <div class="creative-info">
+                    <div class="creative-name">Product Demo 15s</div>
+                    <div class="creative-meta">
+                        <span>1080x1920</span>
+                        <span>•</span>
+                        <span>1 week ago</span>
+                    </div>
+                    <div class="creative-stats">
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">CTR</span>
+                            <span class="creative-stat-value">5.8%</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Impressions</span>
+                            <span class="creative-stat-value">89K</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Clicks</span>
+                            <span class="creative-stat-value">5.1K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="creative-card">
+                <div class="creative-preview image">
+                    <span class="creative-badge">CAROUSEL</span>
+                </div>
+                <div class="creative-info">
+                    <div class="creative-name">Product Showcase</div>
+                    <div class="creative-meta">
+                        <span>1080x1080</span>
+                        <span>•</span>
+                        <span>2 weeks ago</span>
+                    </div>
+                    <div class="creative-stats">
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">CTR</span>
+                            <span class="creative-stat-value">3.1%</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Impressions</span>
+                            <span class="creative-stat-value">201K</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Clicks</span>
+                            <span class="creative-stat-value">6.2K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="creative-card">
+                <div class="creative-preview image">
+                    <span class="creative-badge">IMAGE</span>
+                </div>
+                <div class="creative-info">
+                    <div class="creative-name">Flash Sale Alert</div>
+                    <div class="creative-meta">
+                        <span>1200x628</span>
+                        <span>•</span>
+                        <span>3 weeks ago</span>
+                    </div>
+                    <div class="creative-stats">
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">CTR</span>
+                            <span class="creative-stat-value">2.9%</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Impressions</span>
+                            <span class="creative-stat-value">156K</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Clicks</span>
+                            <span class="creative-stat-value">4.5K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="creative-card">
+                <div class="creative-preview video">
+                    <div class="play-btn">▶</div>
+                    <span class="creative-badge">VIDEO</span>
+                </div>
+                <div class="creative-info">
+                    <div class="creative-name">Testimonial Video</div>
+                    <div class="creative-meta">
+                        <span>1920x1080</span>
+                        <span>•</span>
+                        <span>1 month ago</span>
+                    </div>
+                    <div class="creative-stats">
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">CTR</span>
+                            <span class="creative-stat-value">4.5%</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Impressions</span>
+                            <span class="creative-stat-value">95K</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Clicks</span>
+                            <span class="creative-stat-value">4.3K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="creative-card">
+                <div class="creative-preview image">
+                    <span class="creative-badge">IMAGE</span>
+                </div>
+                <div class="creative-info">
+                    <div class="creative-name">New Collection Launch</div>
+                    <div class="creative-meta">
+                        <span>1080x1350</span>
+                        <span>•</span>
+                        <span>1 month ago</span>
+                    </div>
+                    <div class="creative-stats">
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">CTR</span>
+                            <span class="creative-stat-value">3.7%</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Impressions</span>
+                            <span class="creative-stat-value">178K</span>
+                        </div>
+                        <div class="creative-stat">
+                            <span class="creative-stat-label">Clicks</span>
+                            <span class="creative-stat-value">6.6K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Upload Creative</h2>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Click to upload or drag and drop</div>
+                    <div class="upload-subtext">PNG, JPG, MP4 up to 100MB</div>
+                    <input type="file" id="fileInput" style="display: none;" multiple accept="image/*,video/*">
+                </div>
+                
+                <div class="form-group" style="margin-top: 24px;">
+                    <label class="form-label">Creative Name</label>
+                    <input type="text" class="form-input" placeholder="Enter creative name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Creative Type</label>
+                    <select class="form-select">
+                        <option>Single Image</option>
+                        <option>Video</option>
+                        <option>Carousel</option>
+                        <option>Collection</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Tags</label>
+                    <input type="text" class="form-input" placeholder="Add tags separated by commas">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-textarea" placeholder="Add a description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn cancel" onclick="closeUploadModal()">Cancel</button>
+                <button class="modal-btn upload" onclick="uploadCreative()">Upload</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Modal functions
+        function openUploadModal() {
+            document.getElementById('uploadModal').classList.add('active');
+        }
+        
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.remove('active');
+        }
+        
+        function uploadCreative() {
+            alert('Creative uploaded successfully!');
+            closeUploadModal();
+        }
+        
+        // View toggle
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Creative card clicks
+        document.querySelectorAll('.creative-card').forEach(card => {
+            card.addEventListener('click', function() {
+                alert('Opening creative details...');
+            });
+        });
+        
+        // File input change
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                alert(`Selected ${e.target.files.length} file(s)`);
+            }
+        });
+    </script>
+</body>
+</html>

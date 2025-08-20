@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoLive Analytics - Professional Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+        
+        .metric-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .chart-area {
+            background: linear-gradient(135deg, #f3f4f6 25%, transparent 25%) -10px 0,
+                        linear-gradient(225deg, #f3f4f6 25%, transparent 25%) -10px 0,
+                        linear-gradient(315deg, #f3f4f6 25%, transparent 25%),
+                        linear-gradient(45deg, #f3f4f6 25%, transparent 25%);
+            background-size: 20px 20px;
+            background-color: #fafafa;
+        }
+        
+        .tab-active {
+            border-bottom: 2px solid #8B5CF6;
+            color: #8B5CF6;
+        }
+        
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            background: #f3f4f6;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        
+        .data-table th {
+            background: #f9fafb;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            color: #6b7280;
+            padding: 8px 12px;
+        }
+        
+        .data-table td {
+            padding: 12px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+        
+        .cohort-cell-p2 { background: rgba(139, 92, 246, 0.15); }
+        .cohort-cell-p3 { background: rgba(139, 92, 246, 0.12); }
+        .cohort-cell-p4 { background: rgba(139, 92, 246, 0.08); }
+        
+        .mini-chart {
+            width: 100%;
+            height: 60px;
+        }
+        
+        .mini-chart-line {
+            stroke: #8B5CF6;
+            stroke-width: 2;
+            fill: none;
+        }
+        
+        .mini-chart-area {
+            fill: url(#purple-gradient);
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-purple-600 rounded flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">G</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-lg font-semibold">GoLive Android</span>
+                            <svg class="w-4 h-4 ml-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <button class="text-gray-600 hover:text-gray-900">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                    </button>
+                    <a href="#" class="text-sm text-gray-600 hover:text-gray-900">Help</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-gray-900">App settings</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-gray-900">Account</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="px-6 flex space-x-8 border-b border-gray-200">
+            <button class="pb-3 px-1 tab-active">Performance</button>
+            <button class="pb-3 px-1 text-gray-600 hover:text-gray-900">Early Predictions</button>
+            <button class="pb-3 px-1 text-gray-600 hover:text-gray-900">Cohort Analysis</button>
+            <button class="pb-3 px-1 text-gray-600 hover:text-gray-900">Targets</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6">
+        <!-- Tab Content Container -->
+        <div id="performance-tab" class="tab-content">
+        <!-- Top Metrics -->
+        <div class="grid grid-cols-4 gap-4 mb-6">
+            <!-- Total Revenue -->
+            <div class="metric-card">
+                <div class="text-xs text-gray-500 uppercase mb-2">Total Revenue (After VAT)</div>
+                <div class="text-2xl font-bold mb-2">$8,582.65</div>
+                <div class="flex items-center text-sm">
+                    <svg class="w-4 h-4 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    <span class="text-green-500">+12.5%</span>
+                    <span class="text-gray-400 ml-1">vs last period</span>
+                </div>
+            </div>
+            
+            <!-- Total Costs -->
+            <div class="metric-card">
+                <div class="text-xs text-gray-500 uppercase mb-2">Total Costs</div>
+                <div class="text-2xl font-bold mb-2">$12,820.34</div>
+                <div class="flex items-center text-sm">
+                    <svg class="w-4 h-4 text-red-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                    </svg>
+                    <span class="text-red-500">-3.2%</span>
+                    <span class="text-gray-400 ml-1">vs last period</span>
+                </div>
+            </div>
+            
+            <!-- Profit -->
+            <div class="metric-card">
+                <div class="text-xs text-gray-500 uppercase mb-2">Profit</div>
+                <div class="text-2xl font-bold mb-2 text-red-600">-$4,237.69</div>
+                <div class="flex items-center text-sm">
+                    <svg class="w-4 h-4 text-red-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                    </svg>
+                    <span class="text-red-500">-33.05%</span>
+                    <span class="text-gray-400 ml-1">vs last period</span>
+                </div>
+            </div>
+            
+            <!-- ROI -->
+            <div class="metric-card">
+                <div class="text-xs text-gray-500 uppercase mb-2">ROI</div>
+                <div class="text-2xl font-bold mb-2 text-red-600">-33.05%</div>
+                <div class="flex items-center text-sm">
+                    <svg class="w-4 h-4 text-red-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                    </svg>
+                    <span class="text-red-500">-16.44%</span>
+                    <span class="text-gray-400 ml-1">vs last period</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Money Section -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-4">Money</h3>
+            <div class="grid grid-cols-3 gap-4">
+                <!-- Revenue Chart -->
+                <div class="metric-card">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">Revenue</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="text-2xl font-bold mb-3">$45.2k</div>
+                    <svg class="mini-chart">
+                        <defs>
+                            <linearGradient id="purple-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:0.3" />
+                                <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+                        <polyline class="mini-chart-line" points="5,50 20,45 35,48 50,40 65,42 80,38 95,35 110,30 125,32 140,28 155,25 170,22 185,20 200,18 215,15 230,12 245,10 260,8 275,6 290,5" />
+                        <polygon class="mini-chart-area" points="5,50 20,45 35,48 50,40 65,42 80,38 95,35 110,30 125,32 140,28 155,25 170,22 185,20 200,18 215,15 230,12 245,10 260,8 275,6 290,5 290,60 5,60" />
+                    </svg>
+                </div>
+                
+                <!-- MRR Chart -->
+                <div class="metric-card">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">MRR</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="text-2xl font-bold mb-3">$39.2k</div>
+                    <svg class="mini-chart">
+                        <polyline class="mini-chart-line" points="5,30 30,28 55,27 80,26 105,25 130,24 155,23 180,22 205,21 230,20 255,19 280,18" />
+                        <polygon class="mini-chart-area" points="5,30 30,28 55,27 80,26 105,25 130,24 155,23 180,22 205,21 230,20 255,19 280,18 280,60 5,60" />
+                    </svg>
+                </div>
+                
+                <!-- ARR Chart -->
+                <div class="metric-card">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">ARR</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="text-2xl font-bold mb-3">$469.8k</div>
+                    <svg class="mini-chart">
+                        <polyline class="mini-chart-line" points="5,40 40,38 75,36 110,34 145,32 180,30 215,28 250,26 285,24" />
+                        <polygon class="mini-chart-area" points="5,40 40,38 75,36 110,34 145,32 180,30 215,28 250,26 285,24 285,60 5,60" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARPU Section -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-4">ARPU</h3>
+            <div class="grid grid-cols-3 gap-4">
+                <!-- ARPU -->
+                <div class="metric-card">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">ARPU</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="text-xl font-bold mb-3">$0.36</div>
+                    <svg class="mini-chart" style="height: 40px;">
+                        <polyline class="mini-chart-line" points="5,35 50,33 95,32 140,31 185,30 230,29 275,28" />
+                    </svg>
+                </div>
+                
+                <!-- ARPPU -->
+                <div class="metric-card">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">ARPPU</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="text-xl font-bold mb-3">$4</div>
+                    <svg class="mini-chart" style="height: 40px;">
+                        <polyline class="mini-chart-line" points="5,20 60,19 115,18 170,17 225,16 280,15" />
+                    </svg>
+                </div>
+                
+                <!-- ARPAS -->
+                <div class="metric-card">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">ARPAS</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="text-xl font-bold mb-3">$4</div>
+                    <svg class="mini-chart" style="height: 40px;">
+                        <polyline class="mini-chart-line" points="5,20 70,19 135,18 200,17 265,16" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        </div>
+        
+        <!-- Early Predictions Tab Content -->
+        <div id="early-predictions-tab" class="tab-content" style="display: none;">
+            <!-- Performance Chart -->
+            <div class="bg-white rounded-lg p-6 mb-6 border border-gray-200">
+                <h3 class="text-lg font-semibold mb-2">Performance Metrics Over Time</h3>
+                <p class="text-sm text-gray-500 mb-4">Overall performance metrics</p>
+                <div class="flex items-center space-x-4 mb-4">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                        <span class="text-sm text-gray-600">Costs</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                        <span class="text-sm text-gray-600">Revenue</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                        <span class="text-sm text-gray-600">ROI (%)</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-gray-400 rounded-full mr-2"></div>
+                        <span class="text-sm text-gray-600">Previous Period</span>
+                    </div>
+                </div>
+                <div class="h-64 chart-area rounded flex items-center justify-center text-gray-400">
+                    Performance Chart Area
+                </div>
+            </div>
+
+            <!-- Campaign Performance Table -->
+            <div class="bg-white rounded-lg overflow-hidden border border-gray-200">
+                <div class="p-4 border-b">
+                    <h3 class="text-lg font-semibold">Campaign Performance Predictions</h3>
+                    <p class="text-sm text-gray-500">AI-powered predictions and recommendations with country breakdown</p>
+                </div>
+            <div class="overflow-x-auto">
+                <table class="w-full data-table">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Date/Campaign</th>
+                            <th class="text-left">Platform</th>
+                            <th class="text-right">Revenue Count</th>
+                            <th class="text-right">Purchase Count</th>
+                            <th class="text-right">Cost</th>
+                            <th class="text-right">Total Revenue</th>
+                            <th class="text-right">Profit</th>
+                            <th class="text-right">ROI (%)</th>
+                            <th class="text-right">Predicted ROI</th>
+                            <th class="text-right">CPA</th>
+                            <th class="text-right">LTV</th>
+                            <th class="text-right">ARPU</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="font-semibold bg-gray-50">
+                            <td>Total</td>
+                            <td></td>
+                            <td class="text-right">2541</td>
+                            <td class="text-right">1171</td>
+                            <td class="text-right">$1,265,716</td>
+                            <td class="text-right">$10,819.39</td>
+                            <td class="text-right text-red-600">-$1,837.77</td>
+                            <td class="text-right text-red-600">-14.52%</td>
+                            <td class="text-right text-red-600">-12.15%</td>
+                            <td class="text-right">$10.81</td>
+                            <td class="text-right">3.47</td>
+                            <td class="text-right">3.47</td>
+                        </tr>
+                        <tr>
+                            <td>01.07.2025</td>
+                            <td></td>
+                            <td class="text-right">205</td>
+                            <td class="text-right">99</td>
+                            <td class="text-right">$619.39</td>
+                            <td class="text-right">$1,019.21</td>
+                            <td class="text-right text-green-600">$399.82</td>
+                            <td class="text-right text-green-600">64.55%</td>
+                            <td class="text-right text-green-600">44.52%</td>
+                            <td class="text-right">$6.26</td>
+                            <td class="text-right">3.91</td>
+                            <td class="text-right">3.91</td>
+                        </tr>
+                        <tr>
+                            <td>02.07.2025</td>
+                            <td></td>
+                            <td class="text-right">168</td>
+                            <td class="text-right">67</td>
+                            <td class="text-right">$540.38</td>
+                            <td class="text-right">$664.23</td>
+                            <td class="text-right text-green-600">$123.85</td>
+                            <td class="text-right text-green-600">22.92%</td>
+                            <td class="text-right text-green-600">10.84%</td>
+                            <td class="text-right">$8.07</td>
+                            <td class="text-right">3.46</td>
+                            <td class="text-right">3.46</td>
+                        </tr>
+                        <tr>
+                            <td>03.07.2025</td>
+                            <td></td>
+                            <td class="text-right">180</td>
+                            <td class="text-right">67</td>
+                            <td class="text-right">$649.27</td>
+                            <td class="text-right">$888.67</td>
+                            <td class="text-right text-green-600">$239.40</td>
+                            <td class="text-right text-green-600">36.87%</td>
+                            <td class="text-right text-green-600">32.02%</td>
+                            <td class="text-right">$9.69</td>
+                            <td class="text-right">4.02</td>
+                            <td class="text-right">4.02</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+        
+        <!-- Cohort Analysis Tab Content -->
+        <div id="cohort-analysis-tab" class="tab-content" style="display: none;">
+            <!-- Date Range and Filters -->
+            <div class="bg-white rounded-lg p-4 mb-4 border border-gray-200 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm flex items-center gap-2 hover:bg-gray-50">
+                        <span>📅</span>
+                        <span>1 Jun - 27 Jul Week</span>
+                        <span>▼</span>
+                    </button>
+                    <span class="text-sm text-gray-600">All products</span>
+                    <button class="px-3 py-1.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700">By Date</button>
+                    <button class="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-sm hover:bg-gray-50">By Company</button>
+                    <button class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm flex items-center gap-2 hover:bg-gray-50">
+                        <span>🔽</span>
+                        <span>Add filter</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">Revenue</span>
+                        <span class="text-sm text-gray-400">|</span>
+                        <span class="text-sm text-gray-600">Ab</span>
+                        <button class="text-gray-400 hover:text-gray-600">▼</button>
+                    </div>
+                    <span class="text-sm text-gray-600">by renewals</span>
+                    <button class="px-3 py-1.5 bg-gray-800 text-white rounded text-sm font-medium hover:bg-gray-900">By days × Pro</button>
+                    <button class="p-1.5 hover:bg-gray-100 rounded">📊</button>
+                    <button class="px-3 py-1.5 text-gray-600 hover:bg-gray-100 rounded text-sm">Columns</button>
+                    <button class="text-gray-400 hover:text-gray-600">⋮</button>
+                </div>
+            </div>
+            
+            <!-- Cohort Table -->
+            <div class="bg-white rounded-lg overflow-hidden border border-gray-200">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-200">
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 whitespace-nowrap">Cohort</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600 whitespace-nowrap">Revenue<br>on start</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P2</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P3</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P4</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P5</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P6</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P7</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P8</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P9</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P10</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P11</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P12</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P13</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P14</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P15</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P16</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P17</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P18</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P19</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">P20</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600 whitespace-nowrap">Predicted<br>revenue</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600 whitespace-nowrap">Early<br>Predicted<br>revenue</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600 whitespace-nowrap">Total<br>revenue</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">ARPU</th>
+                                <th class="text-center px-3 py-3 text-xs font-semibold text-gray-600">ARPPU</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Total Row -->
+                            <tr class="font-semibold bg-gray-50 border-b-2 border-gray-300">
+                                <td class="px-4 py-3 text-sm">Total<br><span class="text-xs text-gray-500">▲ 148 166</span></td>
+                                <td class="px-3 py-3 text-sm text-center">$6.43K</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-100">$8.39K</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$3.08K</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$1.40K</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$698</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$341</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$163</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$15.3</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center text-green-600 font-semibold">$22.56K</td>
+                                <td class="px-3 py-3 text-sm text-center text-yellow-600 font-semibold">$24.00K</td>
+                                <td class="px-3 py-3 text-sm text-center font-semibold">$20.50K</td>
+                                <td class="px-3 py-3 text-sm text-center">$0.14</td>
+                                <td class="px-3 py-3 text-sm text-center">$2.51</td>
+                            </tr>
+                            
+                            <!-- 1 Jun 2025 -->
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="px-4 py-3 text-sm">1 Jun<br>2025<br><span class="text-xs text-gray-500">▲ 2 195</span></td>
+                                <td class="px-3 py-3 text-sm text-center">$65.4</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$92</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$28.5</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$12.7</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center text-red-600">$220</td>
+                                <td class="px-3 py-3 text-sm text-center text-red-600">$235</td>
+                                <td class="px-3 py-3 text-sm text-center">$199</td>
+                                <td class="px-3 py-3 text-sm text-center">$0.09</td>
+                                <td class="px-3 py-3 text-sm text-center">$1.84</td>
+                            </tr>
+                            
+                            <!-- 2 Jun 2025 -->
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="px-4 py-3 text-sm">2 Jun<br>2025<br><span class="text-xs text-gray-500">▲ 14 838</span></td>
+                                <td class="px-3 py-3 text-sm text-center">$651</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$752</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$331</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$192</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$100</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$51.5</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$16.6</td>
+                                <td class="px-3 py-3 text-sm text-center bg-purple-50">$8.49</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$0</td>
+                                <td class="px-3 py-3 text-sm text-center">$2.31K</td>
+                                <td class="px-3 py-3 text-sm text-center">$2.45K</td>
+                                <td class="px-3 py-3 text-sm text-center">$2.10K</td>
+                                <td class="px-3 py-3 text-sm text-center">$0.14</td>
+                                <td class="px-3 py-3 text-sm text-center">$3.49</td>
+                            </tr>
+                            
+                            <!-- Additional rows following same pattern... -->
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Legend -->
+            <div class="mt-4 flex items-center gap-6 text-sm">
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 bg-purple-100 rounded"></div>
+                    <span class="text-gray-600">Active periods</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 bg-gray-50 rounded"></div>
+                    <span class="text-gray-600">Inactive periods</span>
+                </div>
+                <button class="ml-auto px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 flex items-center gap-2">
+                    <span>✏️</span>
+                    <span>Edit mode</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Targets Tab Content -->
+        <div id="targets-tab" class="tab-content" style="display: none;">
+            <div class="bg-white rounded-lg p-6 border border-gray-200">
+                <h3 class="text-lg font-semibold mb-4">Campaign Targets</h3>
+                <p class="text-sm text-gray-500">Set and track campaign performance targets</p>
+                <!-- Targets content will go here -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Tab switching
+        const tabs = document.querySelectorAll('.px-6.flex button');
+        const tabContents = {
+            'Performance': 'performance-tab',
+            'Early Predictions': 'early-predictions-tab',
+            'Cohort Analysis': 'cohort-analysis-tab',
+            'Targets': 'targets-tab'
+        };
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Update tab styles
+                tabs.forEach(t => {
+                    t.classList.remove('tab-active');
+                    t.classList.add('text-gray-600');
+                });
+                this.classList.add('tab-active');
+                this.classList.remove('text-gray-600');
+                
+                // Switch content
+                const tabName = this.textContent.trim();
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+                
+                const contentId = tabContents[tabName];
+                if (contentId) {
+                    const content = document.getElementById(contentId);
+                    if (content) {
+                        content.style.display = 'block';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

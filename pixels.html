@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBid - Pixels & Events</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn:hover {
+            background: #f3f4f6;
+            border-radius: 8px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .header-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .header-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .header-btn.primary {
+            background: #FFD93D;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .header-btn.primary:hover {
+            background: #ffcf0d;
+            transform: translateY(-1px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Alert Banner */
+        .alert-banner {
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .alert-description {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .alert-action {
+            padding: 10px 20px;
+            background: white;
+            color: #8B5CF6;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .alert-action:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .stat-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+        
+        .stat-status.inactive {
+            background: #ef4444;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .stat-info {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        /* Pixels List */
+        .pixels-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 32px;
+        }
+        
+        .pixels-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .pixels-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .pixel-card {
+            padding: 20px 24px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background 0.2s;
+        }
+        
+        .pixel-card:hover {
+            background: #f9fafb;
+        }
+        
+        .pixel-card:last-child {
+            border-bottom: none;
+        }
+        
+        .pixel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .pixel-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .pixel-icon {
+            width: 40px;
+            height: 40px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .pixel-details {
+            flex: 1;
+        }
+        
+        .pixel-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        
+        .pixel-id {
+            font-size: 13px;
+            color: #6b7280;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+        
+        .pixel-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .pixel-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .pixel-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        .pixel-btn.primary {
+            background: #8B5CF6;
+            color: white;
+            border: none;
+        }
+        
+        .pixel-btn.primary:hover {
+            background: #7c3aed;
+        }
+        
+        .pixel-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 12px;
+        }
+        
+        .pixel-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .pixel-stat-label {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        .pixel-stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        /* Events Table */
+        .events-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .events-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .events-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .events-filters {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .filter-select {
+            padding: 6px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            text-align: left;
+            padding: 12px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            background: #f9fafb;
+        }
+        
+        td {
+            padding: 16px 24px;
+            border-top: 1px solid #f3f4f6;
+            font-size: 14px;
+            color: #111;
+        }
+        
+        tr:hover {
+            background: #f9fafb;
+        }
+        
+        .event-name {
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .event-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .event-type.standard {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+        
+        .event-type.custom {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .event-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+        
+        .status-dot.inactive {
+            background: #ef4444;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 600px;
+            max-height: 90vh;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        
+        .code-block {
+            background: #1e293b;
+            color: #f1f5f9;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        
+        .copy-btn {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: #8B5CF6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: #7c3aed;
+        }
+        
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn.cancel {
+            background: white;
+            border: 1px solid #d1d5db;
+        }
+        
+        .modal-btn.cancel:hover {
+            background: #f3f4f6;
+        }
+        
+        .modal-btn.save {
+            background: #8B5CF6;
+            color: white;
+            border: none;
+        }
+        
+        .modal-btn.save:hover {
+            background: #7c3aed;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                </svg>
+            </button>
+            <h1 class="page-title">Pixels & Events</h1>
+        </div>
+        <div class="header-right">
+            <button class="header-btn">Test Events</button>
+            <button class="header-btn primary" onclick="openPixelModal()">+ Create Pixel</button>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Alert Banner -->
+        <div class="alert-banner">
+            <div class="alert-content">
+                <div class="alert-title">iOS 14.5+ Tracking Update</div>
+                <div class="alert-description">Configure Aggregated Event Measurement to optimize for iOS 14.5+ devices</div>
+            </div>
+            <button class="alert-action">Configure Now</button>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-label">Active Pixels</div>
+                    <div class="stat-status"></div>
+                </div>
+                <div class="stat-value">3</div>
+                <div class="stat-info">All pixels firing correctly</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-label">Events Today</div>
+                    <div class="stat-status"></div>
+                </div>
+                <div class="stat-value">24.8K</div>
+                <div class="stat-info">↑ 12% vs yesterday</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-label">Match Rate</div>
+                    <div class="stat-status"></div>
+                </div>
+                <div class="stat-value">89%</div>
+                <div class="stat-info">Above average</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-label">Server Events</div>
+                    <div class="stat-status inactive"></div>
+                </div>
+                <div class="stat-value">0</div>
+                <div class="stat-info">Not configured</div>
+            </div>
+        </div>
+        
+        <!-- Pixels List -->
+        <div class="pixels-container">
+            <div class="pixels-header">
+                <h2 class="pixels-title">Your Pixels</h2>
+            </div>
+            
+            <div class="pixel-card">
+                <div class="pixel-header">
+                    <div class="pixel-info">
+                        <div class="pixel-icon">📍</div>
+                        <div class="pixel-details">
+                            <div class="pixel-name">Main Website Pixel</div>
+                            <div class="pixel-id">ID: 539407992597016</div>
+                        </div>
+                    </div>
+                    <div class="pixel-actions">
+                        <button class="pixel-btn">View Code</button>
+                        <button class="pixel-btn">Test</button>
+                        <button class="pixel-btn primary">Manage</button>
+                    </div>
+                </div>
+                <div class="pixel-stats">
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Status</span>
+                        <span class="pixel-stat-value">Active</span>
+                    </div>
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Last Event</span>
+                        <span class="pixel-stat-value">2 min ago</span>
+                    </div>
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Events Today</span>
+                        <span class="pixel-stat-value">18,432</span>
+                    </div>
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Domains</span>
+                        <span class="pixel-stat-value">3 verified</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pixel-card">
+                <div class="pixel-header">
+                    <div class="pixel-info">
+                        <div class="pixel-icon">📱</div>
+                        <div class="pixel-details">
+                            <div class="pixel-name">iOS App Events</div>
+                            <div class="pixel-id">ID: 847293847293847</div>
+                        </div>
+                    </div>
+                    <div class="pixel-actions">
+                        <button class="pixel-btn">View Code</button>
+                        <button class="pixel-btn">Test</button>
+                        <button class="pixel-btn primary">Manage</button>
+                    </div>
+                </div>
+                <div class="pixel-stats">
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Status</span>
+                        <span class="pixel-stat-value">Active</span>
+                    </div>
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Last Event</span>
+                        <span class="pixel-stat-value">5 min ago</span>
+                    </div>
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Events Today</span>
+                        <span class="pixel-stat-value">4,892</span>
+                    </div>
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">App Version</span>
+                        <span class="pixel-stat-value">2.4.1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pixel-card">
+                <div class="pixel-header">
+                    <div class="pixel-info">
+                        <div class="pixel-icon">🛍️</div>
+                        <div class="pixel-details">
+                            <div class="pixel-name">Offline Conversions</div>
+                            <div class="pixel-id">ID: 293847293847293</div>
+                        </div>
+                    </div>
+                    <div class="pixel-actions">
+                        <button class="pixel-btn">Upload Data</button>
+                        <button class="pixel-btn">Test</button>
+                        <button class="pixel-btn primary">Manage</button>
+                    </div>
+                </div>
+                <div class="pixel-stats">
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Status</span>
+                        <span class="pixel-stat-value">Active</span>
+                    </div>
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Last Upload</span>
+                        <span class="pixel-stat-value">2 hours ago</span>
+                    </div>
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Events Today</span>
+                        <span class="pixel-stat-value">1,476</span>
+                    </div>
+                    <div class="pixel-stat">
+                        <span class="pixel-stat-label">Match Rate</span>
+                        <span class="pixel-stat-value">92%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Events Table -->
+        <div class="events-container">
+            <div class="events-header">
+                <h2 class="events-title">Recent Events</h2>
+                <div class="events-filters">
+                    <select class="filter-select">
+                        <option>All Pixels</option>
+                        <option>Main Website</option>
+                        <option>iOS App</option>
+                        <option>Offline</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Events</option>
+                        <option>Standard</option>
+                        <option>Custom</option>
+                    </select>
+                </div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Type</th>
+                        <th>Source</th>
+                        <th>Count (24h)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="event-name">PageView</td>
+                        <td><span class="event-type standard">Standard</span></td>
+                        <td>Main Website</td>
+                        <td>12,834</td>
+                        <td>
+                            <div class="event-status">
+                                <span class="status-dot"></span>
+                                <span>Active</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="event-name">AddToCart</td>
+                        <td><span class="event-type standard">Standard</span></td>
+                        <td>Main Website</td>
+                        <td>3,421</td>
+                        <td>
+                            <div class="event-status">
+                                <span class="status-dot"></span>
+                                <span>Active</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="event-name">Purchase</td>
+                        <td><span class="event-type standard">Standard</span></td>
+                        <td>Main Website</td>
+                        <td>892</td>
+                        <td>
+                            <div class="event-status">
+                                <span class="status-dot"></span>
+                                <span>Active</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="event-name">SignUp</td>
+                        <td><span class="event-type custom">Custom</span></td>
+                        <td>iOS App</td>
+                        <td>456</td>
+                        <td>
+                            <div class="event-status">
+                                <span class="status-dot"></span>
+                                <span>Active</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="event-name">ViewContent</td>
+                        <td><span class="event-type standard">Standard</span></td>
+                        <td>Main Website</td>
+                        <td>8,923</td>
+                        <td>
+                            <div class="event-status">
+                                <span class="status-dot"></span>
+                                <span>Active</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="event-name">Lead</td>
+                        <td><span class="event-type standard">Standard</span></td>
+                        <td>Main Website</td>
+                        <td>234</td>
+                        <td>
+                            <div class="event-status">
+                                <span class="status-dot"></span>
+                                <span>Active</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Create Pixel Modal -->
+    <div id="pixelModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Pixel</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Pixel Name</label>
+                    <input type="text" class="form-input" placeholder="Enter pixel name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pixel Type</label>
+                    <select class="form-select">
+                        <option>Website Pixel</option>
+                        <option>App Events</option>
+                        <option>Offline Events</option>
+                        <option>Server Events (CAPI)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Installation Code</label>
+                    <div class="code-block">
+&lt;!-- Meta Pixel Code --&gt;
+&lt;script&gt;
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'YOUR_PIXEL_ID');
+fbq('track', 'PageView');
+&lt;/script&gt;
+&lt;!-- End Meta Pixel Code --&gt;
+                    </div>
+                    <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn cancel" onclick="closePixelModal()">Cancel</button>
+                <button class="modal-btn save" onclick="savePixel()">Create Pixel</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Modal functions
+        function openPixelModal() {
+            document.getElementById('pixelModal').classList.add('active');
+        }
+        
+        function closePixelModal() {
+            document.getElementById('pixelModal').classList.remove('active');
+        }
+        
+        function savePixel() {
+            alert('Pixel created successfully!');
+            closePixelModal();
+        }
+        
+        function copyCode() {
+            alert('Code copied to clipboard!');
+        }
+        
+        // Action buttons
+        document.querySelectorAll('.pixel-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (this.textContent === 'View Code') {
+                    openPixelModal();
+                } else if (this.textContent === 'Test') {
+                    alert('Opening Pixel Helper...');
+                } else if (this.textContent === 'Manage') {
+                    alert('Opening pixel settings...');
+                } else if (this.textContent === 'Upload Data') {
+                    alert('Opening data upload interface...');
+                }
+            });
+        });
+        
+        // Alert action
+        document.querySelector('.alert-action').addEventListener('click', function() {
+            alert('Opening iOS 14.5+ configuration...');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBid - Billing & Payments</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn:hover {
+            background: #f3f4f6;
+            border-radius: 8px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .header-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .header-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .header-btn.primary {
+            background: #FFD93D;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .header-btn.primary:hover {
+            background: #ffcf0d;
+            transform: translateY(-1px);
+        }
+        
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            gap: 24px;
+            padding: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+        }
+        
+        /* Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+            color: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .balance-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 60%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(35deg);
+        }
+        
+        .balance-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .balance-amount {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+        
+        .balance-info {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .balance-stat {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .balance-stat-label {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+        
+        .balance-stat-value {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111;
+        }
+        
+        .stat-change {
+            font-size: 12px;
+            color: #10b981;
+            margin-top: 4px;
+        }
+        
+        .stat-change.negative {
+            color: #ef4444;
+        }
+        
+        /* Transactions Table */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 32px;
+        }
+        
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .table-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .filter-select {
+            padding: 6px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .export-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .export-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            text-align: left;
+            padding: 12px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            background: #f9fafb;
+        }
+        
+        td {
+            padding: 16px 24px;
+            border-top: 1px solid #f3f4f6;
+            font-size: 14px;
+            color: #111;
+        }
+        
+        tr:hover {
+            background: #f9fafb;
+        }
+        
+        .transaction-id {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .transaction-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .transaction-type.charge {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .transaction-type.payment {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .transaction-type.refund {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .amount {
+            font-weight: 600;
+        }
+        
+        .amount.positive {
+            color: #16a34a;
+        }
+        
+        .amount.negative {
+            color: #dc2626;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 350px;
+        }
+        
+        /* Payment Methods */
+        .payment-methods {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 16px;
+        }
+        
+        .payment-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .payment-info {
+            flex: 1;
+        }
+        
+        .payment-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 2px;
+        }
+        
+        .payment-details {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .payment-badge {
+            padding: 4px 8px;
+            background: #8B5CF6;
+            color: white;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .add-payment-btn {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .add-payment-btn:hover {
+            border-color: #8B5CF6;
+            color: #8B5CF6;
+            background: #faf5ff;
+        }
+        
+        /* Billing Settings */
+        .billing-settings {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #111;
+        }
+        
+        .setting-value {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .setting-link {
+            color: #8B5CF6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .setting-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #d1d5db;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background: #8B5CF6;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                </svg>
+            </button>
+            <h1 class="page-title">Billing & Payments</h1>
+        </div>
+        <div class="header-right">
+            <button class="header-btn">Download Invoice</button>
+            <button class="header-btn primary" onclick="alert('Opening payment modal...')">Add Funds</button>
+        </div>
+    </div>
+    
+    <!-- Main Layout -->
+    <div class="main-layout">
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Balance Card -->
+            <div class="balance-card">
+                <div class="balance-label">Current Balance</div>
+                <div class="balance-amount">$12,485.00</div>
+                <div class="balance-info">
+                    <div class="balance-stat">
+                        <div class="balance-stat-label">Daily Spend</div>
+                        <div class="balance-stat-value">$1,250</div>
+                    </div>
+                    <div class="balance-stat">
+                        <div class="balance-stat-label">Days Remaining</div>
+                        <div class="balance-stat-value">10</div>
+                    </div>
+                    <div class="balance-stat">
+                        <div class="balance-stat-label">Auto-Recharge</div>
+                        <div class="balance-stat-value">$5,000</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">This Month</div>
+                    <div class="stat-value">$24,892</div>
+                    <div class="stat-change negative">↑ 18% vs last month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Last Payment</div>
+                    <div class="stat-value">$5,000</div>
+                    <div class="stat-change">3 days ago</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pending Charges</div>
+                    <div class="stat-value">$342</div>
+                    <div class="stat-change">Processing</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Credit Limit</div>
+                    <div class="stat-value">$50,000</div>
+                    <div class="stat-change">25% used</div>
+                </div>
+            </div>
+            
+            <!-- Transactions -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h2 class="table-title">Transaction History</h2>
+                    <div class="table-actions">
+                        <select class="filter-select">
+                            <option>All Transactions</option>
+                            <option>Charges</option>
+                            <option>Payments</option>
+                            <option>Refunds</option>
+                        </select>
+                        <button class="export-btn">Export CSV</button>
+                    </div>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="transaction-id">#TRX-2847293</td>
+                            <td><span class="transaction-type charge">Charge</span></td>
+                            <td>Campaign: Summer Sale 2025</td>
+                            <td>Today, 2:34 PM</td>
+                            <td class="amount negative">-$342.50</td>
+                        </tr>
+                        <tr>
+                            <td class="transaction-id">#TRX-2847292</td>
+                            <td><span class="transaction-type charge">Charge</span></td>
+                            <td>Campaign: App Install Q1</td>
+                            <td>Today, 10:15 AM</td>
+                            <td class="amount negative">-$521.00</td>
+                        </tr>
+                        <tr>
+                            <td class="transaction-id">#TRX-2847291</td>
+                            <td><span class="transaction-type payment">Payment</span></td>
+                            <td>Auto-recharge payment</td>
+                            <td>Aug 16, 2025</td>
+                            <td class="amount positive">+$5,000.00</td>
+                        </tr>
+                        <tr>
+                            <td class="transaction-id">#TRX-2847290</td>
+                            <td><span class="transaction-type charge">Charge</span></td>
+                            <td>Campaign: Brand Awareness</td>
+                            <td>Aug 15, 2025</td>
+                            <td class="amount negative">-$892.75</td>
+                        </tr>
+                        <tr>
+                            <td class="transaction-id">#TRX-2847289</td>
+                            <td><span class="transaction-type refund">Refund</span></td>
+                            <td>Overcharge correction</td>
+                            <td>Aug 14, 2025</td>
+                            <td class="amount positive">+$125.00</td>
+                        </tr>
+                        <tr>
+                            <td class="transaction-id">#TRX-2847288</td>
+                            <td><span class="transaction-type charge">Charge</span></td>
+                            <td>Campaign: Flash Sale</td>
+                            <td>Aug 14, 2025</td>
+                            <td class="amount negative">-$1,234.50</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Payment Methods -->
+            <div class="payment-methods">
+                <h3 class="section-title">Payment Methods</h3>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">💳</div>
+                    <div class="payment-info">
+                        <div class="payment-name">Visa ••••4242</div>
+                        <div class="payment-details">Expires 12/25</div>
+                    </div>
+                    <span class="payment-badge">Primary</span>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">💳</div>
+                    <div class="payment-info">
+                        <div class="payment-name">Mastercard ••••8901</div>
+                        <div class="payment-details">Expires 09/26</div>
+                    </div>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">🏦</div>
+                    <div class="payment-info">
+                        <div class="payment-name">Bank Account ••••5678</div>
+                        <div class="payment-details">ACH Transfer</div>
+                    </div>
+                </div>
+                
+                <button class="add-payment-btn" onclick="alert('Opening add payment method modal...')">
+                    + Add Payment Method
+                </button>
+            </div>
+            
+            <!-- Billing Settings -->
+            <div class="billing-settings">
+                <h3 class="section-title">Billing Settings</h3>
+                
+                <div class="setting-item">
+                    <span class="setting-label">Auto-Recharge</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">Recharge Amount</span>
+                    <span class="setting-value">$5,000</span>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">Recharge When Below</span>
+                    <span class="setting-value">$1,000</span>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">Billing Email</span>
+                    <span class="setting-value">billing@company.com</span>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">Tax ID</span>
+                    <a href="#" class="setting-link">Add Tax ID</a>
+                </div>
+                
+                <div class="setting-item">
+                    <span class="setting-label">Billing Address</span>
+                    <a href="#" class="setting-link">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Export CSV
+        document.querySelector('.export-btn').addEventListener('click', function() {
+            alert('Exporting transactions to CSV...');
+        });
+        
+        // Filter change
+        document.querySelector('.filter-select').addEventListener('change', function() {
+            console.log('Filter changed to:', this.value);
+        });
+        
+        // Toggle switches
+        document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                console.log('Toggle changed:', this.checked);
+            });
+        });
+    </script>
+</body>
+</html>

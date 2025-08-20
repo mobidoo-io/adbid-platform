@@ -1,0 +1,19 @@
+ВАЖНО: Скопируйте ЭТУ ТОЧНУЮ команду в Digital Ocean Web Console!
+
+================================================================================
+СКОПИРУЙТЕ ВСЮ КОМАНДУ НИЖЕ ЦЕЛИКОМ (от mkdir до последней кавычки):
+================================================================================
+
+mkdir -p ~/.ssh && echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/VLoOXFqOhmVwk5zudxUEWJ8DLGkMyHnjjyq0QHPsxiBQs1uskYM1vmNCasFyYK2v3zIGiBKZUESozm45a9Le3QHy9QmYQgljD68GcgHdm3SOgM3fBhRI/hyD24RpeBObeExHjDIM0iuxlgAWrBAyzLSrsUaOyZU9LzUoJoNBgt/ur0OqsRdUnFitaFWaiDmX0X49ok9zu0f2whts/9gsb/G4tfVRUFicIth20Bt81taaNATlT0D4Dzcyw3cckighs8ddWEZBRdIJNYfMNfAf9Qk4lH0DUSJeXH2OcR+AFF2DqUUr33iLSVQ6803v3cfvPapMWanirJz3MwQ8RJRn macucer@MacBook-Pro-MacUser.local" > ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys && echo "✅ SSH ключ успешно добавлен!"
+
+================================================================================
+
+Как добавить:
+1. Откройте https://cloud.digitalocean.com
+2. Найдите ваш сервер (165.227.11.220)
+3. Нажмите "Access" -> "Launch Droplet Console"
+4. В открывшейся консоли вставьте команду выше
+5. Нажмите Enter
+6. Должно появиться: "✅ SSH ключ успешно добавлен!"
+
+После этого сообщите мне, и я запущу деплой!

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Campaign - Campaign Settings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn:hover {
+            background: #f3f4f6;
+            border-radius: 8px;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #222;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .save-template-btn {
+            background: white;
+            border: 1px solid #d1d5db;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .save-template-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .next-btn {
+            background: #FFD93D;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .next-btn:hover {
+            background: #ffcf0d;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(255, 217, 61, 0.3);
+        }
+        
+        /* Progress Steps */
+        .progress-container {
+            background: white;
+            padding: 32px 24px;
+        }
+        
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #9ca3af;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .step.active {
+            color: #222;
+        }
+        
+        .step.completed {
+            color: #222;
+        }
+        
+        .step-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #10b981;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .step.active .step-circle {
+            background: #10b981;
+        }
+        
+        .step.pending .step-circle {
+            background: white;
+            border: 2px solid #e5e7eb;
+            color: #9ca3af;
+        }
+        
+        .step.completed .step-circle::before {
+            content: "✓";
+        }
+        
+        .step.active .step-circle::before {
+            content: "✓";
+        }
+        
+        .step.pending .step-circle::before {
+            content: "";
+        }
+        
+        /* Underline for active step */
+        .step.active::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #222;
+        }
+        
+        .step {
+            position: relative;
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        /* Toggle Section */
+        .toggle-section {
+            margin-bottom: 40px;
+        }
+        
+        .toggle-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 32px;
+            flex-shrink: 0;
+            order: -1;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: .3s;
+            border-radius: 32px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        
+        input:checked + .slider {
+            background-color: #fbbf24;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        
+        .toggle-content {
+            flex: 1;
+        }
+        
+        .toggle-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            background: #9ca3af;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            cursor: help;
+        }
+        
+        .toggle-description {
+            font-size: 15px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        .learn-more {
+            color: #2563eb;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 15px;
+        }
+        
+        .learn-more:hover {
+            text-decoration: underline;
+        }
+        
+        /* Categories Section */
+        .categories-section {
+            margin-top: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 12px;
+        }
+        
+        .dropdown-select {
+            width: 100%;
+            max-width: 560px;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+            margin-bottom: 16px;
+        }
+        
+        .dropdown-select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #111;
+        }
+        
+        .checkbox-icon {
+            width: 20px;
+            height: 20px;
+            background: #10b981;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 12px;
+            font-size: 14px;
+        }
+        
+        .countries-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 4px;
+            margin-top: 24px;
+        }
+        
+        .helper-text {
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        
+        /* Budget Section */
+        .budget-section {
+            margin-bottom: 40px;
+        }
+        
+        .budget-group {
+            margin-bottom: 24px;
+        }
+        
+        .budget-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 12px;
+        }
+        
+        .budget-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            max-width: 400px;
+        }
+        
+        .budget-input-container {
+            position: relative;
+            flex: 1;
+        }
+        
+        .currency-symbol {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #111;
+            font-size: 16px;
+            pointer-events: none;
+        }
+        
+        .budget-input {
+            width: 100%;
+            padding: 12px 16px;
+            padding-left: 36px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .budget-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .budget-type-select {
+            width: 180px;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        .bid-strategy-select {
+            width: 100%;
+            max-width: 560px;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        /* Conversions Section */
+        .conversions-section {
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 24px;
+        }
+        
+        .conversion-group {
+            max-width: 560px;
+        }
+        
+        .conversion-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 16px;
+        }
+        
+        .radio-option {
+            margin-bottom: 20px;
+        }
+        
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+        
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: #111;
+        }
+        
+        .radio-circle {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            margin-right: 12px;
+            position: relative;
+            transition: all 0.2s;
+        }
+        
+        .radio-option input[type="radio"]:checked + .radio-label .radio-circle {
+            border-color: #fbbf24;
+        }
+        
+        .radio-option input[type="radio"]:checked + .radio-label .radio-circle::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fbbf24;
+        }
+        
+        .dropdown-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-left: 32px;
+        }
+        
+        .conversion-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        .conversion-select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.location.href='new-campaign.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                </svg>
+            </button>
+            <h1 class="page-title">New campaign</h1>
+        </div>
+        <div class="header-right">
+            <button class="save-template-btn">Save template</button>
+            <button class="next-btn" onclick="nextStep()">Next</button>
+        </div>
+    </div>
+    
+    <!-- Progress Steps -->
+    <div class="progress-container">
+        <div class="progress-steps">
+            <div class="step completed" data-step="upload">
+                <span class="step-circle"></span>
+                <span>Upload</span>
+            </div>
+            <div class="step active" data-step="campaign">
+                <span class="step-circle"></span>
+                <span>Campaign</span>
+            </div>
+            <div class="step pending" data-step="adsets">
+                <span class="step-circle"></span>
+                <span>Ad sets</span>
+            </div>
+            <div class="step pending" data-step="ads">
+                <span class="step-circle"></span>
+                <span>Ads</span>
+            </div>
+            <div class="step pending" data-step="review">
+                <span class="step-circle"></span>
+                <span>Review</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Conversions Section -->
+        <div class="conversions-section">
+            <h2 class="section-title">Conversions</h2>
+            
+            <div class="conversion-group">
+                <label class="conversion-label">Conversion location</label>
+                
+                <div class="radio-option">
+                    <input type="radio" id="conversionApp" name="conversionLocation" checked>
+                    <label for="conversionApp" class="radio-label">
+                        <span class="radio-circle"></span>
+                        <span>App</span>
+                    </label>
+                </div>
+                
+                <div class="dropdown-group">
+                    <select class="conversion-select">
+                        <option>Yess android</option>
+                        <option>App Store Connect</option>
+                        <option>Facebook App Events</option>
+                    </select>
+                    
+                    <select class="conversion-select">
+                        <option>Google play</option>
+                        <option>App Store</option>
+                        <option>Amazon Appstore</option>
+                    </select>
+                    
+                    <select class="conversion-select">
+                        <option>Purchase</option>
+                        <option>Add to Cart</option>
+                        <option>Complete Registration</option>
+                        <option>View Content</option>
+                        <option>Search</option>
+                        <option>Add Payment Info</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Special Ad Categories -->
+        <div class="toggle-section">
+            <div class="toggle-row">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="specialCategories" checked>
+                    <span class="slider"></span>
+                </label>
+                <div class="toggle-content">
+                    <div class="toggle-title">
+                        Special ad categories
+                        <span class="info-icon">i</span>
+                    </div>
+                    <div class="toggle-description">
+                        You're required to declare if your ads are related to financial products and services, employment or housing opportunities, or related to social issues, elections or politics. 
+                        <a href="#" class="learn-more">Learn more <span>↗</span></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="categories-section" id="categoriesSection">
+                <label class="form-label">Categories</label>
+                <select class="dropdown-select">
+                    <option>No categories declared</option>
+                    <option>Credit</option>
+                    <option>Employment</option>
+                    <option>Housing</option>
+                    <option>Social issues, elections or politics</option>
+                </select>
+                
+                <div class="checkbox-item">
+                    <span class="checkbox-icon">✓</span>
+                    Ads about social issues, elections or politics
+                </div>
+                
+                <label class="countries-label">Countries</label>
+                <select class="dropdown-select">
+                    <option>Select countries</option>
+                    <option>United States</option>
+                    <option>Canada</option>
+                    <option>United Kingdom</option>
+                    <option>Australia</option>
+                </select>
+                
+                <p class="helper-text">
+                    Select where you want to run this campaign. If there are additional requirements to run your ads in those locations, your advertising options will be adjusted.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Advantage Campaign Budget -->
+        <div class="toggle-section">
+            <div class="toggle-row">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="advantageBudget" checked>
+                    <span class="slider"></span>
+                </label>
+                <div class="toggle-content">
+                    <div class="toggle-title">
+                        Advantage campaign budget
+                    </div>
+                    <div class="toggle-description">
+                        Campaign budget optimisation will distribute your budget across ad sets to get more results depending on your delivery optimisation choices and bid strategy. You can control spending on each ad set.
+                        <a href="#" class="learn-more">Learn more <span>↗</span></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="budget-section" id="budgetSection">
+                <div class="budget-group">
+                    <label class="budget-label">Campaign budget</label>
+                    <div class="budget-input-wrapper">
+                        <div class="budget-input-container">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" class="budget-input" value="10" min="1" step="0.01">
+                        </div>
+                        <select class="budget-type-select">
+                            <option>Daily</option>
+                            <option>Lifetime</option>
+                        </select>
+                    </div>
+                    <p class="helper-text">Actual amount spent per day may vary.</p>
+                </div>
+                
+                <div class="budget-group">
+                    <label class="budget-label">Campaign bid strategy</label>
+                    <select class="bid-strategy-select">
+                        <option>Highest volume</option>
+                        <option>Cost per result goal</option>
+                        <option>ROAS goal</option>
+                        <option>Bid cap</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Toggle functionality
+        const specialCategoriesToggle = document.getElementById('specialCategories');
+        const categoriesSection = document.getElementById('categoriesSection');
+        
+        specialCategoriesToggle.addEventListener('change', function() {
+            if (this.checked) {
+                categoriesSection.style.display = 'block';
+            } else {
+                categoriesSection.style.display = 'none';
+            }
+        });
+        
+        const advantageBudgetToggle = document.getElementById('advantageBudget');
+        const budgetSection = document.getElementById('budgetSection');
+        
+        advantageBudgetToggle.addEventListener('change', function() {
+            if (this.checked) {
+                budgetSection.style.display = 'block';
+            } else {
+                budgetSection.style.display = 'none';
+            }
+        });
+        
+        // Step navigation
+        function nextStep() {
+            window.location.href = 'campaign-step3.html';
+        }
+        
+        // Step click navigation
+        document.querySelectorAll('.step').forEach(step => {
+            step.addEventListener('click', function() {
+                const stepName = this.dataset.step;
+                if (stepName === 'upload') {
+                    window.location.href = 'new-campaign.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

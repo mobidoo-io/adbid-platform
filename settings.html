@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBid - Settings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn:hover {
+            background: #f3f4f6;
+            border-radius: 8px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .save-btn {
+            padding: 10px 24px;
+            background: #8B5CF6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .save-btn:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+        
+        /* Layout */
+        .settings-layout {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            gap: 24px;
+        }
+        
+        /* Sidebar */
+        .settings-sidebar {
+            width: 250px;
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            height: fit-content;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .settings-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+        
+        .settings-nav-item:hover {
+            background: #f3f4f6;
+            color: #111;
+        }
+        
+        .settings-nav-item.active {
+            background: #8B5CF6;
+            color: white;
+        }
+        
+        .settings-nav-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .settings-nav-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        /* Main Content */
+        .settings-content {
+            flex: 1;
+        }
+        
+        .settings-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            display: none;
+        }
+        
+        .settings-section.active {
+            display: block;
+        }
+        
+        .section-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        
+        .section-description {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-helper {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 6px;
+        }
+        
+        /* Two Column Layout */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        /* Toggle Item */
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .toggle-item:last-child {
+            border-bottom: none;
+        }
+        
+        .toggle-info {
+            flex: 1;
+        }
+        
+        .toggle-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        
+        .toggle-description {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #d1d5db;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background: #8B5CF6;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+        
+        /* Team Members */
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .member-info {
+            flex: 1;
+        }
+        
+        .member-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 2px;
+        }
+        
+        .member-email {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .member-role {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #111;
+        }
+        
+        .member-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .member-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .member-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        .member-btn.danger {
+            color: #dc2626;
+        }
+        
+        .add-member-btn {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .add-member-btn:hover {
+            border-color: #8B5CF6;
+            color: #8B5CF6;
+            background: #faf5ff;
+        }
+        
+        /* API Keys */
+        .api-key-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .api-key-info {
+            flex: 1;
+        }
+        
+        .api-key-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        
+        .api-key-value {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .api-key-created {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        .api-key-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* Danger Zone */
+        .danger-zone {
+            border: 2px solid #fee2e2;
+            border-radius: 8px;
+            padding: 20px;
+            background: #fef2f2;
+        }
+        
+        .danger-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #dc2626;
+            margin-bottom: 8px;
+        }
+        
+        .danger-description {
+            font-size: 14px;
+            color: #7f1d1d;
+            margin-bottom: 16px;
+        }
+        
+        .danger-btn {
+            padding: 10px 20px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .danger-btn:hover {
+            background: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
+                </svg>
+            </button>
+            <h1 class="page-title">Settings</h1>
+        </div>
+        <div class="header-right">
+            <button class="save-btn" onclick="saveSettings()">Save Changes</button>
+        </div>
+    </div>
+    
+    <!-- Settings Layout -->
+    <div class="settings-layout">
+        <!-- Sidebar -->
+        <div class="settings-sidebar">
+            <div class="settings-nav-item active" data-section="general">
+                <span class="settings-nav-icon">⚙️</span>
+                <span class="settings-nav-label">General</span>
+            </div>
+            <div class="settings-nav-item" data-section="account">
+                <span class="settings-nav-icon">👤</span>
+                <span class="settings-nav-label">Account</span>
+            </div>
+            <div class="settings-nav-item" data-section="team">
+                <span class="settings-nav-icon">👥</span>
+                <span class="settings-nav-label">Team</span>
+            </div>
+            <div class="settings-nav-item" data-section="notifications">
+                <span class="settings-nav-icon">🔔</span>
+                <span class="settings-nav-label">Notifications</span>
+            </div>
+            <div class="settings-nav-item" data-section="integrations">
+                <span class="settings-nav-icon">🔌</span>
+                <span class="settings-nav-label">Integrations</span>
+            </div>
+            <div class="settings-nav-item" data-section="api">
+                <span class="settings-nav-icon">🔑</span>
+                <span class="settings-nav-label">API & Webhooks</span>
+            </div>
+            <div class="settings-nav-item" data-section="security">
+                <span class="settings-nav-icon">🔒</span>
+                <span class="settings-nav-label">Security</span>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="settings-content">
+            <!-- General Settings -->
+            <div class="settings-section active" id="general-section">
+                <div class="section-header">
+                    <h2 class="section-title">General Settings</h2>
+                    <p class="section-description">Manage your workspace preferences and configuration</p>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Company Name</label>
+                    <input type="text" class="form-input" value="Acme Corporation">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Workspace URL</label>
+                    <input type="text" class="form-input" value="acme.adbid.com">
+                    <p class="form-helper">Your unique workspace URL</p>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Time Zone</label>
+                        <select class="form-select">
+                            <option>Pacific Time (PT)</option>
+                            <option>Eastern Time (ET)</option>
+                            <option>Central Time (CT)</option>
+                            <option>Mountain Time (MT)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Currency</label>
+                        <select class="form-select">
+                            <option>USD ($)</option>
+                            <option>EUR (€)</option>
+                            <option>GBP (£)</option>
+                            <option>JPY (¥)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Default Attribution Window</label>
+                    <select class="form-select">
+                        <option>1-day view, 28-day click</option>
+                        <option>7-day view, 28-day click</option>
+                        <option>1-day view, 7-day click</option>
+                        <option>7-day view, 7-day click</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Account Settings -->
+            <div class="settings-section" id="account-section">
+                <div class="section-header">
+                    <h2 class="section-title">Account Settings</h2>
+                    <p class="section-description">Manage your personal account information</p>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-input" value="John">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-input" value="Doe">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" value="john.doe@company.com">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" value="+1 (555) 123-4567">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Bio</label>
+                    <textarea class="form-textarea" placeholder="Tell us about yourself...">Digital Marketing Manager with 5+ years of experience in performance marketing.</textarea>
+                </div>
+                
+                <div class="danger-zone">
+                    <h3 class="danger-title">Delete Account</h3>
+                    <p class="danger-description">Once you delete your account, there is no going back. Please be certain.</p>
+                    <button class="danger-btn" onclick="alert('Account deletion requires confirmation')">Delete Account</button>
+                </div>
+            </div>
+            
+            <!-- Team Settings -->
+            <div class="settings-section" id="team-section">
+                <div class="section-header">
+                    <h2 class="section-title">Team Members</h2>
+                    <p class="section-description">Manage your team and their permissions</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">JD</div>
+                    <div class="member-info">
+                        <div class="member-name">John Doe</div>
+                        <div class="member-email">john.doe@company.com</div>
+                    </div>
+                    <select class="member-role">
+                        <option>Admin</option>
+                        <option>Editor</option>
+                        <option>Viewer</option>
+                    </select>
+                    <div class="member-actions">
+                        <button class="member-btn">Edit</button>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">SM</div>
+                    <div class="member-info">
+                        <div class="member-name">Sarah Miller</div>
+                        <div class="member-email">sarah.miller@company.com</div>
+                    </div>
+                    <select class="member-role">
+                        <option>Editor</option>
+                        <option>Admin</option>
+                        <option>Viewer</option>
+                    </select>
+                    <div class="member-actions">
+                        <button class="member-btn">Edit</button>
+                        <button class="member-btn danger">Remove</button>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">MJ</div>
+                    <div class="member-info">
+                        <div class="member-name">Mike Johnson</div>
+                        <div class="member-email">mike.j@company.com</div>
+                    </div>
+                    <select class="member-role">
+                        <option>Viewer</option>
+                        <option>Editor</option>
+                        <option>Admin</option>
+                    </select>
+                    <div class="member-actions">
+                        <button class="member-btn">Edit</button>
+                        <button class="member-btn danger">Remove</button>
+                    </div>
+                </div>
+                
+                <button class="add-member-btn" onclick="alert('Opening invite modal...')">
+                    + Invite Team Member
+                </button>
+            </div>
+            
+            <!-- Notifications Settings -->
+            <div class="settings-section" id="notifications-section">
+                <div class="section-header">
+                    <h2 class="section-title">Notification Preferences</h2>
+                    <p class="section-description">Choose how you want to be notified</p>
+                </div>
+                
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <div class="toggle-label">Email Notifications</div>
+                        <div class="toggle-description">Receive email updates about your campaigns</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <div class="toggle-label">Campaign Alerts</div>
+                        <div class="toggle-description">Get notified when campaigns need attention</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <div class="toggle-label">Budget Alerts</div>
+                        <div class="toggle-description">Alert when budget is running low</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <div class="toggle-label">Performance Reports</div>
+                        <div class="toggle-description">Weekly performance summary emails</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <div class="toggle-label">Product Updates</div>
+                        <div class="toggle-description">News about new features and updates</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Integrations Settings -->
+            <div class="settings-section" id="integrations-section">
+                <iframe src="integrations.html" style="width: 100%; height: 800px; border: none;"></iframe>
+            </div>
+            
+            <!-- API Settings -->
+            <div class="settings-section" id="api-section">
+                <div class="section-header">
+                    <h2 class="section-title">API & Webhooks</h2>
+                    <p class="section-description">Manage API keys and webhook configurations</p>
+                </div>
+                
+                <div class="api-key-item">
+                    <div class="api-key-info">
+                        <div class="api-key-name">Production API Key</div>
+                        <div class="api-key-value">sk_live_••••••••••••••••4Rf2</div>
+                        <div class="api-key-created">Created Aug 1, 2025</div>
+                    </div>
+                    <div class="api-key-actions">
+                        <button class="member-btn">Regenerate</button>
+                        <button class="member-btn danger">Delete</button>
+                    </div>
+                </div>
+                
+                <div class="api-key-item">
+                    <div class="api-key-info">
+                        <div class="api-key-name">Test API Key</div>
+                        <div class="api-key-value">sk_test_••••••••••••••••9Kp8</div>
+                        <div class="api-key-created">Created Jul 15, 2025</div>
+                    </div>
+                    <div class="api-key-actions">
+                        <button class="member-btn">Regenerate</button>
+                        <button class="member-btn danger">Delete</button>
+                    </div>
+                </div>
+                
+                <button class="add-member-btn" onclick="alert('Creating new API key...')">
+                    + Create New API Key
+                </button>
+                
+                <div class="form-group" style="margin-top: 32px;">
+                    <label class="form-label">Webhook URL</label>
+                    <input type="url" class="form-input" placeholder="https://your-server.com/webhook">
+                    <p class="form-helper">We'll send POST requests to this URL for campaign events</p>
+                </div>
+            </div>
+            
+            <!-- Security Settings -->
+            <div class="settings-section" id="security-section">
+                <div class="section-header">
+                    <h2 class="section-title">Security Settings</h2>
+                    <p class="section-description">Keep your account secure</p>
+                </div>
+                
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <div class="toggle-label">Two-Factor Authentication</div>
+                        <div class="toggle-description">Add an extra layer of security to your account</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="toggle-item">
+                    <div class="toggle-info">
+                        <div class="toggle-label">Login Alerts</div>
+                        <div class="toggle-description">Get notified of new sign-ins to your account</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="form-group" style="margin-top: 24px;">
+                    <label class="form-label">Change Password</label>
+                    <input type="password" class="form-input" placeholder="Current password">
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="New password">
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="Confirm new password">
+                </div>
+                
+                <button class="save-btn" style="width: auto;" onclick="alert('Password updated!')">Update Password</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Navigation
+        document.querySelectorAll('.settings-nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Update nav
+                document.querySelectorAll('.settings-nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update sections
+                const section = this.dataset.section;
+                document.querySelectorAll('.settings-section').forEach(sec => sec.classList.remove('active'));
+                document.getElementById(section + '-section').classList.add('active');
+            });
+        });
+        
+        // Save settings
+        function saveSettings() {
+            alert('Settings saved successfully!');
+        }
+        
+        // Toggle switches
+        document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                console.log('Toggle changed:', this.checked);
+            });
+        });
+    </script>
+</body>
+</html>

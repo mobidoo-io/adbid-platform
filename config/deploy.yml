@@ -1,0 +1,88 @@
+# Kamal deployment configuration for AdBid
+service: adbid
+
+# Docker image name
+image: ohmytraff/adbid
+
+# Servers configuration
+servers:
+  web:
+    hosts:
+      - 165.227.11.220  # DigitalOcean server IP
+    labels:
+      traefik.http.routers.adbid.rule: Host(`adbid.me`, `www.adbid.me`)
+      traefik.http.routers.adbid.entrypoints: websecure
+      traefik.http.routers.adbid.tls.certresolver: letsencrypt
+      traefik.http.routers.adbid.tls: true
+      traefik.http.services.adbid.loadbalancer.server.port: 80
+    options:
+      network: "kamal"
+
+# Registry configuration (Docker Hub)
+registry:
+  username: 
+    - KAMAL_REGISTRY_USERNAME  # Установите через переменную окружения
+  password:
+    - KAMAL_REGISTRY_PASSWORD  # Установите через переменную окружения
+
+# Environment variables for the app
+env:
+  clear:
+    NODE_ENV: production
+    PORT: 80
+    DOMAIN: adbid.me
+  secret:
+    # Добавьте секретные переменные если нужно
+    # - DATABASE_URL
+    # - API_KEY
+
+# Use Traefik as reverse proxy with automatic SSL
+traefik:
+  options:
+    publish:
+      - "443:443"
+      - "80:80"
+    volume:
+      - "/letsencrypt/acme.json:/letsencrypt/acme.json"
+    network: "kamal"
+  args:
+    entrypoints.web.address: ":80"
+    entrypoints.websecure.address: ":443"
+    entrypoints.web.http.redirections.entrypoint.to: websecure
+    entrypoints.web.http.redirections.entrypoint.scheme: https
+    certificatesresolvers.letsencrypt.acme.email: "admin@adbid.me"
+    certificatesresolvers.letsencrypt.acme.storage: "/letsencrypt/acme.json"
+    certificatesresolvers.letsencrypt.acme.httpchallenge: true
+    certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint: web
+    log.level: INFO
+
+# Health check configuration
+healthcheck:
+  path: /
+  port: 80
+  max_attempts: 10
+  interval: 20s
+
+# Builder configuration
+builder:
+  multiarch: false
+  args:
+    BUILDKIT_INLINE_CACHE: 1
+  cache:
+    type: registry
+    options: mode=max
+
+# SSH configuration
+ssh:
+  user: root
+
+# Deploy hooks
+# hooks:
+#   pre-connect:
+#     - echo "Starting deployment..."
+#   pre-build:
+#     - echo "Building Docker image..."
+#   pre-deploy:
+#     - echo "Preparing to deploy..."
+#   post-deploy:
+#     - echo "Deployment complete!"

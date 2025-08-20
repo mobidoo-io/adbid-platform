@@ -9,7 +9,39 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: '*.html',
+          src: 'dashboard.html',
+          dest: '.'
+        },
+        {
+          src: 'analytics-dashboard.html',
+          dest: '.'
+        },
+        {
+          src: 'audiences.html',
+          dest: '.'
+        },
+        {
+          src: 'billing.html',
+          dest: '.'
+        },
+        {
+          src: 'creatives.html',
+          dest: '.'
+        },
+        {
+          src: 'integrations.html',
+          dest: '.'
+        },
+        {
+          src: 'pixels.html',
+          dest: '.'
+        },
+        {
+          src: 'settings.html',
+          dest: '.'
+        },
+        {
+          src: 'meta-ads-accounts.html',
           dest: '.'
         },
         {
@@ -31,16 +63,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, 'index.html'),
-        dashboard: path.resolve(__dirname, 'dashboard.html'),
-        analytics: path.resolve(__dirname, 'analytics-dashboard.html'),
-        audiences: path.resolve(__dirname, 'audiences.html'),
-        billing: path.resolve(__dirname, 'billing.html'),
-        creatives: path.resolve(__dirname, 'creatives.html'),
-        integrations: path.resolve(__dirname, 'integrations.html'),
-        pixels: path.resolve(__dirname, 'pixels.html'),
-        settings: path.resolve(__dirname, 'settings.html'),
-        'meta-ads': path.resolve(__dirname, 'meta-ads-accounts.html')
+        main: path.resolve(__dirname, 'index.html')
       }
     }
   }

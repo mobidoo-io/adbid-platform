@@ -193,10 +193,5 @@
             <p>Built with <a href="#">React</a> & <a href="#">Tailwind CSS</a></p>
         </div>
     </div>
-    
-    <!-- Core JavaScript Libraries -->
-    <script src="js/storage.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
 </body>
 </html>

@@ -667,10 +667,5 @@
             alert('Campaign saved as draft. You can continue editing it later.');
         });
     </script>
-    
-    <!-- Core JavaScript Libraries -->
-    <script src="js/storage.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/campaign-wizard.js"></script></body>
+</body>
 </html>

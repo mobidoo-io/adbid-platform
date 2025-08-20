@@ -45,6 +45,54 @@ export default defineConfig({
           dest: '.'
         },
         {
+          src: 'new-campaign.html',
+          dest: '.'
+        },
+        {
+          src: 'campaign-creation.html',
+          dest: '.'
+        },
+        {
+          src: 'campaign-step2.html',
+          dest: '.'
+        },
+        {
+          src: 'campaign-step2-updated.html',
+          dest: '.'
+        },
+        {
+          src: 'campaign-step3.html',
+          dest: '.'
+        },
+        {
+          src: 'campaign-step3-updated.html',
+          dest: '.'
+        },
+        {
+          src: 'campaign-step4.html',
+          dest: '.'
+        },
+        {
+          src: 'campaign-step4-updated.html',
+          dest: '.'
+        },
+        {
+          src: 'campaign-step5.html',
+          dest: '.'
+        },
+        {
+          src: 'campaign-step5-review.html',
+          dest: '.'
+        },
+        {
+          src: 'audience-modals.html',
+          dest: '.'
+        },
+        {
+          src: 'creative-modals.html',
+          dest: '.'
+        },
+        {
           src: 'src/assets/*',
           dest: 'assets'
         }

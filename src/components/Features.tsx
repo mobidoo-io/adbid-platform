@@ -63,7 +63,7 @@ const stats = [
 
 const Features: React.FC = () => {
   return (
-    <section className="py-16 bg-white">
+    <section id="product" className="py-16 bg-white">
       <div className="container-max">
         {/* Section Header */}
         <motion.div

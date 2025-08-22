@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdBid - Campaign Creation</title>
+    <link rel="stylesheet" href="css/sidebar.css">
     <style>
         * {
             margin: 0;
@@ -13,6 +14,20 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f9fafb;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .main-wrapper {
+            flex: 1;
+            margin-left: 280px;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             display: flex;
@@ -252,7 +267,10 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="dashboard-layout">
+        <!-- Sidebar will be injected here by JavaScript -->
+        <div class="main-wrapper">
+            <div class="container">
         <div class="illustration-container">
             <div class="phone-mockup">
                 <div class="phone-screen">
@@ -275,6 +293,9 @@
             <span class="plus-icon">+</span>
             New campaign
         </button>
+            </div>
+        </div>
     </div>
+    <script src="js/sidebar.js"></script>
 </body>
 </html>

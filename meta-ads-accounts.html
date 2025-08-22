@@ -504,20 +504,24 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="header-left">
-            <button class="back-btn" onclick="window.history.back()">←</button>
-            <div class="platform-badge">
-                <div class="platform-icon">M</div>
-                <span class="platform-name">Meta Ads</span>
+    <div class="dashboard-layout">
+        <!-- Sidebar will be injected here by JavaScript -->
+        <div class="main-wrapper">
+                    <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <div class="platform-badge">
+                        <div class="platform-icon">f</div>
+                        <div class="platform-name">Meta Ads</div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="sync-btn" onclick="syncConversions()">
+                        <span>🔄</span>
+                        <span>Sync custom conversions</span>
+                    </button>
+                </div>
             </div>
-        </div>
-        <button class="sync-btn" onclick="syncConversions()">
-            <span>🔄</span>
-            <span>Sync custom conversions</span>
-        </button>
-    </div>
     
     <!-- Profile Section -->
     <div class="profile-section">
@@ -607,14 +611,14 @@
                     </tr>
                     <tr>
                         <td><input type="checkbox" class="account-checkbox"></td>
-                        <td class="account-name">Марина Заболотна</td>
+                        <td class="account-name">Marina Zabolotna</td>
                         <td><span class="status-badge active">Active</span></td>
                         <td>-</td>
                         <td class="account-id">2905023829638692</td>
                     </tr>
                     <tr>
                         <td><input type="checkbox" class="account-checkbox"></td>
-                        <td class="account-name">№1</td>
+                        <td class="account-name">#1</td>
                         <td><span class="status-badge active">Active</span></td>
                         <td>-</td>
                         <td class="account-id">883804743868720</td>
@@ -734,7 +738,7 @@
                             <span>MZ</span>
                         </div>
                         <div class="connected-profile-details">
-                            <span class="connected-profile-name">Марина Заболотна</span>
+                            <span class="connected-profile-name">Marina Zabolotna</span>
                             <span class="connected-profile-id">122149686530597224</span>
                         </div>
                     </div>
@@ -819,5 +823,9 @@
     <script src="js/storage.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/meta-integration.js"></script>
+        </div>
+    </div>
 </body>
 </html>

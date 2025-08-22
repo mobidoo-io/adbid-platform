@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBid - Analytics</title>
+    <link rel="stylesheet" href="css/sidebar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+        }
+        
+        .dashboard-layout {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: 280px;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .date-range-selector {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .date-range-selector:hover {
+            background: #f9fafb;
+        }
+        
+        .header-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .header-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .header-btn.primary {
+            background: #8B5CF6;
+            color: white;
+            border: none;
+        }
+        
+        .header-btn.primary:hover {
+            background: #7c3aed;
+        }
+        
+        /* Filters Bar */
+        .filters-bar {
+            background: white;
+            padding: 16px 24px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #f3f4f6;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .filter-tag-remove {
+            cursor: pointer;
+            color: #6b7280;
+        }
+        
+        .filter-tag-remove:hover {
+            color: #111;
+        }
+        
+        /* Content */
+        .content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .kpi-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .kpi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .kpi-title {
+            font-size: 13px;
+            color: #6b7280;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .kpi-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .kpi-icon.blue {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        
+        .kpi-icon.green {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .kpi-icon.purple {
+            background: #ede9fe;
+            color: #8B5CF6;
+        }
+        
+        .kpi-icon.yellow {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .kpi-change {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+        }
+        
+        .kpi-change.positive {
+            color: #16a34a;
+        }
+        
+        .kpi-change.negative {
+            color: #dc2626;
+        }
+        
+        /* Charts Section */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chart-card.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .chart-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .chart-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .chart-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        .chart-btn.active {
+            background: #8B5CF6;
+            color: white;
+            border-color: #8B5CF6;
+        }
+        
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .chart-placeholder.small {
+            height: 200px;
+        }
+        
+        /* Table Section */
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .table-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .table-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            padding: 12px 20px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: #374151;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        tr:hover {
+            background: #f9fafb;
+        }
+        
+        .campaign-name {
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .metric-value {
+            font-weight: 500;
+        }
+        
+        .metric-positive {
+            color: #16a34a;
+        }
+        
+        .metric-negative {
+            color: #dc2626;
+        }
+        
+        /* Tabs */
+        .tabs-container {
+            display: flex;
+            gap: 32px;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 24px;
+        }
+        
+        .tab {
+            padding: 12px 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .tab:hover {
+            color: #111;
+        }
+        
+        .tab.active {
+            color: #8B5CF6;
+            border-bottom-color: #8B5CF6;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar will be injected here by JavaScript -->
+        <div class="main-wrapper">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h1 class="page-title">Analytics Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="date-range-selector">
+                        <span>📅</span>
+                        <span>Last 30 Days</span>
+                        <span>▼</span>
+                    </div>
+                    <button class="header-btn">Export Report</button>
+                    <button class="header-btn primary">Schedule Report</button>
+                </div>
+            </div>
+            
+            <!-- Filters Bar -->
+            <div class="filters-bar">
+                <select class="filter-select">
+                    <option>All Campaigns</option>
+                    <option>Active Only</option>
+                    <option>Top Performers</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Platforms</option>
+                    <option>Meta</option>
+                    <option>Google</option>
+                    <option>TikTok</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Objectives</option>
+                    <option>Conversions</option>
+                    <option>Traffic</option>
+                    <option>Awareness</option>
+                </select>
+                <div class="filter-tag">
+                    Active Filters: 3
+                    <span class="filter-tag-remove">✕</span>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-title">Total Spend</span>
+                            <div class="kpi-icon blue">💰</div>
+                        </div>
+                        <div class="kpi-value">$48,234</div>
+                        <div class="kpi-change positive">
+                            <span>↑</span>
+                            <span>12.5% vs last period</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-title">Conversions</span>
+                            <div class="kpi-icon green">🎯</div>
+                        </div>
+                        <div class="kpi-value">3,842</div>
+                        <div class="kpi-change positive">
+                            <span>↑</span>
+                            <span>23.7% vs last period</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-title">ROAS</span>
+                            <div class="kpi-icon purple">📊</div>
+                        </div>
+                        <div class="kpi-value">4.2x</div>
+                        <div class="kpi-change positive">
+                            <span>↑</span>
+                            <span>0.8x vs last period</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <span class="kpi-title">CTR</span>
+                            <div class="kpi-icon yellow">👆</div>
+                        </div>
+                        <div class="kpi-value">3.8%</div>
+                        <div class="kpi-change negative">
+                            <span>↓</span>
+                            <span>0.2% vs last period</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charts Section -->
+                <div class="charts-grid">
+                    <!-- Main Performance Chart -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h2 class="chart-title">Performance Overview</h2>
+                            <div class="chart-controls">
+                                <button class="chart-btn active">Spend</button>
+                                <button class="chart-btn">Conversions</button>
+                                <button class="chart-btn">ROAS</button>
+                            </div>
+                        </div>
+                        <div class="chart-placeholder">
+                            📈 Line chart showing performance trends over time
+                        </div>
+                    </div>
+                    
+                    <!-- Platform Distribution -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h2 class="chart-title">Platform Distribution</h2>
+                        </div>
+                        <div class="chart-placeholder small">
+                            🥧 Pie chart showing spend by platform
+                        </div>
+                    </div>
+                    
+                    <!-- Conversion Funnel -->
+                    <div class="chart-card full-width">
+                        <div class="chart-header">
+                            <h2 class="chart-title">Conversion Funnel</h2>
+                            <div class="chart-controls">
+                                <button class="chart-btn active">All Traffic</button>
+                                <button class="chart-btn">Paid Only</button>
+                                <button class="chart-btn">Organic</button>
+                            </div>
+                        </div>
+                        <div class="chart-placeholder">
+                            🔻 Funnel visualization: Impressions → Clicks → Conversions → Sales
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tabs for Different Views -->
+                <div class="tabs-container">
+                    <div class="tab active">Campaign Performance</div>
+                    <div class="tab">Audience Insights</div>
+                    <div class="tab">Creative Analysis</div>
+                    <div class="tab">Geographic Data</div>
+                </div>
+                
+                <!-- Performance Table -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h2 class="table-title">Top Performing Campaigns</h2>
+                        <button class="header-btn">View All</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Campaign</th>
+                                    <th>Platform</th>
+                                    <th>Spend</th>
+                                    <th>Impressions</th>
+                                    <th>Clicks</th>
+                                    <th>CTR</th>
+                                    <th>Conversions</th>
+                                    <th>CPA</th>
+                                    <th>ROAS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="campaign-name">Summer Sale 2025</td>
+                                    <td>Meta</td>
+                                    <td class="metric-value">$12,456</td>
+                                    <td>2.4M</td>
+                                    <td>92.3K</td>
+                                    <td class="metric-value">3.8%</td>
+                                    <td class="metric-value">1,234</td>
+                                    <td class="metric-value">$10.09</td>
+                                    <td class="metric-value metric-positive">5.2x</td>
+                                </tr>
+                                <tr>
+                                    <td class="campaign-name">App Install Campaign</td>
+                                    <td>Google</td>
+                                    <td class="metric-value">$8,932</td>
+                                    <td>1.8M</td>
+                                    <td>76.5K</td>
+                                    <td class="metric-value">4.3%</td>
+                                    <td class="metric-value">892</td>
+                                    <td class="metric-value">$10.01</td>
+                                    <td class="metric-value metric-positive">4.8x</td>
+                                </tr>
+                                <tr>
+                                    <td class="campaign-name">Brand Awareness Q4</td>
+                                    <td>TikTok</td>
+                                    <td class="metric-value">$6,234</td>
+                                    <td>3.2M</td>
+                                    <td>45.6K</td>
+                                    <td class="metric-value">1.4%</td>
+                                    <td class="metric-value">342</td>
+                                    <td class="metric-value">$18.22</td>
+                                    <td class="metric-value">2.9x</td>
+                                </tr>
+                                <tr>
+                                    <td class="campaign-name">Retargeting - Cart</td>
+                                    <td>Meta</td>
+                                    <td class="metric-value">$4,567</td>
+                                    <td>567K</td>
+                                    <td>34.2K</td>
+                                    <td class="metric-value">6.0%</td>
+                                    <td class="metric-value">567</td>
+                                    <td class="metric-value">$8.05</td>
+                                    <td class="metric-value metric-positive">7.3x</td>
+                                </tr>
+                                <tr>
+                                    <td class="campaign-name">Lead Generation B2B</td>
+                                    <td>LinkedIn</td>
+                                    <td class="metric-value">$9,123</td>
+                                    <td>234K</td>
+                                    <td>12.3K</td>
+                                    <td class="metric-value">5.3%</td>
+                                    <td class="metric-value">234</td>
+                                    <td class="metric-value">$38.98</td>
+                                    <td class="metric-value">3.2x</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Core JavaScript Libraries -->
+    <script src="js/storage.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/sidebar.js"></script>
+    
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Chart controls
+        document.querySelectorAll('.chart-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const controls = this.parentElement;
+                controls.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Date range selector
+        document.querySelector('.date-range-selector').addEventListener('click', function() {
+            const ranges = ['Last 7 Days', 'Last 30 Days', 'Last 90 Days', 'Custom Range'];
+            const current = this.querySelector('span:nth-child(2)').textContent;
+            const currentIndex = ranges.indexOf(current);
+            const nextIndex = (currentIndex + 1) % ranges.length;
+            this.querySelector('span:nth-child(2)').textContent = ranges[nextIndex];
+        });
+    </script>
+</body>
+</html>

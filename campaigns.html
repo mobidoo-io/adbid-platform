@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBid - Campaigns</title>
+    <link rel="stylesheet" href="css/sidebar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+        }
+        
+        .dashboard-layout {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: 280px;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .header-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .header-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .header-btn.primary {
+            background: #FFD93D;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .header-btn.primary:hover {
+            background: #ffcf0d;
+            transform: translateY(-1px);
+        }
+        
+        /* Filters Bar */
+        .filters-bar {
+            background: white;
+            padding: 16px 24px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 8px 12px 8px 36px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        
+        /* Tabs */
+        .tabs-container {
+            background: white;
+            padding: 0 24px;
+            display: flex;
+            gap: 32px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .tab {
+            padding: 16px 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .tab:hover {
+            color: #111;
+        }
+        
+        .tab.active {
+            color: #8B5CF6;
+            border-bottom-color: #8B5CF6;
+        }
+        
+        .tab-badge {
+            margin-left: 8px;
+            padding: 2px 8px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .tab.active .tab-badge {
+            background: #8B5CF6;
+            color: white;
+        }
+        
+        /* Content */
+        .content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        /* Campaign Cards Grid */
+        .campaigns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .campaign-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .campaign-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .campaign-header {
+            padding: 20px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .campaign-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .campaign-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .campaign-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .campaign-status.active {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .campaign-status.paused {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .campaign-status.draft {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        
+        .campaign-stats {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .campaign-footer {
+            padding: 16px 20px;
+            background: #f9fafb;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .campaign-btn {
+            flex: 1;
+            padding: 8px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .campaign-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        .campaign-btn.primary {
+            background: #8B5CF6;
+            color: white;
+            border: none;
+        }
+        
+        .campaign-btn.primary:hover {
+            background: #7c3aed;
+        }
+        
+        /* Performance Chart */
+        .performance-chart {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .chart-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .chart-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .chart-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        .chart-btn.active {
+            background: #8B5CF6;
+            color: white;
+            border-color: #8B5CF6;
+        }
+        
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar will be injected here by JavaScript -->
+        <div class="main-wrapper">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h1 class="page-title">Campaigns</h1>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn">Export</button>
+                    <button class="header-btn primary" onclick="window.location.href='new-campaign.html'">+ New Campaign</button>
+                </div>
+            </div>
+            
+            <!-- Filters Bar -->
+            <div class="filters-bar">
+                <select class="filter-select">
+                    <option>All Statuses</option>
+                    <option>Active</option>
+                    <option>Paused</option>
+                    <option>Draft</option>
+                    <option>Completed</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Objectives</option>
+                    <option>Conversions</option>
+                    <option>Traffic</option>
+                    <option>Awareness</option>
+                    <option>Engagement</option>
+                </select>
+                <select class="filter-select">
+                    <option>Last 30 Days</option>
+                    <option>Last 7 Days</option>
+                    <option>Today</option>
+                    <option>Custom Range</option>
+                </select>
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="search" class="search-input" placeholder="Search campaigns...">
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs-container">
+                <div class="tab active">
+                    All Campaigns
+                    <span class="tab-badge">12</span>
+                </div>
+                <div class="tab">
+                    Active
+                    <span class="tab-badge">8</span>
+                </div>
+                <div class="tab">
+                    Drafts
+                    <span class="tab-badge">2</span>
+                </div>
+                <div class="tab">
+                    Scheduled
+                    <span class="tab-badge">1</span>
+                </div>
+                <div class="tab">
+                    Completed
+                    <span class="tab-badge">1</span>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <!-- Performance Overview -->
+                <div class="performance-chart">
+                    <div class="chart-header">
+                        <h2 class="chart-title">Performance Overview</h2>
+                        <div class="chart-controls">
+                            <button class="chart-btn active">Spend</button>
+                            <button class="chart-btn">Impressions</button>
+                            <button class="chart-btn">Clicks</button>
+                            <button class="chart-btn">Conversions</button>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">
+                        📊 Chart visualization will be displayed here
+                    </div>
+                </div>
+                
+                <!-- Campaigns Grid -->
+                <div class="campaigns-grid">
+                    <!-- Campaign Card 1 -->
+                    <div class="campaign-card">
+                        <div class="campaign-header">
+                            <h3 class="campaign-title">Summer Sale 2025</h3>
+                            <div class="campaign-meta">
+                                <span class="campaign-status active">
+                                    <span class="status-dot"></span>
+                                    Active
+                                </span>
+                                <span>Conversions</span>
+                            </div>
+                        </div>
+                        <div class="campaign-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Spend</span>
+                                <span class="stat-value">$8,234</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Conversions</span>
+                                <span class="stat-value">342</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">CPA</span>
+                                <span class="stat-value">$24.08</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">ROAS</span>
+                                <span class="stat-value">3.8x</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <button class="campaign-btn">View</button>
+                            <button class="campaign-btn">Edit</button>
+                            <button class="campaign-btn primary">Insights</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Campaign Card 2 -->
+                    <div class="campaign-card">
+                        <div class="campaign-header">
+                            <h3 class="campaign-title">App Install Campaign</h3>
+                            <div class="campaign-meta">
+                                <span class="campaign-status active">
+                                    <span class="status-dot"></span>
+                                    Active
+                                </span>
+                                <span>App Installs</span>
+                            </div>
+                        </div>
+                        <div class="campaign-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Spend</span>
+                                <span class="stat-value">$3,421</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Installs</span>
+                                <span class="stat-value">1,842</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">CPI</span>
+                                <span class="stat-value">$1.86</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">CTR</span>
+                                <span class="stat-value">4.2%</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <button class="campaign-btn">View</button>
+                            <button class="campaign-btn">Edit</button>
+                            <button class="campaign-btn primary">Insights</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Campaign Card 3 -->
+                    <div class="campaign-card">
+                        <div class="campaign-header">
+                            <h3 class="campaign-title">Holiday Promotion</h3>
+                            <div class="campaign-meta">
+                                <span class="campaign-status draft">
+                                    <span class="status-dot"></span>
+                                    Draft
+                                </span>
+                                <span>Traffic</span>
+                            </div>
+                        </div>
+                        <div class="campaign-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Budget</span>
+                                <span class="stat-value">$15,000</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Duration</span>
+                                <span class="stat-value">30 days</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Start Date</span>
+                                <span class="stat-value">Dec 1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Audiences</span>
+                                <span class="stat-value">4</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <button class="campaign-btn">Preview</button>
+                            <button class="campaign-btn">Edit</button>
+                            <button class="campaign-btn primary">Launch</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Campaign Card 4 -->
+                    <div class="campaign-card">
+                        <div class="campaign-header">
+                            <h3 class="campaign-title">Brand Awareness Q4</h3>
+                            <div class="campaign-meta">
+                                <span class="campaign-status paused">
+                                    <span class="status-dot"></span>
+                                    Paused
+                                </span>
+                                <span>Awareness</span>
+                            </div>
+                        </div>
+                        <div class="campaign-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Spend</span>
+                                <span class="stat-value">$12,892</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Reach</span>
+                                <span class="stat-value">2.4M</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">CPM</span>
+                                <span class="stat-value">$5.37</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Frequency</span>
+                                <span class="stat-value">3.2</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <button class="campaign-btn">View</button>
+                            <button class="campaign-btn">Edit</button>
+                            <button class="campaign-btn primary">Resume</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Campaign Card 5 -->
+                    <div class="campaign-card">
+                        <div class="campaign-header">
+                            <h3 class="campaign-title">Retargeting - Cart Abandoners</h3>
+                            <div class="campaign-meta">
+                                <span class="campaign-status active">
+                                    <span class="status-dot"></span>
+                                    Active
+                                </span>
+                                <span>Conversions</span>
+                            </div>
+                        </div>
+                        <div class="campaign-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Spend</span>
+                                <span class="stat-value">$2,156</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Recovered</span>
+                                <span class="stat-value">$18,420</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">ROAS</span>
+                                <span class="stat-value">8.5x</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Conv Rate</span>
+                                <span class="stat-value">12.3%</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <button class="campaign-btn">View</button>
+                            <button class="campaign-btn">Edit</button>
+                            <button class="campaign-btn primary">Scale</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Campaign Card 6 -->
+                    <div class="campaign-card">
+                        <div class="campaign-header">
+                            <h3 class="campaign-title">Lead Generation B2B</h3>
+                            <div class="campaign-meta">
+                                <span class="campaign-status active">
+                                    <span class="status-dot"></span>
+                                    Active
+                                </span>
+                                <span>Lead Gen</span>
+                            </div>
+                        </div>
+                        <div class="campaign-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Spend</span>
+                                <span class="stat-value">$4,672</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Leads</span>
+                                <span class="stat-value">234</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">CPL</span>
+                                <span class="stat-value">$19.97</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Quality</span>
+                                <span class="stat-value">87%</span>
+                            </div>
+                        </div>
+                        <div class="campaign-footer">
+                            <button class="campaign-btn">View</button>
+                            <button class="campaign-btn">Edit</button>
+                            <button class="campaign-btn primary">Download Leads</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Core JavaScript Libraries -->
+    <script src="js/storage.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/sidebar.js"></script>
+    
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Chart controls
+        document.querySelectorAll('.chart-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

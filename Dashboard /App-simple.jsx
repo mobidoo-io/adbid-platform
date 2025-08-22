@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell, AreaChart, Area } from 'recharts'
 import './dashboard.css'
 
-// Данные для графиков
+// Chart data
 const revenueData = [
   { date: '01', revenue: 2100, sessions: 1200 },
   { date: '02', revenue: 2400, sessions: 1400 },
@@ -20,7 +20,7 @@ const campaignData = [
   { name: 'Instagram', value: 15, color: '#DDD6FE' },
 ]
 
-// Данные приложений
+// Application data
 const applications = [
   { id: 'golive-android', name: 'GoLive Android', icon: 'G', platforms: ['android'], status: 'active', revenue: 3420, growth: 12.3 },
   { id: 'ava-android', name: 'AVA android', icon: 'A', platforms: ['android'], status: 'active', revenue: 2180, growth: -5.2 },

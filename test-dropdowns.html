@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Campaign Dropdowns</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #f8f9fa;
+        }
+        
+        .test-section {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: #222;
+        }
+        
+        .test-status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background: #FFD93D;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+        
+        button:hover {
+            background: #ffcf0d;
+        }
+    </style>
+</head>
+<body>
+    <h1>Campaign Dropdowns Test</h1>
+    
+    <div class="test-section">
+        <h2>Test Campaign Settings Page</h2>
+        <button onclick="testCampaignPage()">Open Campaign Settings</button>
+        <button onclick="testObjectiveChange()">Test Objective Change</button>
+        <button onclick="testSpecialCategories()">Test Special Categories</button>
+        
+        <div id="testResults"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Navigation Flow</h2>
+        <button onclick="testFullFlow()">Test Full Creation Flow</button>
+        <button onclick="checkLocalStorage()">Check Saved Data</button>
+    </div>
+    
+    <script>
+        function testCampaignPage() {
+            window.open('campaign-step2.html', '_blank');
+            addResult('Opened campaign settings page - check dropdowns', 'info');
+        }
+        
+        function testObjectiveChange() {
+            const win = window.open('campaign-step2.html', '_blank');
+            setTimeout(() => {
+                addResult('Testing objective changes:', 'info');
+                addResult('1. Select different Campaign objectives', 'info');
+                addResult('2. Check if Conversion location options change', 'info');
+                addResult('3. Select different Conversion locations', 'info');
+                addResult('4. Check if dropdown content updates', 'info');
+            }, 1000);
+        }
+        
+        function testSpecialCategories() {
+            const win = window.open('campaign-step2.html', '_blank');
+            setTimeout(() => {
+                addResult('Testing Special ad categories:', 'info');
+                addResult('1. Toggle the Special ad categories switch', 'info');
+                addResult('2. Check if Categories dropdown appears', 'info');
+                addResult('3. Check if Countries multi-select appears', 'info');
+                addResult('4. Test the smooth animation', 'info');
+            }, 1000);
+        }
+        
+        function testFullFlow() {
+            window.open('new-campaign.html', '_blank');
+            addResult('Starting full campaign creation flow', 'success');
+            addResult('Navigate through all steps to test continuity', 'info');
+        }
+        
+        function checkLocalStorage() {
+            const keys = ['adbid_campaign_data', 'adbid_user', 'adbid_settings'];
+            keys.forEach(key => {
+                const data = localStorage.getItem(key);
+                if (data) {
+                    addResult(`Found ${key}: ${data.substring(0, 100)}...`, 'success');
+                } else {
+                    addResult(`No data found for ${key}`, 'error');
+                }
+            });
+        }
+        
+        function addResult(message, type = 'info') {
+            const resultsDiv = document.getElementById('testResults');
+            const result = document.createElement('div');
+            result.className = `test-status ${type}`;
+            result.textContent = message;
+            resultsDiv.appendChild(result);
+        }
+        
+        // Initial check
+        window.onload = () => {
+            addResult('Test page loaded successfully', 'success');
+            addResult('All dropdown tests are ready', 'info');
+        };
+    </script>
+</body>
+</html>

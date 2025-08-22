@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Campaign - AdBid</title>
+    <link rel="stylesheet" href="css/sidebar.css">
     <style>
         * {
             margin: 0;
@@ -364,14 +365,12 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <div class="dashboard-layout">
+        <!-- Sidebar will be injected here by JavaScript -->
+        <div class="main-wrapper">
+            <!-- Header -->
     <div class="header">
         <div class="header-left">
-            <button class="back-btn" onclick="window.location.href='campaign-creation.html'">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
-                </svg>
-            </button>
             <h1 class="page-title">New campaign</h1>
         </div>
         <div class="header-right">
@@ -458,6 +457,91 @@
                 
                 <div class="uploaded-files" id="uploadedFiles"></div>
             </div>
+        </div>
+        
+        <!-- Creative Library Section -->
+        <div class="form-section">
+        <div class="form-group">
+            <label class="form-label">
+                Creative Library
+                <span class="optional-badge">optional</span>
+            </label>
+            <p class="form-description">Select from existing media in your library</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 20px;">
+                <!-- Working Videos with Thumbnails -->
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <video poster="https://images.pexels.com/videos/3209828/free-video-3209828.jpg?auto=compress&cs=tinysrgb&w=600" style="width: 100%; height: 100%; object-fit: cover;" controls>
+                        <source src="https://player.vimeo.com/external/449759244.sd.mp4?s=ab8d95433c75c5e92f42aca88b9e39ddfc37e491&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+                    </video>
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Product Demo Video</div>
+                </div>
+                
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <video poster="https://images.pexels.com/videos/3130284/free-video-3130284.jpg?auto=compress&cs=tinysrgb&w=600" style="width: 100%; height: 100%; object-fit: cover;" controls>
+                        <source src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+                    </video>
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Marketing Campaign</div>
+                </div>
+                
+                <!-- High-Quality Images -->
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=450&fit=crop&q=80" alt="Social Media Marketing" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Social Media Ad</div>
+                </div>
+                
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <img src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=800&h=450&fit=crop&q=80" alt="Marketing Strategy" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Brand Strategy</div>
+                </div>
+                
+                <!-- More Working Videos -->
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <video poster="https://images.pexels.com/videos/5081926/pexels-photo-5081926.jpeg?auto=compress&cs=tinysrgb&w=600" style="width: 100%; height: 100%; object-fit: cover;" controls>
+                        <source src="https://player.vimeo.com/external/452723375.sd.mp4?s=4a1b5fb1e9e03e5c72b095bc8033265e044d4b60&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+                    </video>
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">App Showcase</div>
+                </div>
+                
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800&h=450&fit=crop&q=80" alt="Data Analytics" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Analytics Report</div>
+                </div>
+                
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop&q=80" alt="Business Dashboard" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Dashboard UI</div>
+                </div>
+                
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=450&fit=crop&q=80" alt="Team Meeting" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Team Collaboration</div>
+                </div>
+                
+                <!-- Additional Row -->
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop&q=80" alt="Business Stats" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Performance Stats</div>
+                </div>
+                
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=450&fit=crop&q=80" alt="E-commerce" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Product Launch</div>
+                </div>
+                
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <video poster="https://images.pexels.com/videos/7565438/pexels-photo-7565438.jpeg?auto=compress&cs=tinysrgb&w=600" style="width: 100%; height: 100%; object-fit: cover;" controls>
+                        <source src="https://player.vimeo.com/external/510431903.sd.mp4?s=b1f93c9090c4178502fe3e8dd2bc87e949d8f273&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+                    </video>
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Tech Innovation</div>
+                </div>
+                
+                <div style="position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="this.style.borderColor = this.style.borderColor === 'transparent' ? '#FFD93D' : 'transparent'">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=450&fit=crop&q=80" alt="Creative Team" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 10px; color: white; font-size: 13px; font-weight: 600;">Creative Process</div>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
     
@@ -583,7 +667,7 @@
         const steps = ['upload', 'campaign', 'adsets', 'ads', 'review'];
         
         function nextStep() {
-            window.location.href = 'campaign-step2.html';
+            window.location.href = 'campaign-step2-updated.html';
         }
         
         // Step click navigation
@@ -620,5 +704,9 @@
     <script src="js/storage.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/campaign-wizard.js"></script></body>
+    <script src="js/campaign-wizard.js"></script>
+    <script src="js/sidebar.js"></script>
+        </div>
+    </div>
+</body>
 </html>

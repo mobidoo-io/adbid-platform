@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Campaign - Campaign Settings</title>
+    <link rel="stylesheet" href="css/sidebar.css">
     <style>
         * {
             margin: 0;
@@ -13,8 +14,21 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #ffffff;
+            background: #f9fafb;
+            margin: 0;
+            padding: 0;
             min-height: 100vh;
+        }
+        
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .main-wrapper {
+            flex: 1;
+            margin-left: 280px;
+            background: #ffffff;
         }
         
         /* Header */
@@ -544,7 +558,10 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <div class="dashboard-layout">
+        <!-- Sidebar will be injected here by JavaScript -->
+        <div class="main-wrapper">
+            <!-- Header -->
     <div class="header">
         <div class="header-left">
             <button class="back-btn" onclick="window.location.href='new-campaign.html'">
@@ -722,6 +739,8 @@
                 </div>
             </div>
         </div>
+            </div>
+        </div>
     </div>
     
     <script>
@@ -750,7 +769,7 @@
         
         // Step navigation
         function nextStep() {
-            window.location.href = 'campaign-step3.html';
+            window.location.href = 'campaign-step3-updated.html';
         }
         
         // Step click navigation
@@ -763,5 +782,6 @@
             });
         });
     </script>
+    <script src="js/sidebar.js"></script>
 </body>
 </html>

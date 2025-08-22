@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBid - Platforms</title>
+    <link rel="stylesheet" href="css/sidebar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+        }
+        
+        .dashboard-layout {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: 280px;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .header-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .header-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .header-btn.primary {
+            background: #8B5CF6;
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .header-btn.primary:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+        
+        /* Content */
+        .content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        /* Platform Grid */
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .platform-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .platform-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .platform-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .platform-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .platform-logo.meta {
+            background: linear-gradient(135deg, #0866ff, #1877f2);
+            color: white;
+        }
+        
+        .platform-logo.google {
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .platform-logo.tiktok {
+            background: black;
+            color: white;
+        }
+        
+        .platform-logo.snapchat {
+            background: #fffc00;
+            color: black;
+        }
+        
+        .platform-logo.linkedin {
+            background: #0077b5;
+            color: white;
+        }
+        
+        .platform-logo.twitter {
+            background: black;
+            color: white;
+        }
+        
+        .platform-logo.amazon {
+            background: #ff9900;
+            color: white;
+        }
+        
+        .platform-logo.pinterest {
+            background: #bd081c;
+            color: white;
+        }
+        
+        .platform-info {
+            flex: 1;
+        }
+        
+        .platform-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 4px;
+        }
+        
+        .platform-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .platform-status.connected {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .platform-status.disconnected {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .platform-status.error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        
+        .platform-stats {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .platform-footer {
+            padding: 16px 20px;
+            background: #f9fafb;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .platform-btn {
+            flex: 1;
+            padding: 8px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .platform-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        .platform-btn.primary {
+            background: #8B5CF6;
+            color: white;
+            border: none;
+        }
+        
+        .platform-btn.primary:hover {
+            background: #7c3aed;
+        }
+        
+        .platform-btn.connect {
+            background: #10b981;
+            color: white;
+            border: none;
+        }
+        
+        .platform-btn.connect:hover {
+            background: #059669;
+        }
+        
+        /* Info Section */
+        .info-section {
+            background: #fef3c7;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .info-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+        
+        .info-text {
+            font-size: 14px;
+            color: #78350f;
+            line-height: 1.6;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            margin: 40px auto;
+            max-width: 500px;
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        
+        .empty-text {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar will be injected here by JavaScript -->
+        <div class="main-wrapper">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h1 class="page-title">Platform Integrations</h1>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn">Sync All</button>
+                    <button class="header-btn primary">+ Add Platform</button>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <!-- Info Section -->
+                <div class="info-section">
+                    <h2 class="info-title">💡 Platform Management</h2>
+                    <p class="info-text">
+                        Connect your advertising accounts from various platforms to manage all your campaigns in one place.
+                        Keep your accounts synced for real-time performance tracking and optimization.
+                    </p>
+                </div>
+                
+                <!-- Platforms Grid -->
+                <div class="platforms-grid">
+                    <!-- Meta Platform -->
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-logo meta">f</div>
+                            <div class="platform-info">
+                                <h3 class="platform-name">Meta Ads Manager</h3>
+                                <span class="platform-status connected">
+                                    <span class="status-dot"></span>
+                                    Connected
+                                </span>
+                            </div>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Accounts</span>
+                                <span class="stat-value">3</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Campaigns</span>
+                                <span class="stat-value">12</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Last Sync</span>
+                                <span class="stat-value">2 min</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value">Active</span>
+                            </div>
+                        </div>
+                        <div class="platform-footer">
+                            <button class="platform-btn">Settings</button>
+                            <button class="platform-btn">Sync</button>
+                            <button class="platform-btn primary">Manage</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Google Ads -->
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-logo google">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Google_Ads_logo.svg" width="32" alt="Google Ads">
+                            </div>
+                            <div class="platform-info">
+                                <h3 class="platform-name">Google Ads</h3>
+                                <span class="platform-status connected">
+                                    <span class="status-dot"></span>
+                                    Connected
+                                </span>
+                            </div>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Accounts</span>
+                                <span class="stat-value">2</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Campaigns</span>
+                                <span class="stat-value">8</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Last Sync</span>
+                                <span class="stat-value">5 min</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value">Active</span>
+                            </div>
+                        </div>
+                        <div class="platform-footer">
+                            <button class="platform-btn">Settings</button>
+                            <button class="platform-btn">Sync</button>
+                            <button class="platform-btn primary">Manage</button>
+                        </div>
+                    </div>
+                    
+                    <!-- TikTok Ads -->
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-logo tiktok">♪</div>
+                            <div class="platform-info">
+                                <h3 class="platform-name">TikTok Ads Manager</h3>
+                                <span class="platform-status disconnected">
+                                    <span class="status-dot"></span>
+                                    Not Connected
+                                </span>
+                            </div>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Accounts</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Campaigns</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Last Sync</span>
+                                <span class="stat-value">Never</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                        </div>
+                        <div class="platform-footer">
+                            <button class="platform-btn connect">Connect</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Snapchat Ads -->
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-logo snapchat">👻</div>
+                            <div class="platform-info">
+                                <h3 class="platform-name">Snapchat Ads</h3>
+                                <span class="platform-status disconnected">
+                                    <span class="status-dot"></span>
+                                    Not Connected
+                                </span>
+                            </div>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Accounts</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Campaigns</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Last Sync</span>
+                                <span class="stat-value">Never</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                        </div>
+                        <div class="platform-footer">
+                            <button class="platform-btn connect">Connect</button>
+                        </div>
+                    </div>
+                    
+                    <!-- LinkedIn Ads -->
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-logo linkedin">in</div>
+                            <div class="platform-info">
+                                <h3 class="platform-name">LinkedIn Campaign Manager</h3>
+                                <span class="platform-status error">
+                                    <span class="status-dot"></span>
+                                    Token Expired
+                                </span>
+                            </div>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Accounts</span>
+                                <span class="stat-value">1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Campaigns</span>
+                                <span class="stat-value">4</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Last Sync</span>
+                                <span class="stat-value">2 days</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value">Error</span>
+                            </div>
+                        </div>
+                        <div class="platform-footer">
+                            <button class="platform-btn">Reconnect</button>
+                            <button class="platform-btn primary">Fix Issue</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Twitter Ads -->
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-logo twitter">𝕏</div>
+                            <div class="platform-info">
+                                <h3 class="platform-name">X Ads (Twitter)</h3>
+                                <span class="platform-status disconnected">
+                                    <span class="status-dot"></span>
+                                    Not Connected
+                                </span>
+                            </div>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Accounts</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Campaigns</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Last Sync</span>
+                                <span class="stat-value">Never</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                        </div>
+                        <div class="platform-footer">
+                            <button class="platform-btn connect">Connect</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Amazon Ads -->
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-logo amazon">A</div>
+                            <div class="platform-info">
+                                <h3 class="platform-name">Amazon Advertising</h3>
+                                <span class="platform-status disconnected">
+                                    <span class="status-dot"></span>
+                                    Not Connected
+                                </span>
+                            </div>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Accounts</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Campaigns</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Last Sync</span>
+                                <span class="stat-value">Never</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                        </div>
+                        <div class="platform-footer">
+                            <button class="platform-btn connect">Connect</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Pinterest Ads -->
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-logo pinterest">P</div>
+                            <div class="platform-info">
+                                <h3 class="platform-name">Pinterest Business</h3>
+                                <span class="platform-status disconnected">
+                                    <span class="status-dot"></span>
+                                    Not Connected
+                                </span>
+                            </div>
+                        </div>
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Accounts</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Campaigns</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Last Sync</span>
+                                <span class="stat-value">Never</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value">-</span>
+                            </div>
+                        </div>
+                        <div class="platform-footer">
+                            <button class="platform-btn connect">Connect</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Core JavaScript Libraries -->
+    <script src="js/storage.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/sidebar.js"></script>
+    
+    <script>
+        // Platform connection handlers
+        document.querySelectorAll('.platform-btn.connect, .platform-btn.primary').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.platform-card');
+                const platformName = card.querySelector('.platform-name').textContent;
+                
+                if (this.classList.contains('connect')) {
+                    if (confirm(`Connect to ${platformName}?`)) {
+                        alert(`Opening OAuth flow for ${platformName}...`);
+                        // Here would be the actual OAuth integration
+                    }
+                } else if (this.textContent === 'Fix Issue') {
+                    alert(`Refreshing authentication token for ${platformName}...`);
+                } else if (this.textContent === 'Manage') {
+                    window.location.href = `platform-details.html?platform=${platformName.toLowerCase().replace(/\s+/g, '-')}`;
+                }
+            });
+        });
+        
+        // Sync handlers
+        document.querySelectorAll('.platform-btn').forEach(btn => {
+            if (btn.textContent === 'Sync') {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.platform-card');
+                    const platformName = card.querySelector('.platform-name').textContent;
+                    
+                    this.textContent = 'Syncing...';
+                    this.disabled = true;
+                    
+                    setTimeout(() => {
+                        this.textContent = 'Sync';
+                        this.disabled = false;
+                        alert(`${platformName} synced successfully!`);
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

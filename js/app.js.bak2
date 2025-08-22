@@ -237,7 +237,7 @@ class AdbidApp {
             const data = Object.fromEntries(formData.entries());
             console.log('Saving data:', data);
             
-            // Save to localStorage
+            // Save в localStorage
             const section = this.getCurrentSection();
             if (section === 'settings') {
                 Storage.set(Storage.keys.SETTINGS, data);
@@ -382,7 +382,7 @@ class AdbidApp {
         console.log('Form submitted:', data);
         this.showNotification('Form submitted successfully', 'success');
         
-        // Save form data
+        // Save данных формы
         const formId = form.id || form.name;
         if (formId) {
             Storage.set(`form_${formId}`, data);
@@ -394,7 +394,7 @@ class AdbidApp {
         const select = e.target;
         console.log(`Select changed: ${select.name} = ${select.value}`);
         
-        // Save state
+        // Save состояния
         const formData = this.getFormData(select.closest('form'));
         if (formData) {
             Storage.set(Storage.keys.DRAFT_CAMPAIGN, formData);
@@ -423,7 +423,7 @@ class AdbidApp {
     
     // Show notification
     showNotification(message, type = 'info') {
-        // Create notification element
+        // Create элемента уведомления
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.style.cssText = `
@@ -443,19 +443,19 @@ class AdbidApp {
         
         document.body.appendChild(notification);
         
-        // Delete after 3 seconds
+        // Delete через 3 секунды
         setTimeout(() => {
             notification.style.animation = 'slideOut 0.3s ease';
             setTimeout(() => notification.remove(), 300);
         }, 3000);
     }
     
-    // Show modal
+    // Показать модальное окно
     showModal(title, content) {
-        // Delete existing modal
+        // Delete существующего модального окна
         this.closeModal();
         
-        // Create modal
+        // Create модального окна
         const modal = document.createElement('div');
         modal.id = 'app-modal';
         modal.style.cssText = `
@@ -499,7 +499,7 @@ class AdbidApp {
         modal.appendChild(modalContent);
         document.body.appendChild(modal);
         
-        // Close on background click
+        // Закрытие по клику на фон
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 this.closeModal();
@@ -507,7 +507,7 @@ class AdbidApp {
         });
     }
     
-    // Close modal
+    // Закрыть модальное окно
     closeModal() {
         const modal = document.getElementById('app-modal');
         if (modal) {
@@ -515,7 +515,7 @@ class AdbidApp {
         }
     }
     
-    // Get audience form
+    // Получить форму аудитории
     getAudienceForm() {
         return `
             <form id="audience-form">
@@ -567,7 +567,7 @@ class AdbidApp {
         `;
     }
     
-    // Get creative form
+    // Получить форму креатива
     getCreativeForm() {
         return `
             <form id="creative-form">
@@ -615,7 +615,7 @@ class AdbidApp {
         `;
     }
     
-    // Get current section
+    // Получить текущую секцию
     getCurrentSection() {
         const activeSection = document.querySelector('.dashboard-section.active');
         if (activeSection) {
@@ -624,9 +624,9 @@ class AdbidApp {
         return 'overview';
     }
     
-    // Update integration UI
+    // Обновить UI интеграции
     updateIntegrationUI(platform) {
-        // Update integration card
+        // Обновление карточки интеграции
         const cards = document.querySelectorAll('.platform-card');
         cards.forEach(card => {
             if (card.textContent.includes(platform)) {
@@ -640,9 +640,9 @@ class AdbidApp {
         });
     }
     
-    // Update UI
+    // Обновление UI
     updateUI() {
-        // Update user information
+        // Обновление информации о пользователе
         const userNameElements = document.querySelectorAll('.user-name');
         userNameElements.forEach(el => {
             el.textContent = this.currentUser.name;
@@ -653,14 +653,14 @@ class AdbidApp {
             el.textContent = this.currentUser.avatar;
         });
         
-        // Update statistics
+        // Обновление статистики
         this.updateStats();
         
-        // Update tables
+        // Обновление таблиц
         this.updateTables();
     }
     
-    // Update statistics
+    // Обновление статистики
     updateStats() {
         const campaigns = Storage.get(Storage.keys.CAMPAIGNS, []);
         const activeCampaigns = campaigns.filter(c => c.status === 'active');
@@ -670,7 +670,7 @@ class AdbidApp {
             : 0;
         const totalConversions = campaigns.reduce((sum, c) => sum + c.conversions, 0);
         
-        // Update values
+        // Обновление значений
         const statValues = document.querySelectorAll('.stat-value');
         if (statValues[0]) statValues[0].textContent = `$${totalSpend.toLocaleString()}`;
         if (statValues[1]) statValues[1].textContent = activeCampaigns.length;
@@ -678,7 +678,7 @@ class AdbidApp {
         if (statValues[3]) statValues[3].textContent = totalConversions.toLocaleString();
     }
     
-    // Update tables
+    // Обновление таблиц
     updateTables() {
         const campaigns = Storage.get(Storage.keys.CAMPAIGNS, []);
         const tbody = document.querySelector('.campaigns-table tbody');
@@ -708,7 +708,7 @@ class AdbidApp {
         }
     }
     
-    // View campaign
+    // Просмотр кампании
     viewCampaign(campaignId) {
         const campaign = Storage.get(Storage.keys.CAMPAIGNS, []).find(c => c.id === campaignId);
         if (campaign) {
@@ -727,20 +727,20 @@ class AdbidApp {
     }
 }
 
-// Initialize application on page load
+// Инициализация приложения при загрузке страницы
 let app;
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         app = new AdbidApp();
-        window.app = app; // Make available globally
+        window.app = app; // Делаем доступным глобально
     });
 } else {
     app = new AdbidApp();
     window.app = app;
 }
 
-// Add animation styles
+// Добавление стилей для анимаций
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {

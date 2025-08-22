@@ -1,5 +1,5 @@
 /**
- * Campaign Wizard - управление мастером создания кампаний
+ * Campaign Wizard - campaign creation wizard management
  */
 class CampaignWizard {
     constructor() {
@@ -10,25 +10,25 @@ class CampaignWizard {
     }
     
     init() {
-        // Загрузка сохраненного черновика
+        // Load saved draft
         this.loadDraft();
         
-        // Определение текущего шага по URL
+        // Determine current step by URL
         this.detectCurrentStep();
         
-        // Инициализация UI для текущего шага
+        // Initialize UI for current step
         this.initStepUI();
         
-        // Обработчики навигации
+        // Navigation handlers
         this.initNavigation();
         
-        // Автосохранение
+        // Auto-save
         this.initAutoSave();
         
         console.log(`Campaign Wizard initialized - Step ${this.currentStep}`);
     }
     
-    // Определение текущего шага
+    // Determine current step
     detectCurrentStep() {
         const path = window.location.pathname;
         if (path.includes('new-campaign')) this.currentStep = 1;
@@ -38,27 +38,27 @@ class CampaignWizard {
         else if (path.includes('step5')) this.currentStep = 5;
     }
     
-    // Загрузка черновика
+    // Load draft
     loadDraft() {
         this.campaignData = Storage.get(Storage.keys.DRAFT_CAMPAIGN, {});
         console.log('Draft loaded:', this.campaignData);
     }
     
-    // Сохранение черновика
+    // Save draft
     saveDraft() {
         Storage.set(Storage.keys.DRAFT_CAMPAIGN, this.campaignData);
         console.log('Draft saved:', this.campaignData);
     }
     
-    // Инициализация UI для шага
+    // Initialize UI for step
     initStepUI() {
-        // Обновление прогресс-бара
+        // Update progress bar
         this.updateProgressBar();
         
-        // Заполнение полей из черновика
+        // Fill fields from draft
         this.populateFields();
         
-        // Специфичная инициализация для каждого шага
+        // Specific initialization for each step
         switch(this.currentStep) {
             case 1:
                 this.initStep1();
@@ -78,23 +78,23 @@ class CampaignWizard {
         }
     }
     
-    // Шаг 1: Основная информация
+    // Step 1: Basic information
     initStep1() {
-        // Заполнение типов кампаний
+        // Fill campaign types
         const objectiveCards = document.querySelectorAll('.objective-card');
         objectiveCards.forEach(card => {
             card.addEventListener('click', (e) => {
-                // Снять выделение со всех
+                // Deselect all
                 objectiveCards.forEach(c => c.classList.remove('selected'));
-                // Выделить текущую
+                // Select current
                 card.classList.add('selected');
                 
-                // Сохранить выбор
+                // Save selection
                 const objective = card.dataset.objective || card.querySelector('h3')?.textContent;
                 this.campaignData.objective = objective;
                 this.saveDraft();
                 
-                // Показать кнопку продолжения
+                // Show continue button
                 const continueBtn = document.querySelector('.continue-btn');
                 if (continueBtn) {
                     continueBtn.disabled = false;
@@ -103,7 +103,7 @@ class CampaignWizard {
             });
         });
         
-        // Обработка имени кампании
+        // Handle campaign name
         const nameInput = document.querySelector('input[name="campaignName"], #campaignName');
         if (nameInput) {
             nameInput.value = this.campaignData.campaignName || '';
@@ -114,9 +114,9 @@ class CampaignWizard {
         }
     }
     
-    // Шаг 2: Таргетинг
+    // Step 2: Targeting
     initStep2() {
-        // Платформы
+        // Platforms
         const platformBtns = document.querySelectorAll('.platform-btn');
         platformBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -127,10 +127,10 @@ class CampaignWizard {
             });
         });
         
-        // Аудитории
+        // Audiences
         const audienceSelect = document.querySelector('select[name="audience"]');
         if (audienceSelect) {
-            // Заполнение списка аудиторий
+            // Fill audiences list
             const audiences = Storage.get(Storage.keys.AUDIENCES, MockData.audiences);
             audienceSelect.innerHTML = '<option value="">Select audience</option>';
             audiences.forEach(aud => {
@@ -147,14 +147,14 @@ class CampaignWizard {
             });
         }
         
-        // Локации
+        // Locations
         this.initLocationSelector();
         
-        // Демографические данные
+        // Demographics
         this.initDemographics();
     }
     
-    // Инициализация выбора локаций
+    // Initialize location selection
     initLocationSelector() {
         const locationInput = document.querySelector('input[name="locations"]');
         if (locationInput) {
@@ -164,7 +164,7 @@ class CampaignWizard {
         }
     }
     
-    // Модальное окно выбора локаций
+    // Location selection modal
     showLocationModal() {
         const locations = MockData.dropdownOptions.locations;
         const selected = this.campaignData.locations || [];
@@ -187,7 +187,7 @@ class CampaignWizard {
         }
     }
     
-    // Переключение локации
+    // Toggle location
     toggleLocation(locationId) {
         if (!this.campaignData.locations) {
             this.campaignData.locations = [];
@@ -204,7 +204,7 @@ class CampaignWizard {
         this.updateLocationDisplay();
     }
     
-    // Обновление отображения локаций
+    // Update locations display
     updateLocationDisplay() {
         const input = document.querySelector('input[name="locations"]');
         if (input && this.campaignData.locations) {
@@ -216,9 +216,9 @@ class CampaignWizard {
         }
     }
     
-    // Инициализация демографических настроек
+    // Initialize demographic settings
     initDemographics() {
-        // Возраст
+        // Age
         const ageInputs = document.querySelectorAll('input[name="ageMin"], input[name="ageMax"]');
         ageInputs.forEach(input => {
             input.value = this.campaignData[input.name] || '';
@@ -228,7 +228,7 @@ class CampaignWizard {
             });
         });
         
-        // Пол
+        // Gender
         const genderRadios = document.querySelectorAll('input[name="gender"]');
         genderRadios.forEach(radio => {
             if (this.campaignData.gender === radio.value) {
@@ -241,9 +241,9 @@ class CampaignWizard {
         });
     }
     
-    // Шаг 3: Креативы
+    // Step 3: Creatives
     initStep3() {
-        // Загрузка креативов
+        // Load creatives
         const uploadBtn = document.querySelector('.upload-btn');
         if (uploadBtn) {
             uploadBtn.addEventListener('click', () => {
@@ -251,14 +251,14 @@ class CampaignWizard {
             });
         }
         
-        // Отображение загруженных креативов
+        // Display uploaded creatives
         this.displayCreatives();
         
         // Drag & Drop
         this.initDragDrop();
     }
     
-    // Обработка загрузки креативов
+    // Handle creative upload
     handleCreativeUpload() {
         const input = document.createElement('input');
         input.type = 'file';
@@ -295,7 +295,7 @@ class CampaignWizard {
         input.click();
     }
     
-    // Отображение креативов
+    // Display creatives
     displayCreatives() {
         const container = document.querySelector('.creatives-grid, .creatives-container');
         if (!container) return;
@@ -341,7 +341,7 @@ class CampaignWizard {
         `).join('');
     }
     
-    // Удаление креатива
+    // Remove creative
     removeCreative(creativeId) {
         if (this.campaignData.creatives) {
             this.campaignData.creatives = this.campaignData.creatives.filter(c => c.id !== creativeId);
@@ -350,7 +350,7 @@ class CampaignWizard {
         }
     }
     
-    // Инициализация Drag & Drop
+    // Initialize Drag & Drop
     initDragDrop() {
         const dropZone = document.querySelector('.upload-area, .creatives-container');
         if (!dropZone) return;
@@ -370,7 +370,7 @@ class CampaignWizard {
             dropZone.style.background = '';
             
             const files = Array.from(e.dataTransfer.files);
-            // Симуляция обработки файлов
+            // Simulate file processing
             const input = document.createElement('input');
             input.type = 'file';
             input.files = e.dataTransfer.files;
@@ -379,9 +379,9 @@ class CampaignWizard {
         });
     }
     
-    // Шаг 4: Бюджет и расписание
+    // Step 4: Budget and schedule
     initStep4() {
-        // Бюджет
+        // Budget
         const budgetInput = document.querySelector('input[name="budget"], #budget');
         if (budgetInput) {
             budgetInput.value = this.campaignData.budget || '';
@@ -392,7 +392,7 @@ class CampaignWizard {
             });
         }
         
-        // Тип бюджета
+        // Budget type
         const budgetTypeRadios = document.querySelectorAll('input[name="budgetType"]');
         budgetTypeRadios.forEach(radio => {
             if (this.campaignData.budgetType === radio.value) {
@@ -404,7 +404,7 @@ class CampaignWizard {
             });
         });
         
-        // Даты
+        // Dates
         const startDate = document.querySelector('input[name="startDate"]');
         const endDate = document.querySelector('input[name="endDate"]');
         
@@ -426,7 +426,7 @@ class CampaignWizard {
             });
         }
         
-        // Стратегия ставок
+        // Bidding strategy
         const bidStrategySelect = document.querySelector('select[name="bidStrategy"]');
         if (bidStrategySelect) {
             bidStrategySelect.value = this.campaignData.bidStrategy || '';
@@ -437,7 +437,7 @@ class CampaignWizard {
         }
     }
     
-    // Обновление превью бюджета
+    // Update budget preview
     updateBudgetPreview() {
         const preview = document.querySelector('.budget-preview');
         if (preview && this.campaignData.budget) {
@@ -449,7 +449,7 @@ class CampaignWizard {
         }
     }
     
-    // Обновление превью расписания
+    // Update schedule preview
     updateSchedulePreview() {
         const preview = document.querySelector('.schedule-preview');
         if (preview && this.campaignData.startDate && this.campaignData.endDate) {
@@ -465,12 +465,12 @@ class CampaignWizard {
         }
     }
     
-    // Шаг 5: Проверка и запуск
+    // Step 5: Review and launch
     initStep5() {
-        // Отображение сводки
+        // Display summary
         this.displaySummary();
         
-        // Кнопка запуска
+        // Launch button
         const launchBtn = document.querySelector('.launch-btn');
         if (launchBtn) {
             launchBtn.addEventListener('click', () => {
@@ -479,7 +479,7 @@ class CampaignWizard {
         }
     }
     
-    // Отображение сводки кампании
+    // Display campaign summary
     displaySummary() {
         const container = document.querySelector('.summary-container, .review-section');
         if (!container) return;
@@ -534,14 +534,14 @@ class CampaignWizard {
         container.innerHTML = summary;
     }
     
-    // Запуск кампании
+    // Launch campaign
     launchCampaign() {
-        // Валидация
+        // Validation
         if (!this.validateCampaign()) {
             return;
         }
         
-        // Создание кампании
+        // Create campaign
         const campaign = {
             id: MockData.generateId('camp'),
             ...this.campaignData,
@@ -554,24 +554,24 @@ class CampaignWizard {
             roas: 0
         };
         
-        // Сохранение кампании
+        // Save campaign
         Storage.addToArray(Storage.keys.CAMPAIGNS, campaign);
         
-        // Очистка черновика
+        // Clear draft
         Storage.remove(Storage.keys.DRAFT_CAMPAIGN);
         
-        // Уведомление
+        // Notification
         if (window.app) {
             window.app.showNotification('Campaign launched successfully!', 'success');
         }
         
-        // Редирект на dashboard
+        // Redirect to dashboard
         setTimeout(() => {
             window.location.href = 'dashboard.html';
         }, 2000);
     }
     
-    // Валидация кампании
+    // Validate campaign
     validateCampaign() {
         const required = ['campaignName', 'objective', 'platform', 'budget'];
         const missing = [];
@@ -592,7 +592,7 @@ class CampaignWizard {
         return true;
     }
     
-    // Обновление прогресс-бара
+    // Update progress bar
     updateProgressBar() {
         const progressBar = document.querySelector('.progress-bar, .step-progress');
         if (progressBar) {
@@ -600,7 +600,7 @@ class CampaignWizard {
             progressBar.style.width = `${progress}%`;
         }
         
-        // Обновление индикаторов шагов
+        // Update step indicators
         const steps = document.querySelectorAll('.step-indicator, .step');
         steps.forEach((step, index) => {
             if (index < this.currentStep) {
@@ -611,9 +611,9 @@ class CampaignWizard {
         });
     }
     
-    // Заполнение полей из черновика
+    // Fill fields from draft
     populateFields() {
-        // Заполнение всех input полей
+        // Fill all input fields
         Object.keys(this.campaignData).forEach(key => {
             const input = document.querySelector(`input[name="${key}"], #${key}`);
             if (input) {
@@ -632,9 +632,9 @@ class CampaignWizard {
         });
     }
     
-    // Инициализация навигации
+    // Initialize navigation
     initNavigation() {
-        // Кнопка "Назад"
+        // Back button
         const backBtn = document.querySelector('.back-btn, .btn-back');
         if (backBtn) {
             backBtn.addEventListener('click', () => {
@@ -642,7 +642,7 @@ class CampaignWizard {
             });
         }
         
-        // Кнопка "Далее"
+        // Next button
         const nextBtn = document.querySelector('.next-btn, .btn-next, .continue-btn');
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
@@ -650,7 +650,7 @@ class CampaignWizard {
             });
         }
         
-        // Навигация по шагам
+        // Step navigation
         const stepLinks = document.querySelectorAll('.step-link');
         stepLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -663,21 +663,21 @@ class CampaignWizard {
         });
     }
     
-    // Переход на предыдущий шаг
+    // Go to previous step
     goToPreviousStep() {
         if (this.currentStep > 1) {
             this.goToStep(this.currentStep - 1);
         }
     }
     
-    // Переход на следующий шаг
+    // Go to next step
     goToNextStep() {
         if (this.currentStep < this.totalSteps) {
             this.goToStep(this.currentStep + 1);
         }
     }
     
-    // Переход на конкретный шаг
+    // Go to specific step
     goToStep(step) {
         const urls = {
             1: 'new-campaign.html',
@@ -692,9 +692,9 @@ class CampaignWizard {
         }
     }
     
-    // Инициализация автосохранения
+    // Initialize auto-save
     initAutoSave() {
-        // Сохранение при изменении любого поля
+        // Save on any field change
         document.addEventListener('input', (e) => {
             if (e.target.matches('input, textarea, select')) {
                 clearTimeout(this.autoSaveTimeout);
@@ -707,7 +707,7 @@ class CampaignWizard {
         });
     }
     
-    // Сбор данных из всех форм
+    // Collect data from all forms
     collectFormData() {
         const forms = document.querySelectorAll('form');
         forms.forEach(form => {
@@ -719,7 +719,7 @@ class CampaignWizard {
     }
 }
 
-// Инициализация мастера создания кампаний
+// Initialize campaign creation wizard
 let wizard;
 
 if (document.readyState === 'loading') {

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Adbid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .back-link {
+            color: #6366f1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #818cf8;
+        }
+
+        .hero-section {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #9ca3af;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 80px;
+            align-items: start;
+        }
+
+        .contact-form-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: #e0e0e0;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px 20px;
+            color: white;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: #6366f1;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        .form-select option {
+            background: #1a1f3a;
+            color: white;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .info-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .info-content {
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .contact-link {
+            color: #6366f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-link:hover {
+            color: #818cf8;
+        }
+
+        .offices-section {
+            margin: 80px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        .offices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .office-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .office-flag {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .office-city {
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .office-address {
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .office-phone {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .faq-section {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 30px;
+            padding: 60px 40px;
+            margin: 80px 0;
+        }
+
+        .faq-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-toggle {
+            color: #6366f1;
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            padding: 0 30px 25px;
+            color: #9ca3af;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .support-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .support-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .support-card:hover {
+            transform: translateY(-5px);
+            border-color: #6366f1;
+        }
+
+        .support-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+        }
+
+        .support-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .support-description {
+            color: #9ca3af;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .support-link {
+            background: rgba(99, 102, 241, 0.2);
+            color: #c7d2fe;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .support-link:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .faq-section {
+                padding: 40px 20px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .contact-form-section {
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon">A</div>
+                    <span style="font-size: 24px; font-weight: 700;">Adbid</span>
+                </a>
+                <a href="/" class="back-link">
+                    ← Home
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h1>Contact</h1>
+                <p class="subtitle">Get in touch with our team for consultation or support</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-form-section">
+                        <h2 class="form-title">Send us a message</h2>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label class="form-label" for="name">Name *</label>
+                                <input type="text" id="name" class="form-input" placeholder="Your name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email *</label>
+                                <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="company">Company</label>
+                                <input type="text" id="company" class="form-input" placeholder="Company name">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="subject">Subject *</label>
+                                <select id="subject" class="form-select" required>
+                                    <option value="">Select a topic</option>
+                                    <option value="demo">Product demo</option>
+                                    <option value="pricing">Pricing questions</option>
+                                    <option value="technical">Technical support</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="message">Message *</label>
+                                <textarea id="message" class="form-textarea" placeholder="Tell us more about your inquiry..." required></textarea>
+                            </div>
+
+                            <button type="submit" class="submit-btn">Send message</button>
+                        </form>
+                    </div>
+
+                    <div class="contact-info">
+                        <div class="info-card">
+                            <div class="info-icon">📧</div>
+                            <h3 class="info-title">Email</h3>
+                            <div class="info-content">
+                                <p>General inquiries:<br>
+                                <a href="mailto:hello@adbid.com" class="contact-link">hello@adbid.com</a></p>
+                                
+                                <p>Support:<br>
+                                <a href="mailto:support@adbid.com" class="contact-link">support@adbid.com</a></p>
+                                
+                                <p>Partnership:<br>
+                                <a href="mailto:partners@adbid.com" class="contact-link">partners@adbid.com</a></p>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-icon">💬</div>
+                            <h3 class="info-title">Live chat</h3>
+                            <div class="info-content">
+                                <p>Available 24/7 for urgent questions</p>
+                                <a href="#" class="contact-link">Open chat</a>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-icon">📱</div>
+                            <h3 class="info-title">Social media</h3>
+                            <div class="info-content">
+                                <p><a href="#" class="contact-link">LinkedIn</a></p>
+                                <p><a href="#" class="contact-link">Twitter</a></p>
+                                <p><a href="#" class="contact-link">Telegram</a></p>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-icon">⏰</div>
+                            <h3 class="info-title">Business hours</h3>
+                            <div class="info-content">
+                                <p>Mon-Fri: 9:00 AM - 6:00 PM (MSK)<br>
+                                Sat-Sun: online support only</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="offices-section">
+            <div class="container">
+                <h2 class="section-title">Our offices</h2>
+                
+                <div class="offices-grid">
+                    <div class="office-card">
+                        <div class="office-flag">🇷🇺</div>
+                        <h3 class="office-city">Moscow</h3>
+                        <p class="office-address">
+                            7 Tverskaya St.<br>
+                            Moscow, 125009<br>
+                            Russia
+                        </p>
+                        <a href="tel:+74951234567" class="office-phone">+7 (495) 123-45-67</a>
+                    </div>
+
+                    <div class="office-card">
+                        <div class="office-flag">🇺🇸</div>
+                        <h3 class="office-city">San Francisco</h3>
+                        <p class="office-address">
+                            548 Market St, #80636<br>
+                            San Francisco, CA 94104<br>
+                            USA
+                        </p>
+                        <a href="tel:+14155551234" class="office-phone">+1 (415) 555-1234</a>
+                    </div>
+
+                    <div class="office-card">
+                        <div class="office-flag">🇸🇬</div>
+                        <h3 class="office-city">Singapore</h3>
+                        <p class="office-address">
+                            1 Raffles Place, #20-61<br>
+                            One Raffles Place<br>
+                            Singapore 048616
+                        </p>
+                        <a href="tel:+6561234567" class="office-phone">+65 6123 4567</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">Support options</h2>
+                
+                <div class="support-options">
+                    <div class="support-card">
+                        <div class="support-icon">📚</div>
+                        <h3 class="support-title">Knowledge base</h3>
+                        <p class="support-description">Detailed articles and guides for using the platform</p>
+                        <a href="/documentation.html" class="support-link">View documentation</a>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="support-icon">🎥</div>
+                        <h3 class="support-title">Video tutorials</h3>
+                        <p class="support-description">Step-by-step video instructions for setup and usage</p>
+                        <a href="#" class="support-link">Watch videos</a>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="support-icon">👨‍💻</div>
+                        <h3 class="support-title">Personal consultation</h3>
+                        <p class="support-description">Individual setup and training for your team</p>
+                        <a href="#" class="support-link">Schedule a call</a>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="support-icon">🛠️</div>
+                        <h3 class="support-title">API documentation</h3>
+                        <p class="support-description">Technical documentation for developers</p>
+                        <a href="#" class="support-link">API Reference</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="container">
+                <h2 class="faq-title">Frequently asked questions</h2>
+                
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How quickly can I start working with Adbid?</span>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Registration and basic setup takes about 10 minutes. After connecting your ad accounts, you can immediately start analyzing data. For complete automation setup, we recommend conducting an onboarding session with our specialist.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Which advertising platforms does Adbid support?</span>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Currently, we support Facebook Ads, Instagram Ads, Google Ads, TikTok Ads, and Snapchat Ads. Integrations with other platforms are added regularly based on customer requests.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Do I need to provide access to my advertising accounts?</span>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Adbid connects to your accounts through official platform APIs with minimal access rights. We only receive read-only data for analytics, without the ability to change settings without your explicit permission.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Is there a trial period?</span>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, we offer a 14-day free trial period with full functionality. No credit card is required to start the trial period.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Can Adbid be integrated with our internal systems?</span>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, we provide REST API and webhooks for integration with CRMs, analytics systems, and other tools. Ready-made integrations with popular platforms are also available.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const company = document.getElementById('company').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Basic validation
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Simulate form submission
+            alert('Thank you for your message! We will contact you within 24 hours.');
+            this.reset();
+        });
+
+        // Chat link
+        document.querySelector('a[href="#"]:contains("Open chat")').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Chat will open in a separate window');
+        });
+    </script>
+</body>
+</html>

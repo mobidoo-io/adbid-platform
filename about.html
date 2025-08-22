@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Adbid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .back-link {
+            color: #6366f1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #818cf8;
+        }
+
+        .hero-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #9ca3af;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 16px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        h2 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 18px;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mission-card {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .mission-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 20px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .value-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .value-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .value-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .value-description {
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .team-section {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 80px 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .member-photo {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .member-role {
+            color: #6366f1;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .member-bio {
+            color: #9ca3af;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        .investors-section {
+            padding: 80px 0;
+        }
+
+        .investors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .investor-logo {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 120px;
+            transition: all 0.3s;
+        }
+
+        .investor-logo:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 60px auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #6366f1 0%, #a78bfa 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            padding-right: 50%;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            padding-left: 50%;
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #6366f1;
+            border: 4px solid #1a1f3a;
+            border-radius: 50%;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 0 20px;
+        }
+
+        .timeline-date {
+            color: #6366f1;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .timeline-description {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                padding-left: 60px !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon">A</div>
+                    <span style="font-size: 24px; font-weight: 700;">Adbid</span>
+                </a>
+                <a href="/" class="back-link">
+                    ← Back to Home
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero-section">
+        <div class="container">
+            <h1>Empowering Advertisers<br>with AI-Driven Insights</h1>
+            <p class="subtitle">We're on a mission to make Meta Ads optimization accessible, intelligent, and profitable for businesses of all sizes.</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Happy Customers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$2.5B</div>
+                    <div class="stat-label">Ad Spend Managed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4.2x</div>
+                    <div class="stat-label">Average ROAS Improvement</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Customer Retention</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <h2>Our Mission</h2>
+            <div class="mission-card">
+                <div class="mission-icon">🚀</div>
+                <h3 style="font-size: 28px; margin-bottom: 20px;">Democratizing Advanced Ad Optimization</h3>
+                <p style="font-size: 18px; line-height: 1.8; color: #d1d5db;">
+                    We believe every business deserves access to enterprise-level advertising intelligence. 
+                    Our platform leverages cutting-edge AI and machine learning to provide insights and 
+                    optimization capabilities that were once only available to Fortune 500 companies.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Our Values</h2>
+            <p class="section-subtitle">The principles that guide everything we do</p>
+
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">💡</div>
+                    <h3 class="value-title">Innovation First</h3>
+                    <p class="value-description">We constantly push the boundaries of what's possible in ad tech, staying ahead of industry trends and platform changes.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">📊</div>
+                    <h3 class="value-title">Data-Driven</h3>
+                    <p class="value-description">Every decision, recommendation, and optimization is backed by rigorous data analysis and proven results.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h3 class="value-title">Customer Success</h3>
+                    <p class="value-description">Your success is our success. We're committed to providing exceptional support and continuous value.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🔒</div>
+                    <h3 class="value-title">Trust & Security</h3>
+                    <p class="value-description">We handle your data with the utmost care, maintaining SOC 2 compliance and industry-leading security standards.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">⚡</div>
+                    <h3 class="value-title">Speed & Efficiency</h3>
+                    <p class="value-description">Time is money in advertising. Our platform is built for speed, delivering insights and optimizations in real-time.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🌱</div>
+                    <h3 class="value-title">Continuous Growth</h3>
+                    <p class="value-description">We're always learning, improving, and evolving our platform based on customer feedback and market needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container">
+            <h2>Leadership Team</h2>
+            <p class="section-subtitle">Meet the people driving innovation at Adbid</p>
+
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-photo">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px;">👨‍💼</div>
+                    </div>
+                    <h3 class="member-name">Michael Chen</h3>
+                    <p class="member-role">Co-Founder & CEO</p>
+                    <p class="member-bio">Former Meta ads product manager with 10+ years in ad tech</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">X</a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-photo">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px;">👩‍💼</div>
+                    </div>
+                    <h3 class="member-name">Sarah Johnson</h3>
+                    <p class="member-role">Co-Founder & CTO</p>
+                    <p class="member-bio">AI researcher from Stanford, expertise in ML optimization</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">X</a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-photo">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px;">👨‍💻</div>
+                    </div>
+                    <h3 class="member-name">David Park</h3>
+                    <p class="member-role">VP of Engineering</p>
+                    <p class="member-bio">Previously built ad platforms at Google and Amazon</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">G</a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-photo">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px;">👩‍🔬</div>
+                    </div>
+                    <h3 class="member-name">Emily Rodriguez</h3>
+                    <p class="member-role">Head of Data Science</p>
+                    <p class="member-bio">PhD in Statistics, pioneered cohort analysis methods</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">G</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Our Journey</h2>
+            <p class="section-subtitle">Key milestones in our growth story</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2020</div>
+                        <div class="timeline-title">Founded</div>
+                        <div class="timeline-description">Started with a vision to democratize ad optimization</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2021</div>
+                        <div class="timeline-title">Seed Funding</div>
+                        <div class="timeline-description">Raised $5M from top Silicon Valley investors</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2022</div>
+                        <div class="timeline-title">100 Customers</div>
+                        <div class="timeline-description">Reached our first major customer milestone</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023</div>
+                        <div class="timeline-title">Series A</div>
+                        <div class="timeline-description">$25M funding to accelerate product development</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2024</div>
+                        <div class="timeline-title">Global Expansion</div>
+                        <div class="timeline-description">Launched in Europe and Asia-Pacific markets</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="investors-section">
+        <div class="container">
+            <h2>Backed by Industry Leaders</h2>
+            <p class="section-subtitle">Trusted and funded by top venture capital firms</p>
+
+            <div class="investors-grid">
+                <div class="investor-logo">
+                    <span style="font-size: 24px; font-weight: 700; color: #6366f1;">Sequoia</span>
+                </div>
+                <div class="investor-logo">
+                    <span style="font-size: 24px; font-weight: 700; color: #6366f1;">Y Combinator</span>
+                </div>
+                <div class="investor-logo">
+                    <span style="font-size: 24px; font-weight: 700; color: #6366f1;">Andreessen</span>
+                </div>
+                <div class="investor-logo">
+                    <span style="font-size: 24px; font-weight: 700; color: #6366f1;">Accel</span>
+                </div>
+                <div class="investor-logo">
+                    <span style="font-size: 24px; font-weight: 700; color: #6366f1;">Index</span>
+                </div>
+                <div class="investor-logo">
+                    <span style="font-size: 24px; font-weight: 700; color: #6366f1;">Founders Fund</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

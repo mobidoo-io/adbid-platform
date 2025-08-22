@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - Adbid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .back-link {
+            color: #6366f1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #818cf8;
+        }
+
+        .hero-section {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #9ca3af;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .content-section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #9ca3af;
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .positions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .position-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .position-card:hover {
+            transform: translateY(-5px);
+            border-color: #6366f1;
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+        }
+
+        .position-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .position-department {
+            color: #6366f1;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .position-description {
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .position-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .detail-tag {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #c7d2fe;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 14px;
+        }
+
+        .apply-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .apply-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+        }
+
+        .benefit-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .benefit-description {
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .culture-section {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 30px;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .culture-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .value-item {
+            text-align: center;
+        }
+
+        .value-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .value-description {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .step-description {
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 30px;
+            padding: 60px 40px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .cta-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .cta-description {
+            font-size: 18px;
+            color: #9ca3af;
+            margin-bottom: 40px;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .positions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .culture-section,
+            .cta-section {
+                padding: 40px 20px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon">A</div>
+                    <span style="font-size: 24px; font-weight: 700;">Adbid</span>
+                </a>
+                <a href="/" class="back-link">
+                    ← Home
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h1>Careers</h1>
+                <p class="subtitle">Join the team that's revolutionizing the world of advertising technology</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">Open Positions</h2>
+                <p class="section-subtitle">We're looking for talented professionals to join our team</p>
+                
+                <div class="positions-grid">
+                    <div class="position-card">
+                        <h3 class="position-title">Senior Frontend Developer</h3>
+                        <div class="position-department">Engineering</div>
+                        <p class="position-description">Develop modern interfaces for our advertising campaign analytics platform. Work with React, TypeScript, and cutting-edge technologies.</p>
+                        <div class="position-details">
+                            <span class="detail-tag">React</span>
+                            <span class="detail-tag">TypeScript</span>
+                            <span class="detail-tag">Remote</span>
+                            <span class="detail-tag">Full-time</span>
+                        </div>
+                        <a href="mailto:careers@adbid.com?subject=Senior Frontend Developer" class="apply-btn">Apply Now</a>
+                    </div>
+
+                    <div class="position-card">
+                        <h3 class="position-title">Data Scientist</h3>
+                        <div class="position-department">Data & Analytics</div>
+                        <p class="position-description">Analyze large advertising campaign datasets, create predictive models, and optimize machine learning algorithms.</p>
+                        <div class="position-details">
+                            <span class="detail-tag">Python</span>
+                            <span class="detail-tag">ML</span>
+                            <span class="detail-tag">Remote</span>
+                            <span class="detail-tag">Full-time</span>
+                        </div>
+                        <a href="mailto:careers@adbid.com?subject=Data Scientist" class="apply-btn">Apply Now</a>
+                    </div>
+
+                    <div class="position-card">
+                        <h3 class="position-title">Product Manager</h3>
+                        <div class="position-department">Product</div>
+                        <p class="position-description">Manage product strategy, work with the development team, and analyze customer needs in advertising analytics.</p>
+                        <div class="position-details">
+                            <span class="detail-tag">Product Strategy</span>
+                            <span class="detail-tag">Analytics</span>
+                            <span class="detail-tag">Hybrid</span>
+                            <span class="detail-tag">Full-time</span>
+                        </div>
+                        <a href="mailto:careers@adbid.com?subject=Product Manager" class="apply-btn">Apply Now</a>
+                    </div>
+
+                    <div class="position-card">
+                        <h3 class="position-title">Backend Engineer</h3>
+                        <div class="position-department">Engineering</div>
+                        <p class="position-description">Develop high-load APIs for processing advertising data, integrate with Meta Ads API and other advertising platforms.</p>
+                        <div class="position-details">
+                            <span class="detail-tag">Node.js</span>
+                            <span class="detail-tag">APIs</span>
+                            <span class="detail-tag">Remote</span>
+                            <span class="detail-tag">Full-time</span>
+                        </div>
+                        <a href="mailto:careers@adbid.com?subject=Backend Engineer" class="apply-btn">Apply Now</a>
+                    </div>
+
+                    <div class="position-card">
+                        <h3 class="position-title">Sales Development Representative</h3>
+                        <div class="position-department">Sales</div>
+                        <p class="position-description">Lead generation, handling inbound requests, and developing the client base in advertising technology.</p>
+                        <div class="position-details">
+                            <span class="detail-tag">B2B Sales</span>
+                            <span class="detail-tag">AdTech</span>
+                            <span class="detail-tag">Remote</span>
+                            <span class="detail-tag">Full-time</span>
+                        </div>
+                        <a href="mailto:careers@adbid.com?subject=Sales Development Representative" class="apply-btn">Apply Now</a>
+                    </div>
+
+                    <div class="position-card">
+                        <h3 class="position-title">DevOps Engineer</h3>
+                        <div class="position-department">Engineering</div>
+                        <p class="position-description">Manage cloud infrastructure, automate deployment, and ensure reliability of analytics services.</p>
+                        <div class="position-details">
+                            <span class="detail-tag">AWS</span>
+                            <span class="detail-tag">Docker</span>
+                            <span class="detail-tag">Remote</span>
+                            <span class="detail-tag">Full-time</span>
+                        </div>
+                        <a href="mailto:careers@adbid.com?subject=DevOps Engineer" class="apply-btn">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">Our Benefits</h2>
+                
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">💰</div>
+                        <h3 class="benefit-title">Competitive Compensation</h3>
+                        <p class="benefit-description">High salaries, performance bonuses, and equity options for all employees</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🏠</div>
+                        <h3 class="benefit-title">Remote Work</h3>
+                        <p class="benefit-description">Fully remote team with flexible schedule and home office support</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🎓</div>
+                        <h3 class="benefit-title">Growth & Learning</h3>
+                        <p class="benefit-description">Budget for training, conferences, and professional certifications</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🏥</div>
+                        <h3 class="benefit-title">Health Insurance</h3>
+                        <p class="benefit-description">Comprehensive health insurance for employees and their families</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🌴</div>
+                        <h3 class="benefit-title">Time Off</h3>
+                        <p class="benefit-description">28 days of paid vacation plus mental health days</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🚀</div>
+                        <h3 class="benefit-title">Startup Environment</h3>
+                        <p class="benefit-description">Fast growth, innovative projects, and the ability to influence the product</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <div class="culture-section">
+                    <h2 class="section-title">Our Culture</h2>
+                    <p class="section-subtitle">We create an environment where everyone can reach their full potential</p>
+                    
+                    <div class="culture-values">
+                        <div class="value-item">
+                            <h3 class="value-title">Innovation</h3>
+                            <p class="value-description">We always seek new solutions and aren't afraid to experiment</p>
+                        </div>
+                        <div class="value-item">
+                            <h3 class="value-title">Transparency</h3>
+                            <p class="value-description">Open communication and honest feedback at all levels</p>
+                        </div>
+                        <div class="value-item">
+                            <h3 class="value-title">Results-Driven</h3>
+                            <p class="value-description">Focus on achieving goals and measurable results</p>
+                        </div>
+                        <div class="value-item">
+                            <h3 class="value-title">Teamwork</h3>
+                            <p class="value-description">Supporting colleagues and solving complex challenges together</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">Hiring Process</h2>
+                <p class="section-subtitle">A transparent and fair candidate selection process</p>
+                
+                <div class="process-steps">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3 class="step-title">Application</h3>
+                        <p class="step-description">Submit your resume and cover letter for the position of interest</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3 class="step-title">Screening</h3>
+                        <p class="step-description">Initial conversation with HR to get acquainted and discuss expectations</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3 class="step-title">Technical Interview</h3>
+                        <p class="step-description">Discuss professional skills with your future manager</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3 class="step-title">Final Interview</h3>
+                        <p class="step-description">Meet the team and discuss cultural fit</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Ready to Join?</h2>
+                <p class="cta-description">Didn't find a suitable position? Send us your resume - we'll contact you when a suitable vacancy appears.</p>
+                <a href="mailto:careers@adbid.com?subject=General Application" class="cta-btn">Send Resume</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdBid - Audiences</title>
+    <link rel="stylesheet" href="css/sidebar.css">
     <style>
         * {
             margin: 0;
@@ -15,6 +16,18 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: #f5f5f7;
             min-height: 100vh;
+        }
+        
+        .dashboard-layout {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: 280px;
         }
         
         /* Header */
@@ -118,9 +131,10 @@
         
         /* Main Content */
         .main-content {
+            flex: 1;
             padding: 24px;
-            max-width: 1400px;
-            margin: 0 auto;
+            width: 100%;
+            overflow-x: auto;
         }
         
         /* Stats Cards */
@@ -431,14 +445,24 @@
     </style>
 </head>
 <body>
+    <script>
+    // Immediate cleanup of any text nodes
+    (function(){
+        setTimeout(function(){
+            Array.from(document.body.childNodes).forEach(function(n){
+                if(n.nodeType===3 && (n.textContent.includes('⚡') || n.textContent.includes('AdBid'))){
+                    n.remove();
+                }
+            });
+        }, 0);
+    })();
+    </script>
+    <div class="dashboard-layout">
+        <!-- Sidebar will be injected here by JavaScript -->
+        <div class="main-wrapper">
     <!-- Header -->
     <div class="header">
         <div class="header-left">
-            <button class="back-btn" onclick="window.location.href='dashboard.html'">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
-                </svg>
-            </button>
             <h1 class="page-title">Audiences</h1>
         </div>
         <div class="header-right">
@@ -690,5 +714,8 @@
     <script src="js/storage.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/sidebar.js"></script>
+        </div>
+    </div>
 </body>
 </html>

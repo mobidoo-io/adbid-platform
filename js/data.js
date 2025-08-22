@@ -1,8 +1,8 @@
 /**
- * Mock Data Service - тестовые данные для Adbid
+ * Mock Data Service - test data for Adbid
  */
 const MockData = {
-    // Пользователь
+    // User
     user: {
         id: 'user_001',
         name: 'John Doe',
@@ -15,7 +15,7 @@ const MockData = {
         twoFactor: false
     },
     
-    // Кампании
+    // Campaigns
     campaigns: [
         {
             id: 'camp_001',
@@ -64,7 +64,7 @@ const MockData = {
         }
     ],
     
-    // Аудитории
+    // Audiences
     audiences: [
         {
             id: 'aud_001',
@@ -98,7 +98,7 @@ const MockData = {
         }
     ],
     
-    // Креативы
+    // Creatives
     creatives: [
         {
             id: 'cre_001',
@@ -135,7 +135,7 @@ const MockData = {
         }
     ],
     
-    // Пиксели и события
+    // Pixels and events
     pixels: [
         {
             id: 'pix_001',
@@ -157,7 +157,7 @@ const MockData = {
         }
     ],
     
-    // Интеграции
+    // Integrations
     integrations: [
         {
             id: 'int_001',
@@ -182,7 +182,7 @@ const MockData = {
         }
     ],
     
-    // Биллинг
+    // Billing
     billing: {
         currentPlan: 'Professional',
         monthlySpend: 299,
@@ -210,7 +210,7 @@ const MockData = {
         ]
     },
     
-    // Настройки платформ
+    // Platform settings
     platformSettings: {
         meta: {
             defaultBudget: 1000,
@@ -232,7 +232,7 @@ const MockData = {
         }
     },
     
-    // Dropdown опции
+    // Dropdown options
     dropdownOptions: {
         objectives: [
             { value: 'conversions', label: 'Conversions' },
@@ -304,13 +304,13 @@ const MockData = {
         ]
     },
     
-    // Генерация ID
+    // Generate ID
     generateId(prefix = 'id') {
         return `${prefix}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     }
 };
 
-// Экспорт для использования
+// Export for use
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = MockData;
 }

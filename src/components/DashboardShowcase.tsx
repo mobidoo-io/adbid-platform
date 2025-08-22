@@ -27,7 +27,7 @@ const DashboardShowcase: React.FC = () => {
   ]
 
   return (
-    <section className="section-padding bg-gray-50">
+    <section id="use-cases" className="section-padding bg-gray-50">
       <div className="container-max">
         {/* Section Header */}
         <motion.div

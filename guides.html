@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guides & Tutorials - Adbid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .back-link {
+            color: #6366f1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #818cf8;
+        }
+
+        .hero-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #9ca3af;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto 60px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .search-input::placeholder {
+            color: #6b7280;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            color: #d1d5db;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .category-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-color: transparent;
+            color: white;
+        }
+
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .guide-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .guide-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .guide-content {
+            padding: 25px;
+        }
+
+        .guide-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(99, 102, 241, 0.2);
+            color: #a78bfa;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .guide-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #f3f4f6;
+        }
+
+        .guide-description {
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .guide-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .difficulty {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .difficulty-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .difficulty-dot.medium {
+            background: #f59e0b;
+        }
+
+        .difficulty-dot.advanced {
+            background: #ef4444;
+        }
+
+        .featured-section {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 20px;
+            padding: 60px;
+            margin-bottom: 80px;
+        }
+
+        .featured-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .featured-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .featured-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .featured-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .video-section {
+            margin-bottom: 80px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            background: #0a0e27;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background: rgba(99, 102, 241, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .play-button:hover {
+            background: #6366f1;
+            transform: scale(1.1);
+        }
+
+        .video-info {
+            padding: 20px;
+        }
+
+        .video-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .video-duration {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .guides-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-section {
+                padding: 40px 20px;
+            }
+
+            .categories {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon">A</div>
+                    <span style="font-size: 24px; font-weight: 700;">Adbid</span>
+                </a>
+                <a href="/" class="back-link">
+                    ← Back to Home
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero-section">
+        <div class="container">
+            <h1>Guides & Tutorials</h1>
+            <p class="subtitle">Learn how to maximize your Meta Ads performance with our comprehensive guides and video tutorials.</p>
+
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search guides...">
+            </div>
+
+            <div class="categories">
+                <a href="#" class="category-btn active">All</a>
+                <a href="#" class="category-btn">Getting Started</a>
+                <a href="#" class="category-btn">Campaign Setup</a>
+                <a href="#" class="category-btn">Optimization</a>
+                <a href="#" class="category-btn">Analytics</a>
+                <a href="#" class="category-btn">Advanced</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Featured Section -->
+        <div class="featured-section">
+            <div class="featured-header">
+                <h2 style="font-size: 32px; margin-bottom: 10px;">Start Here</h2>
+                <p style="color: #9ca3af;">Essential guides to get you up and running quickly</p>
+            </div>
+
+            <div class="featured-grid">
+                <div class="featured-item">
+                    <div class="featured-icon">🚀</div>
+                    <h3 style="margin-bottom: 10px;">Quick Start Guide</h3>
+                    <p style="color: #9ca3af; font-size: 14px;">Get your first campaign running in 10 minutes</p>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-icon">🎯</div>
+                    <h3 style="margin-bottom: 10px;">Audience Targeting</h3>
+                    <p style="color: #9ca3af; font-size: 14px;">Master the art of finding your ideal customers</p>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-icon">📊</div>
+                    <h3 style="margin-bottom: 10px;">Analytics Basics</h3>
+                    <p style="color: #9ca3af; font-size: 14px;">Understand your data and metrics</p>
+                </div>
+                <div class="featured-item">
+                    <div class="featured-icon">⚡</div>
+                    <h3 style="margin-bottom: 10px;">AI Optimization</h3>
+                    <p style="color: #9ca3af; font-size: 14px;">Let AI boost your campaign performance</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Guides Grid -->
+        <div class="guides-grid">
+            <a href="#" class="guide-card">
+                <div class="guide-image">📱</div>
+                <div class="guide-content">
+                    <span class="guide-category">Getting Started</span>
+                    <h3 class="guide-title">Setting Up Your First Campaign</h3>
+                    <p class="guide-description">Step-by-step guide to creating and launching your first Meta Ads campaign with Adbid.</p>
+                    <div class="guide-meta">
+                        <span>15 min read</span>
+                        <div class="difficulty">
+                            <span>Beginner</span>
+                            <span class="difficulty-dot"></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="#" class="guide-card">
+                <div class="guide-image">🎨</div>
+                <div class="guide-content">
+                    <span class="guide-category">Creative</span>
+                    <h3 class="guide-title">Creating High-Converting Ad Creatives</h3>
+                    <p class="guide-description">Best practices for designing ads that capture attention and drive conversions.</p>
+                    <div class="guide-meta">
+                        <span>20 min read</span>
+                        <div class="difficulty">
+                            <span>Intermediate</span>
+                            <span class="difficulty-dot medium"></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="#" class="guide-card">
+                <div class="guide-image">🔄</div>
+                <div class="guide-content">
+                    <span class="guide-category">Optimization</span>
+                    <h3 class="guide-title">Advanced Cohort Analysis</h3>
+                    <p class="guide-description">Deep dive into cohort analytics to understand user behavior and optimize LTV.</p>
+                    <div class="guide-meta">
+                        <span>25 min read</span>
+                        <div class="difficulty">
+                            <span>Advanced</span>
+                            <span class="difficulty-dot advanced"></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="#" class="guide-card">
+                <div class="guide-image">💰</div>
+                <div class="guide-content">
+                    <span class="guide-category">Budget</span>
+                    <h3 class="guide-title">Budget Optimization Strategies</h3>
+                    <p class="guide-description">Learn how to allocate your budget efficiently across campaigns and ad sets.</p>
+                    <div class="guide-meta">
+                        <span>18 min read</span>
+                        <div class="difficulty">
+                            <span>Intermediate</span>
+                            <span class="difficulty-dot medium"></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="#" class="guide-card">
+                <div class="guide-image">🤖</div>
+                <div class="guide-content">
+                    <span class="guide-category">Automation</span>
+                    <h3 class="guide-title">Setting Up Automated Rules</h3>
+                    <p class="guide-description">Automate campaign management with intelligent rules and triggers.</p>
+                    <div class="guide-meta">
+                        <span>22 min read</span>
+                        <div class="difficulty">
+                            <span>Advanced</span>
+                            <span class="difficulty-dot advanced"></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="#" class="guide-card">
+                <div class="guide-image">📈</div>
+                <div class="guide-content">
+                    <span class="guide-category">Scaling</span>
+                    <h3 class="guide-title">Scaling Profitable Campaigns</h3>
+                    <p class="guide-description">Proven strategies to scale your winning campaigns without losing efficiency.</p>
+                    <div class="guide-meta">
+                        <span>30 min read</span>
+                        <div class="difficulty">
+                            <span>Advanced</span>
+                            <span class="difficulty-dot advanced"></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Video Tutorials Section -->
+        <div class="video-section">
+            <h2 style="font-size: 32px; margin-bottom: 40px; text-align: center;">Video Tutorials</h2>
+            
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Platform Overview</div>
+                        <div class="video-duration">12:34</div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Campaign Creation Walkthrough</div>
+                        <div class="video-duration">15:22</div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Understanding Analytics Dashboard</div>
+                        <div class="video-duration">18:45</div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">API Integration Tutorial</div>
+                        <div class="video-duration">24:15</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -31,7 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
             <a href="#use-cases" className="text-gray-700 hover:text-black transition-colors">
               Use cases
             </a>
-            <a href="#pricing" className="text-gray-700 hover:text-black transition-colors">
+            <a href="/pricing.html" className="text-gray-700 hover:text-black transition-colors">
               Pricing
             </a>
             
@@ -47,16 +47,16 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
               
               {isResourcesOpen && (
                 <div className="absolute top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                  <a href="#blog" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
+                  <a href="/blog.html" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
                     Blog
                   </a>
-                  <a href="#docs" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
+                  <a href="/documentation.html" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
                     Documentation
                   </a>
-                  <a href="#guides" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
+                  <a href="/guides.html" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
                     Guides
                   </a>
-                  <a href="#api" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
+                  <a href="/documentation.html#api" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
                     API Reference
                   </a>
                 </div>
@@ -96,8 +96,8 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
             <div className="px-4 py-4 space-y-4">
               <a href="#product" className="block text-gray-700">Product</a>
               <a href="#use-cases" className="block text-gray-700">Use cases</a>
-              <a href="#pricing" className="block text-gray-700">Pricing</a>
-              <a href="#resources" className="block text-gray-700">Resources</a>
+              <a href="/pricing.html" className="block text-gray-700">Pricing</a>
+              <a href="/documentation.html" className="block text-gray-700">Resources</a>
               <button
                 onClick={onLoginClick}
                 className="block w-full text-left text-gray-700"

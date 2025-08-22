@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - Adbid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .back-link {
+            color: #6366f1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #818cf8;
+        }
+
+        .docs-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            padding: 40px 0;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6b7280;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar-links {
+            list-style: none;
+        }
+
+        .sidebar-links li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 8px 12px;
+            display: block;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-links a:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .sidebar-links a.active {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+            font-weight: 500;
+        }
+
+        .content {
+            min-height: 100vh;
+        }
+
+        .doc-header {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .doc-meta {
+            display: flex;
+            gap: 20px;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 20px;
+            width: 100%;
+            color: white;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .search-box::placeholder {
+            color: #6b7280;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #f3f4f6;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #e5e7eb;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #d1d5db;
+        }
+
+        .code-block {
+            background: #0a0e27;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-lang {
+            color: #6366f1;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .copy-btn {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #6366f1;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #e5e7eb;
+        }
+
+        .inline-code {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: #a78bfa;
+        }
+
+        .api-endpoint {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        .method.get {
+            background: #10b981;
+            color: white;
+        }
+
+        .method.post {
+            background: #6366f1;
+            color: white;
+        }
+
+        .method.put {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .method.delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .endpoint-url {
+            font-family: 'JetBrains Mono', monospace;
+            color: #e5e7eb;
+        }
+
+        .params-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .params-table th {
+            background: rgba(99, 102, 241, 0.1);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #e5e7eb;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .params-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #d1d5db;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge.required {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .badge.optional {
+            background: rgba(107, 114, 128, 0.2);
+            color: #9ca3af;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+
+        .tab:hover {
+            color: #d1d5db;
+        }
+
+        .tab.active {
+            color: #6366f1;
+            border-bottom-color: #6366f1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .docs-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon">A</div>
+                    <span style="font-size: 24px; font-weight: 700;">Adbid</span>
+                </a>
+                <a href="/" class="back-link">
+                    ← Back to Home
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="docs-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Getting Started</div>
+                    <ul class="sidebar-links">
+                        <li><a href="#introduction" class="active">Introduction</a></li>
+                        <li><a href="#quick-start">Quick Start</a></li>
+                        <li><a href="#authentication">Authentication</a></li>
+                        <li><a href="#rate-limits">Rate Limits</a></li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-title">API Reference</div>
+                    <ul class="sidebar-links">
+                        <li><a href="#campaigns">Campaigns</a></li>
+                        <li><a href="#ad-sets">Ad Sets</a></li>
+                        <li><a href="#analytics">Analytics</a></li>
+                        <li><a href="#cohorts">Cohorts</a></li>
+                        <li><a href="#optimization">Optimization</a></li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Webhooks</div>
+                    <ul class="sidebar-links">
+                        <li><a href="#webhook-setup">Setup</a></li>
+                        <li><a href="#webhook-events">Events</a></li>
+                        <li><a href="#webhook-security">Security</a></li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-title">SDKs</div>
+                    <ul class="sidebar-links">
+                        <li><a href="#sdk-javascript">JavaScript</a></li>
+                        <li><a href="#sdk-python">Python</a></li>
+                        <li><a href="#sdk-php">PHP</a></li>
+                        <li><a href="#sdk-ruby">Ruby</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="content">
+                <div class="doc-header">
+                    <h1>Adbid API Documentation</h1>
+                    <div class="doc-meta">
+                        <span>Version 2.0</span>
+                        <span>•</span>
+                        <span>Last updated: August 2024</span>
+                    </div>
+                </div>
+
+                <input type="text" class="search-box" placeholder="Search documentation...">
+
+                <!-- Introduction Section -->
+                <section class="section" id="introduction">
+                    <h2>Introduction</h2>
+                    <p>Welcome to the Adbid API documentation. Our API allows you to programmatically manage your Meta Ads campaigns, access analytics, and leverage our AI-powered optimization features.</p>
+                    
+                    <h3>Base URL</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">ENDPOINT</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <code>https://api.adbid.ai/v2</code>
+                    </div>
+
+                    <h3>Key Features</h3>
+                    <ul style="margin-left: 20px; color: #d1d5db;">
+                        <li style="margin-bottom: 10px;">RESTful API design</li>
+                        <li style="margin-bottom: 10px;">JSON request and response format</li>
+                        <li style="margin-bottom: 10px;">OAuth 2.0 authentication</li>
+                        <li style="margin-bottom: 10px;">Comprehensive error handling</li>
+                        <li style="margin-bottom: 10px;">Real-time webhooks</li>
+                    </ul>
+                </section>
+
+                <!-- Quick Start Section -->
+                <section class="section" id="quick-start">
+                    <h2>Quick Start</h2>
+                    <p>Get up and running with the Adbid API in minutes.</p>
+
+                    <h3>Step 1: Get Your API Key</h3>
+                    <p>First, obtain your API key from the Adbid dashboard:</p>
+                    <ol style="margin-left: 20px; color: #d1d5db;">
+                        <li style="margin-bottom: 10px;">Log in to your Adbid account</li>
+                        <li style="margin-bottom: 10px;">Navigate to Settings → API Keys</li>
+                        <li style="margin-bottom: 10px;">Click "Generate New Key"</li>
+                        <li style="margin-bottom: 10px;">Copy and securely store your key</li>
+                    </ol>
+
+                    <h3>Step 2: Make Your First Request</h3>
+                    <div class="tabs">
+                        <button class="tab active">cURL</button>
+                        <button class="tab">JavaScript</button>
+                        <button class="tab">Python</button>
+                    </div>
+
+                    <div class="tab-content active">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">BASH</span>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <code>curl -X GET https://api.adbid.ai/v2/campaigns \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"</code>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">JAVASCRIPT</span>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <code>const response = await fetch('https://api.adbid.ai/v2/campaigns', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  }
+});
+
+const campaigns = await response.json();
+console.log(campaigns);</code>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">PYTHON</span>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <code>import requests
+
+response = requests.get(
+    'https://api.adbid.ai/v2/campaigns',
+    headers={
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json'
+    }
+)
+
+campaigns = response.json()
+print(campaigns)</code>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Authentication Section -->
+                <section class="section" id="authentication">
+                    <h2>Authentication</h2>
+                    <p>The Adbid API uses API keys to authenticate requests. Include your API key in the Authorization header:</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">HEADER</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <code>Authorization: Bearer YOUR_API_KEY</code>
+                    </div>
+
+                    <h3>OAuth 2.0 Flow</h3>
+                    <p>For third-party integrations, we support OAuth 2.0 authorization code flow:</p>
+
+                    <div class="api-endpoint">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-url">/oauth/authorize</span>
+                    </div>
+
+                    <table class="params-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>client_id</td>
+                                <td><code class="inline-code">string</code> <span class="badge required">Required</span></td>
+                                <td>Your application's client ID</td>
+                            </tr>
+                            <tr>
+                                <td>redirect_uri</td>
+                                <td><code class="inline-code">string</code> <span class="badge required">Required</span></td>
+                                <td>The callback URL</td>
+                            </tr>
+                            <tr>
+                                <td>scope</td>
+                                <td><code class="inline-code">string</code> <span class="badge optional">Optional</span></td>
+                                <td>Requested permissions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Campaigns Section -->
+                <section class="section" id="campaigns">
+                    <h2>Campaigns</h2>
+                    <p>Manage your advertising campaigns programmatically.</p>
+
+                    <h3>List All Campaigns</h3>
+                    <div class="api-endpoint">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-url">/campaigns</span>
+                    </div>
+
+                    <h3>Create Campaign</h3>
+                    <div class="api-endpoint">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-url">/campaigns</span>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">JSON</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <code>{
+  "name": "Summer Sale Campaign",
+  "objective": "CONVERSIONS",
+  "budget": {
+    "amount": 1000,
+    "currency": "USD",
+    "type": "DAILY"
+  },
+  "targeting": {
+    "locations": ["US", "CA"],
+    "age_min": 18,
+    "age_max": 65,
+    "interests": ["shopping", "fashion"]
+  }
+}</code>
+                    </div>
+
+                    <h3>Update Campaign</h3>
+                    <div class="api-endpoint">
+                        <span class="method put">PUT</span>
+                        <span class="endpoint-url">/campaigns/{campaign_id}</span>
+                    </div>
+
+                    <h3>Delete Campaign</h3>
+                    <div class="api-endpoint">
+                        <span class="method delete">DELETE</span>
+                        <span class="endpoint-url">/campaigns/{campaign_id}</span>
+                    </div>
+                </section>
+
+                <!-- Rate Limits Section -->
+                <section class="section" id="rate-limits">
+                    <h2>Rate Limits</h2>
+                    <p>API rate limits vary by plan:</p>
+
+                    <table class="params-table">
+                        <thead>
+                            <tr>
+                                <th>Plan</th>
+                                <th>Requests/Hour</th>
+                                <th>Burst Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Starter</td>
+                                <td>1,000</td>
+                                <td>50/min</td>
+                            </tr>
+                            <tr>
+                                <td>Growth</td>
+                                <td>10,000</td>
+                                <td>200/min</td>
+                            </tr>
+                            <tr>
+                                <td>Scale</td>
+                                <td>50,000</td>
+                                <td>1,000/min</td>
+                            </tr>
+                            <tr>
+                                <td>Enterprise</td>
+                                <td>Unlimited</td>
+                                <td>Custom</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>Rate limit information is included in response headers:</p>
+                    <ul style="margin-left: 20px; color: #d1d5db;">
+                        <li><code class="inline-code">X-RateLimit-Limit</code> - Request limit per hour</li>
+                        <li><code class="inline-code">X-RateLimit-Remaining</code> - Remaining requests</li>
+                        <li><code class="inline-code">X-RateLimit-Reset</code> - Time when limit resets</li>
+                    </ul>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+                
+                tab.classList.add('active');
+                tabContents[index].classList.add('active');
+            });
+        });
+
+        // Copy button functionality
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const codeBlock = btn.closest('.code-block');
+                const code = codeBlock.querySelector('code').textContent;
+                
+                navigator.clipboard.writeText(code);
+                btn.textContent = 'Copied!';
+                
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                }, 2000);
+            });
+        });
+
+        // Smooth scroll for sidebar links
+        document.querySelectorAll('.sidebar-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Update active link
+                    document.querySelectorAll('.sidebar-links a').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

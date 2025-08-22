@@ -1,5 +1,5 @@
-// Полный код дашборда GoLive Analytics
-// Этот файл содержит весь код приложения
+// Complete GoLive Analytics dashboard code
+// This file contains all application code
 
 import React, { useState } from 'react'
 import { Bell, TrendingUp, TrendingDown, DollarSign, Target, Users, Calendar, AlertTriangle, CheckCircle, XCircle, ChevronDown, ChevronUp, Filter, X, Settings, HelpCircle, User, Apple, Smartphone, Plus, Clock, Pause, Play } from 'lucide-react'
@@ -16,7 +16,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell, AreaChart, Area } from 'recharts'
 import './App.css'
 
-// Данные приложений
+// Application data
 const applications = [
   { id: 'golive-android', name: 'GoLive Android', icon: 'G', platforms: ['android'], status: 'active' },
   { id: 'ava-android', name: 'AVA android', icon: 'A', platforms: ['android'], status: 'active' },
@@ -37,5 +37,5 @@ const applications = [
   { id: 'yess-ios', name: 'Yess ios', icon: 'Y', platforms: ['ios'], status: 'active' }
 ]
 
-// Остальной код будет в следующих файлах...
+// Rest of the code will be in the following files...
 

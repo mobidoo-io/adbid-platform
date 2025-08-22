@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Adbid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .back-link {
+            color: #6366f1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #818cf8;
+        }
+
+        .hero-section {
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #9ca3af;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .blog-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            padding: 30px 0;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 0 20px;
+            min-width: 300px;
+            height: 50px;
+        }
+
+        .search-input {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .search-icon {
+            color: #6366f1;
+            margin-right: 10px;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            color: #c7d2fe;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            border-color: #6366f1;
+            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.15);
+        }
+
+        .blog-thumbnail {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #6366f1, #a78bfa, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-thumbnail::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .blog-content {
+            padding: 30px;
+        }
+
+        .blog-category {
+            color: #6366f1;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .blog-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .blog-excerpt {
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .blog-date {
+            color: #9ca3af;
+        }
+
+        .read-time {
+            color: #6366f1;
+        }
+
+        .featured-post {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .featured-thumbnail {
+            height: 300px;
+            background: linear-gradient(45deg, #6366f1, #a78bfa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            color: white;
+            position: relative;
+        }
+
+        .featured-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-category {
+            color: #c7d2fe;
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .featured-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .featured-excerpt {
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 60px;
+        }
+
+        .pagination-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination-btn:hover,
+        .pagination-btn.active {
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            border-color: #6366f1;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .newsletter-section {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 30px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 80px 0;
+        }
+
+        .newsletter-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .newsletter-description {
+            font-size: 18px;
+            color: #9ca3af;
+            margin-bottom: 40px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px 20px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .newsletter-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .newsletter-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            white-space: nowrap;
+        }
+
+        .newsletter-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .blog-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .filter-tags {
+                justify-content: center;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-post {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-thumbnail {
+                height: 200px;
+            }
+
+            .featured-title {
+                font-size: 24px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon">A</div>
+                    <span style="font-size: 24px; font-weight: 700;">Adbid</span>
+                </a>
+                <a href="/" class="back-link">
+                    ← Home
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h1>Blog</h1>
+                <p class="subtitle">Expert articles on advertising technology, analytics, and campaign optimization</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="blog-controls">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="Search articles...">
+                    </div>
+                    
+                    <div class="filter-tags">
+                        <span class="filter-tag active">All</span>
+                        <span class="filter-tag">Meta Ads</span>
+                        <span class="filter-tag">Analytics</span>
+                        <span class="filter-tag">Optimization</span>
+                        <span class="filter-tag">Trends</span>
+                        <span class="filter-tag">Case Studies</span>
+                    </div>
+                </div>
+
+                <div class="blog-grid">
+                    <article class="blog-card featured-post">
+                        <div class="featured-thumbnail">📊</div>
+                        <div class="featured-content">
+                            <div class="featured-category">Analytics</div>
+                            <h2 class="featured-title">How to Interpret ROAS Metrics in 2024</h2>
+                            <p class="featured-excerpt">A detailed guide to analyzing return on ad spend, considering iOS 14.5+ tracking changes and their impact on data accuracy.</p>
+                            <div class="blog-meta">
+                                <span class="blog-date">January 15, 2024</span>
+                                <span class="read-time">8 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-thumbnail">🎯</div>
+                        <div class="blog-content">
+                            <div class="blog-category">Meta Ads</div>
+                            <h3 class="blog-title">10 Targeting Strategies for Mobile Apps</h3>
+                            <p class="blog-excerpt">Explore effective targeting approaches for promoting mobile applications on Facebook and Instagram.</p>
+                            <div class="blog-meta">
+                                <span class="blog-date">January 12, 2024</span>
+                                <span class="read-time">6 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-thumbnail">💡</div>
+                        <div class="blog-content">
+                            <div class="blog-category">Optimization</div>
+                            <h3 class="blog-title">Bid Automation: When and How to Use It</h3>
+                            <p class="blog-excerpt">Review of bid automation strategies in Meta Ads and recommendations for different campaign types.</p>
+                            <div class="blog-meta">
+                                <span class="blog-date">January 8, 2024</span>
+                                <span class="read-time">7 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-thumbnail">📈</div>
+                        <div class="blog-content">
+                            <div class="blog-category">Case Studies</div>
+                            <h3 class="blog-title">How We Increased ROAS by 340% for E-commerce</h3>
+                            <p class="blog-excerpt">Real case study of ad campaign optimization for an online store with detailed strategy breakdown and results.</p>
+                            <div class="blog-meta">
+                                <span class="blog-date">January 5, 2024</span>
+                                <span class="read-time">10 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-thumbnail">🔍</div>
+                        <div class="blog-content">
+                            <div class="blog-category">Analytics</div>
+                            <h3 class="blog-title">Cohort Analysis in Mobile Applications</h3>
+                            <p class="blog-excerpt">Practical guide to using cohort analysis to understand user behavior and LTV.</p>
+                            <div class="blog-meta">
+                                <span class="blog-date">January 2, 2024</span>
+                                <span class="read-time">9 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-thumbnail">🚀</div>
+                        <div class="blog-content">
+                            <div class="blog-category">Trends</div>
+                            <h3 class="blog-title">Mobile Advertising Trends in 2024</h3>
+                            <p class="blog-excerpt">Overview of key trends in mobile advertising: from new formats to attribution changes and privacy-first approaches.</p>
+                            <div class="blog-meta">
+                                <span class="blog-date">December 29, 2023</span>
+                                <span class="read-time">12 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-thumbnail">⚙️</div>
+                        <div class="blog-content">
+                            <div class="blog-category">Optimization</div>
+                            <h3 class="blog-title">A/B Testing Creatives: Complete Guide</h3>
+                            <p class="blog-excerpt">How to properly test ad creatives, which metrics to track, and how to interpret test results.</p>
+                            <div class="blog-meta">
+                                <span class="blog-date">December 26, 2023</span>
+                                <span class="read-time">11 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-thumbnail">📱</div>
+                        <div class="blog-content">
+                            <div class="blog-category">Meta Ads</div>
+                            <h3 class="blog-title">iOS 17 and Tracking: What's Changed for Advertisers</h3>
+                            <p class="blog-excerpt">Analysis of iOS 17's impact on conversion tracking and strategies for adapting ad campaigns to new conditions.</p>
+                            <div class="blog-meta">
+                                <span class="blog-date">December 22, 2023</span>
+                                <span class="read-time">8 min read</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-thumbnail">💰</div>
+                        <div class="blog-content">
+                            <div class="blog-category">Case Studies</div>
+                            <h3 class="blog-title">60% CPA Reduction Through Audience Optimization</h3>
+                            <p class="blog-excerpt">Detailed case study on targeting and audience optimization that led to significant acquisition cost reduction.</p>
+                            <div class="blog-meta">
+                                <span class="blog-date">December 19, 2023</span>
+                                <span class="read-time">7 min read</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn" disabled>← Previous</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn">Next →</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="newsletter-section">
+            <div class="container">
+                <h2 class="newsletter-title">Blog Newsletter</h2>
+                <p class="newsletter-description">Get new articles and insights about advertising technologies delivered to your inbox</p>
+                <form class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Search functionality
+        document.querySelector('.search-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const blogCards = document.querySelectorAll('.blog-card:not(.featured-post)');
+            
+            blogCards.forEach(card => {
+                const title = card.querySelector('.blog-title').textContent.toLowerCase();
+                const excerpt = card.querySelector('.blog-excerpt').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || excerpt.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Remove active class from all tags
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tag
+                this.classList.add('active');
+                
+                const filterCategory = this.textContent;
+                const blogCards = document.querySelectorAll('.blog-card:not(.featured-post)');
+                
+                blogCards.forEach(card => {
+                    const category = card.querySelector('.blog-category').textContent;
+                    
+                    if (filterCategory === 'All' || category === filterCategory) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Newsletter form
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('.newsletter-input').value;
+            alert('Thank you for subscribing! A confirmation email has been sent to ' + email + '.');
+            this.reset();
+        });
+
+        // Blog cards click handler
+        document.querySelectorAll('.blog-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.blog-title, .featured-title').textContent;
+                alert('Navigating to article: "' + title + '"');
+            });
+        });
+    </script>
+</body>
+</html>

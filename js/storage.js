@@ -1,11 +1,11 @@
 /**
- * Storage Service - управление localStorage для Adbid
+ * Storage Service - localStorage management for Adbid
  */
 const Storage = {
-    // Префикс для всех ключей
+    // Prefix for all keys
     prefix: 'adbid_',
     
-    // Ключи хранилища
+    // Storage keys
     keys: {
         USER: 'user',
         CAMPAIGNS: 'campaigns',
@@ -21,7 +21,7 @@ const Storage = {
         META_ADS_ACCOUNTS: 'meta_ads_accounts'
     },
     
-    // Сохранить данные
+    // Save data
     set(key, value) {
         try {
             const fullKey = this.prefix + key;
@@ -37,7 +37,7 @@ const Storage = {
         }
     },
     
-    // Получить данные
+    // Get data
     get(key, defaultValue = null) {
         try {
             const fullKey = this.prefix + key;
@@ -52,7 +52,7 @@ const Storage = {
         }
     },
     
-    // Удалить данные
+    // Delete data
     remove(key) {
         try {
             const fullKey = this.prefix + key;
@@ -64,7 +64,7 @@ const Storage = {
         }
     },
     
-    // Очистить все данные приложения
+    // Clear all application data
     clear() {
         try {
             const keys = Object.keys(localStorage);
@@ -80,20 +80,20 @@ const Storage = {
         }
     },
     
-    // Проверить существование ключа
+    // Check if key exists
     has(key) {
         const fullKey = this.prefix + key;
         return localStorage.getItem(fullKey) !== null;
     },
     
-    // Добавить элемент в массив
+    // Add item to array
     addToArray(key, item) {
         const array = this.get(key, []);
         array.push(item);
         return this.set(key, array);
     },
     
-    // Обновить элемент в массиве по ID
+    // Update item in array by ID
     updateInArray(key, itemId, updates) {
         const array = this.get(key, []);
         const index = array.findIndex(item => item.id === itemId);
@@ -104,14 +104,14 @@ const Storage = {
         return false;
     },
     
-    // Удалить элемент из массива по ID
+    // Remove item from array by ID
     removeFromArray(key, itemId) {
         const array = this.get(key, []);
         const filtered = array.filter(item => item.id !== itemId);
         return this.set(key, filtered);
     },
     
-    // Получить размер хранилища
+    // Get storage size
     getSize() {
         let size = 0;
         Object.keys(localStorage).forEach(key => {
@@ -122,7 +122,7 @@ const Storage = {
         return size;
     },
     
-    // Экспортировать все данные
+    // Export all data
     exportData() {
         const data = {};
         Object.keys(localStorage).forEach(key => {
@@ -134,7 +134,7 @@ const Storage = {
         return data;
     },
     
-    // Импортировать данные
+    // Import data
     importData(data) {
         try {
             Object.keys(data).forEach(key => {
@@ -148,7 +148,7 @@ const Storage = {
     }
 };
 
-// Экспорт для использования
+// Export for use
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = Storage;
 }

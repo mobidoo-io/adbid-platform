@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Campaign - Ad Sets</title>
+    <link rel="stylesheet" href="css/sidebar.css">
     <style>
         * {
             margin: 0;
@@ -386,17 +387,231 @@
             font-size: 14px;
             color: #6b7280;
         }
+        /* New styles for advanced features */
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .macros-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .macros-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .macros-btn::before {
+            content: "+";
+            margin-right: 4px;
+            font-weight: bold;
+        }
+        
+        .preview-text {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+        
+        /* Top audiences card */
+        .top-audiences-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .top-audiences-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .sparkle-icon {
+            font-size: 32px;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
+        }
+        
+        .top-audiences-content {
+            flex: 1;
+        }
+        
+        .top-audiences-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .top-audiences-description {
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+        }
+        
+        /* Audience buttons */
+        .audience-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .select-audience-btn, .new-audience-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .select-audience-btn {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: #222;
+        }
+        
+        .select-audience-btn:hover {
+            background: #f9fafb;
+        }
+        
+        .new-audience-btn {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            color: #6b7280;
+        }
+        
+        .new-audience-btn:hover {
+            background: #e5e7eb;
+        }
+        
+        /* EU Requirements */
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .warning-icon {
+            color: #f59e0b;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .warning-box strong {
+            display: block;
+            color: #92400e;
+            margin-bottom: 4px;
+        }
+        
+        .warning-box p {
+            color: #78350f;
+            font-size: 13px;
+            margin: 0;
+        }
+        
+        /* Placements grid */
+        .placements-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .placement-group {
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+        
+        .placement-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: #222;
+        }
+        
+        /* Attribution settings */
+        .attribution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 16px;
+        }
+        
+        .attribution-option {
+            padding: 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .attribution-option:hover {
+            border-color: #8B5CF6;
+            background: #faf5ff;
+        }
+        
+        .attribution-option.selected {
+            border-color: #8B5CF6;
+            background: #faf5ff;
+        }
+        
+        .attribution-label {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .attribution-description {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        /* Timezone select */
+        .timezone-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        .timezone-icon {
+            width: 16px;
+            height: 16px;
+            background: #e5e7eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
+    <div class="dashboard-layout">
+        <!-- Sidebar will be injected here by JavaScript -->
+        <div class="main-wrapper">
+            <!-- Header -->
+            <div class="header">
         <div class="header-left">
-            <button class="back-btn" onclick="window.location.href='campaign-step2.html'">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
-                </svg>
-            </button>
             <h1 class="page-title">New campaign</h1>
         </div>
         <div class="header-right">
@@ -437,7 +652,335 @@
         <div class="form-section">
             <div class="form-group">
                 <label class="form-label">Ad set name</label>
-                <input type="text" class="form-input" placeholder="Enter ad set name" value="Ad Set 1">
+                <div class="input-wrapper">
+                    <input type="text" class="form-input" placeholder="{{audience_name}} | {{locations}}" value="{{audience_name}} | {{locations}}" style="padding-right: 100px;">
+                    <button class="macros-btn">Macros</button>
+                </div>
+                <p class="preview-text">Preview: FB page fans | NYC</p>
+            </div>
+        </div>
+        
+        <!-- Audiences Section -->
+        <div class="form-section">
+            <h2 class="section-title">Audiences</h2>
+            
+            <div class="top-audiences-card">
+                <div class="sparkle-icon">✨</div>
+                <div class="top-audiences-content">
+                    <div class="top-audiences-title">Top audiences</div>
+                    <div class="top-audiences-description">Learn how to use Top audiences in a Bulk creation</div>
+                </div>
+            </div>
+            
+            <div class="audience-buttons">
+                <button class="select-audience-btn" onclick="openAudienceModal()">Select audience</button>
+                <button class="new-audience-btn">➕ New audience</button>
+            </div>
+        </div>
+        
+        <!-- EU Requirements -->
+        <div class="form-section eu-requirements">
+            <h2 class="section-title">Requirements for EU-targeted ads</h2>
+            
+            <div class="warning-box">
+                <span class="warning-icon">⚠️</span>
+                <div>
+                    <strong>Complete the fields below as required by the EU Digital Services Act (DSA)</strong>
+                    <p>You also need to complete these fields in your Ad account profile otherwise the ads will not be launched</p>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Beneficiary</label>
+                <input type="text" class="form-input" placeholder="Enter beneficiary details">
+            </div>
+            
+            <div class="checkbox-label" style="margin: 16px 0;">
+                <input type="checkbox" class="checkbox-input" id="differentPayer">
+                <label for="differentPayer">A different organization or person is paying</label>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Payer</label>
+                <select class="form-select">
+                    <option>Same as beneficiary</option>
+                    <option>Different organization</option>
+                    <option>Different person</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Placements -->
+        <div class="form-section">
+            <h2 class="section-title">Placements</h2>
+            
+            <div class="toggle-section">
+                <div class="toggle-content">
+                    <div class="toggle-title">Advantage+ placements</div>
+                    <div class="toggle-description">We'll automatically find the placements likely to get the best results</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="advantagePlacements" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div id="manualPlacements" style="display: none;">
+                <div class="placements-grid">
+                    <div class="placement-group">
+                        <div class="placement-title">Facebook</div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                Feed
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                Stories
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input">
+                                Marketplace
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                Video feeds
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input">
+                                Right column
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                Instant articles
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                In-stream videos
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input">
+                                Search results
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="placement-group">
+                        <div class="placement-title">Instagram</div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                Feed
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                Stories
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                Reels
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input">
+                                Explore
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input">
+                                Shop
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input">
+                                Profile feed
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input">
+                                Search results
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="placement-group">
+                        <div class="placement-title">Audience Network</div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                Native, banner and interstitial
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                In-stream videos
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                Rewarded videos
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="placement-group">
+                        <div class="placement-title">Messenger</div>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input">
+                                Inbox
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input">
+                                Stories
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="checkbox-input">
+                                Sponsored messages
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 24px;">
+                    <label class="form-label">Device targeting</label>
+                    <select class="form-select">
+                        <option>All devices</option>
+                        <option>Mobile only</option>
+                        <option>Desktop only</option>
+                        <option>Mobile and tablet</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Operating systems</label>
+                    <select class="form-select">
+                        <option>All operating systems</option>
+                        <option>iOS only</option>
+                        <option>Android only</option>
+                        <option>iOS 14+ only</option>
+                        <option>Android 12+ only</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Budget & Schedule -->
+        <div class="form-section">
+            <h2 class="section-title">Budget & schedule</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Budget type</label>
+                <select class="form-select" id="budgetType">
+                    <option value="daily">Daily budget</option>
+                    <option value="lifetime">Lifetime budget</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Amount</label>
+                <div class="budget-input-group">
+                    <span class="currency-prefix">$</span>
+                    <input type="number" class="form-input budget-input" placeholder="0.00" value="50.00" step="0.01">
+                    <span class="budget-period" id="budgetPeriod">per day</span>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Start date & time</label>
+                    <div class="date-input-group">
+                        <input type="date" class="form-input date-input" id="startDate">
+                        <select class="form-select time-select">
+                            <option>12:00 AM</option>
+                            <option>1:00 AM</option>
+                            <option>2:00 AM</option>
+                            <option>3:00 AM</option>
+                            <option>4:00 AM</option>
+                            <option>5:00 AM</option>
+                            <option>6:00 AM</option>
+                            <option>7:00 AM</option>
+                            <option>8:00 AM</option>
+                            <option>9:00 AM</option>
+                            <option>10:00 AM</option>
+                            <option>11:00 AM</option>
+                            <option>12:00 PM</option>
+                            <option>1:00 PM</option>
+                            <option>2:00 PM</option>
+                            <option>3:00 PM</option>
+                            <option>4:00 PM</option>
+                            <option>5:00 PM</option>
+                            <option>6:00 PM</option>
+                            <option>7:00 PM</option>
+                            <option>8:00 PM</option>
+                            <option>9:00 PM</option>
+                            <option>10:00 PM</option>
+                            <option>11:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        End date & time
+                        <span class="info-badge">optional</span>
+                    </label>
+                    <div class="date-input-group">
+                        <input type="date" class="form-input date-input" id="endDate">
+                        <select class="form-select time-select">
+                            <option>11:59 PM</option>
+                            <option>12:00 AM</option>
+                            <option>1:00 AM</option>
+                            <option>2:00 AM</option>
+                            <option>3:00 AM</option>
+                            <option>4:00 AM</option>
+                            <option>5:00 AM</option>
+                            <option>6:00 AM</option>
+                            <option>7:00 AM</option>
+                            <option>8:00 AM</option>
+                            <option>9:00 AM</option>
+                            <option>10:00 AM</option>
+                            <option>11:00 AM</option>
+                            <option>12:00 PM</option>
+                            <option>1:00 PM</option>
+                            <option>2:00 PM</option>
+                            <option>3:00 PM</option>
+                            <option>4:00 PM</option>
+                            <option>5:00 PM</option>
+                            <option>6:00 PM</option>
+                            <option>7:00 PM</option>
+                            <option>8:00 PM</option>
+                            <option>9:00 PM</option>
+                            <option>10:00 PM</option>
+                            <option>11:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Time zone</label>
+                <select class="form-select">
+                    <option>Eastern Time (New York)</option>
+                    <option>Central Time (Chicago)</option>
+                    <option>Mountain Time (Denver)</option>
+                    <option>Pacific Time (Los Angeles)</option>
+                    <option>Alaska Time</option>
+                    <option>Hawaii Time</option>
+                    <option>GMT (London)</option>
+                    <option>CET (Paris)</option>
+                    <option>JST (Tokyo)</option>
+                    <option>AEST (Sydney)</option>
+                </select>
+                <div class="timezone-info">
+                    <span class="timezone-icon">🕐</span>
+                    <span>All dates and times are in Eastern Time</span>
+                </div>
+            </div>
+            
+            <div class="toggle-section">
+                <div class="toggle-content">
+                    <div class="toggle-title">Run ads on a schedule</div>
+                    <div class="toggle-description">Run ads only during specific hours of the day</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="scheduleToggle">
+                    <span class="slider"></span>
+                </label>
             </div>
         </div>
         
@@ -467,12 +1010,72 @@
             
             <div class="form-group">
                 <label class="form-label">Bid strategy</label>
-                <select class="form-select">
-                    <option>Lowest cost</option>
-                    <option>Cost cap</option>
-                    <option>Bid cap</option>
-                    <option>Target cost</option>
+                <select class="form-select" id="bidStrategy">
+                    <option value="lowest_cost">Lowest cost</option>
+                    <option value="cost_cap">Cost cap</option>
+                    <option value="bid_cap">Bid cap</option>
+                    <option value="target_cost">Target cost</option>
                 </select>
+            </div>
+            
+            <div id="bidCapField" style="display: none;" class="form-group">
+                <label class="form-label">Bid cap amount</label>
+                <div class="budget-input-group">
+                    <span class="currency-prefix">$</span>
+                    <input type="number" class="form-input budget-input" placeholder="0.00" step="0.01">
+                    <span class="budget-period">per optimization event</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Delivery type</label>
+                <select class="form-select">
+                    <option>Standard (Recommended)</option>
+                    <option>Accelerated</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Attribution Settings -->
+        <div class="form-section">
+            <h2 class="section-title">Attribution settings</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Attribution setting</label>
+                <select class="form-select">
+                    <option>7-day click and 1-day view</option>
+                    <option>7-day click</option>
+                    <option>1-day click and 1-day view</option>
+                    <option>1-day click</option>
+                </select>
+            </div>
+            
+            <div class="attribution-grid">
+                <div class="attribution-option selected">
+                    <div class="attribution-label">Click-through attribution</div>
+                    <div class="attribution-description">Count actions that happen within 7 days of clicking your ad</div>
+                </div>
+                <div class="attribution-option">
+                    <div class="attribution-label">View-through attribution</div>
+                    <div class="attribution-description">Count actions that happen within 1 day of viewing your ad</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Custom Audiences -->
+        <div class="form-section">
+            <h2 class="section-title">Custom audiences</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Include</label>
+                <input type="text" class="form-input" placeholder="Search and select custom audiences">
+                <p class="form-sublabel">Add people who are in at least ONE of these audiences</p>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Exclude</label>
+                <input type="text" class="form-input" placeholder="Search and select audiences to exclude">
+                <p class="form-sublabel">Remove people who are in at least ONE of these audiences</p>
             </div>
         </div>
         
@@ -532,130 +1135,489 @@
             </div>
         </div>
         
-        <!-- Placements -->
-        <div class="form-section">
-            <h2 class="section-title">Placements</h2>
-            
-            <div class="toggle-section">
-                <div class="toggle-content">
-                    <div class="toggle-title">Advantage+ placements</div>
-                    <div class="toggle-description">We'll automatically find the placements likely to get the best results</div>
+    </div>
+    
+    <!-- Audience Sidebar Panel -->
+    <div id="audienceSidebar" class="audience-sidebar">
+        <div class="sidebar-header">
+            <h2>Audience Configuration</h2>
+            <button class="close-sidebar" onclick="closeSidebar()">&times;</button>
+        </div>
+        
+        <div class="sidebar-tabs">
+            <button class="sidebar-tab active" onclick="switchTab('saved')">Saved Audiences</button>
+            <button class="sidebar-tab" onclick="switchTab('custom')">Custom Audiences</button>
+            <button class="sidebar-tab" onclick="switchTab('lookalike')">Lookalike</button>
+        </div>
+        
+        <div class="sidebar-content">
+            <!-- Saved Audiences Tab -->
+            <div id="savedTab" class="tab-content active">
+                <div class="search-box">
+                    <input type="text" placeholder="Search audiences..." class="sidebar-search">
                 </div>
-                <label class="toggle-switch">
-                    <input type="checkbox" checked>
-                    <span class="slider"></span>
-                </label>
+                
+                <div class="audience-list">
+                    <div class="audience-item">
+                        <div class="audience-checkbox">
+                            <input type="checkbox" id="aud1" checked>
+                        </div>
+                        <div class="audience-info">
+                            <div class="audience-name">Tech Enthusiasts 18-35</div>
+                            <div class="audience-details">
+                                <span class="audience-size">2.1M people</span>
+                                <span class="audience-location">United States</span>
+                            </div>
+                            <div class="audience-tags">
+                                <span class="tag">Technology</span>
+                                <span class="tag">Gaming</span>
+                                <span class="tag">18-35</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="audience-item">
+                        <div class="audience-checkbox">
+                            <input type="checkbox" id="aud2">
+                        </div>
+                        <div class="audience-info">
+                            <div class="audience-name">E-commerce Shoppers</div>
+                            <div class="audience-details">
+                                <span class="audience-size">5.3M people</span>
+                                <span class="audience-location">Worldwide</span>
+                            </div>
+                            <div class="audience-tags">
+                                <span class="tag">Shopping</span>
+                                <span class="tag">Fashion</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="audience-item">
+                        <div class="audience-checkbox">
+                            <input type="checkbox" id="aud3">
+                        </div>
+                        <div class="audience-info">
+                            <div class="audience-name">Mobile Gamers</div>
+                            <div class="audience-details">
+                                <span class="audience-size">3.8M people</span>
+                                <span class="audience-location">North America</span>
+                            </div>
+                            <div class="audience-tags">
+                                <span class="tag">Gaming</span>
+                                <span class="tag">Mobile</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <div class="form-group">
-                <label class="form-label">Manual placements</label>
-                <div class="checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" class="checkbox-input" checked>
-                        Facebook Feed
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" class="checkbox-input" checked>
-                        Instagram Feed
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" class="checkbox-input" checked>
-                        Instagram Stories
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" class="checkbox-input">
-                        Facebook Marketplace
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" class="checkbox-input">
-                        Messenger Inbox
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" class="checkbox-input" checked>
-                        Audience Network
-                    </label>
+            <!-- Custom Audiences Tab -->
+            <div id="customTab" class="tab-content">
+                <div class="upload-section">
+                    <div class="upload-card">
+                        <div class="upload-icon">📁</div>
+                        <h3>Customer File</h3>
+                        <p>Upload a list of customers</p>
+                        <button class="btn-secondary">Upload CSV</button>
+                    </div>
+                    
+                    <div class="upload-card">
+                        <div class="upload-icon">🌐</div>
+                        <h3>Website Traffic</h3>
+                        <p>People who visited your website</p>
+                        <button class="btn-secondary">Configure Pixel</button>
+                    </div>
+                    
+                    <div class="upload-card">
+                        <div class="upload-icon">📱</div>
+                        <h3>App Activity</h3>
+                        <p>People who used your app</p>
+                        <button class="btn-secondary">Setup SDK</button>
+                    </div>
+                </div>
+                
+                <div class="existing-custom">
+                    <h4>Existing Custom Audiences</h4>
+                    <div class="audience-item">
+                        <div class="audience-checkbox">
+                            <input type="checkbox" id="custom1">
+                        </div>
+                        <div class="audience-info">
+                            <div class="audience-name">Website Visitors - 30 days</div>
+                            <div class="audience-details">
+                                <span class="audience-size">45.2K people</span>
+                                <span class="audience-updated">Updated 2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lookalike Tab -->
+            <div id="lookalikeTab" class="tab-content">
+                <div class="lookalike-section">
+                    <div class="form-group">
+                        <label>Source Audience</label>
+                        <select class="form-select">
+                            <option>Select source audience...</option>
+                            <option>Website Visitors - 30 days</option>
+                            <option>Customer List - High Value</option>
+                            <option>App Purchasers</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Audience Location</label>
+                        <select class="form-select">
+                            <option>United States</option>
+                            <option>Canada</option>
+                            <option>United Kingdom</option>
+                            <option>Australia</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Audience Size</label>
+                        <div class="size-slider">
+                            <input type="range" min="1" max="10" value="1" class="slider-range" id="lookalikeSize">
+                            <div class="size-labels">
+                                <span>1% (Specific)</span>
+                                <span>10% (Broad)</span>
+                            </div>
+                            <div class="estimated-reach">
+                                Estimated reach: <strong>2.1M - 2.5M people</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary full-width">Create Lookalike Audience</button>
                 </div>
             </div>
         </div>
         
-        <!-- Budget & Schedule -->
-        <div class="form-section">
-            <h2 class="section-title">Budget & schedule</h2>
-            
-            <div class="form-group">
-                <label class="form-label">Budget</label>
-                <div class="budget-input-group">
-                    <span class="currency-prefix">$</span>
-                    <input type="number" class="form-input budget-input" placeholder="0.00" value="50.00" step="0.01">
-                    <select class="form-select" style="width: 150px;">
-                        <option>Daily budget</option>
-                        <option>Lifetime budget</option>
-                    </select>
-                </div>
+        <div class="sidebar-footer">
+            <div class="selected-count">
+                <span id="selectedCount">1</span> audience(s) selected
             </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Start date</label>
-                    <div class="date-input-group">
-                        <input type="date" class="form-input date-input">
-                        <select class="form-select time-select">
-                            <option>12:00 AM</option>
-                            <option>1:00 AM</option>
-                            <option>2:00 AM</option>
-                            <option>3:00 AM</option>
-                            <option>4:00 AM</option>
-                            <option>5:00 AM</option>
-                            <option>6:00 AM</option>
-                            <option>7:00 AM</option>
-                            <option>8:00 AM</option>
-                            <option>9:00 AM</option>
-                            <option>10:00 AM</option>
-                            <option>11:00 AM</option>
-                            <option>12:00 PM</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">
-                        End date
-                        <span class="info-badge">optional</span>
-                    </label>
-                    <div class="date-input-group">
-                        <input type="date" class="form-input date-input">
-                        <select class="form-select time-select">
-                            <option>11:59 PM</option>
-                            <option>12:00 AM</option>
-                            <option>1:00 AM</option>
-                            <option>2:00 AM</option>
-                            <option>3:00 AM</option>
-                            <option>4:00 AM</option>
-                            <option>5:00 AM</option>
-                            <option>6:00 AM</option>
-                            <option>7:00 AM</option>
-                            <option>8:00 AM</option>
-                            <option>9:00 AM</option>
-                            <option>10:00 AM</option>
-                            <option>11:00 AM</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="toggle-section">
-                <div class="toggle-content">
-                    <div class="toggle-title">Run ads on a schedule</div>
-                    <div class="toggle-description">Run ads only during specific hours of the day</div>
-                </div>
-                <label class="toggle-switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                </label>
-            </div>
+            <button class="btn-primary" onclick="applyAudiences()">Apply Selection</button>
         </div>
     </div>
     
+    <!-- Overlay for sidebar -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <style>
+        /* Sidebar Styles */
+        .audience-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .audience-sidebar.open {
+            right: 0;
+        }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 999;
+        }
+        
+        .sidebar-overlay.show {
+            display: block;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sidebar-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .close-sidebar {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-sidebar:hover {
+            background: #f3f4f6;
+            border-radius: 4px;
+        }
+        
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0 20px;
+        }
+        
+        .sidebar-tab {
+            flex: 1;
+            padding: 12px 8px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .sidebar-tab.active {
+            color: #222;
+            border-bottom-color: #FFD93D;
+        }
+        
+        .sidebar-tab:hover {
+            color: #222;
+        }
+        
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-search {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .audience-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .audience-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .audience-item:hover {
+            background: #f9fafb;
+            border-color: #d1d5db;
+        }
+        
+        .audience-checkbox {
+            padding-top: 2px;
+        }
+        
+        .audience-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .audience-info {
+            flex: 1;
+        }
+        
+        .audience-name {
+            font-weight: 500;
+            color: #222;
+            margin-bottom: 4px;
+        }
+        
+        .audience-details {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+        
+        .audience-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .tag {
+            padding: 2px 8px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #6b7280;
+        }
+        
+        .upload-section {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .upload-card {
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .upload-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .upload-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .upload-card p {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        
+        .existing-custom h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .lookalike-section .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .size-slider {
+            margin-top: 8px;
+        }
+        
+        .slider-range {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        
+        .size-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        
+        .estimated-reach {
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 6px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+        
+        .selected-count {
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .selected-count span {
+            font-weight: 600;
+            color: #222;
+        }
+        
+        .full-width {
+            width: 100%;
+        }
+        
+        .btn-secondary {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background: #f9fafb;
+        }
+        
+        .btn-primary {
+            background: #FFD93D;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: #ffcf0d;
+        }
+        
+        /* Applied audiences display */
+        .selected-audiences-display {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f0fdf4;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #065f46;
+        }
+    </style>
+
     <script>
         // Step navigation
         function nextStep() {
@@ -681,11 +1643,161 @@
                 input.value = today;
             }
         });
+        
+        // Sidebar functions
+        function openAudienceSidebar() {
+            const sidebar = document.getElementById('audienceSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+        }
+        
+        function closeSidebar() {
+            const sidebar = document.getElementById('audienceSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        }
+        
+        function switchTab(tabName) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.sidebar-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Add active class to selected tab
+            event.target.classList.add('active');
+            
+            // Show selected content
+            const contentId = tabName + 'Tab';
+            document.getElementById(contentId).classList.add('active');
+        }
+        
+        function applyAudiences() {
+            // Get selected audiences
+            const checkboxes = document.querySelectorAll('.audience-checkbox input:checked');
+            const selectedCount = checkboxes.length;
+            
+            // Update UI to show selected audiences
+            const audienceDisplay = document.querySelector('.audience-buttons');
+            if (selectedCount > 0) {
+                // Remove existing display if any
+                const existingDisplay = document.querySelector('.selected-audiences-display');
+                if (existingDisplay) {
+                    existingDisplay.remove();
+                }
+                
+                // Add visual indicator of selected audiences
+                const display = document.createElement('div');
+                display.className = 'selected-audiences-display';
+                display.innerHTML = `✓ ${selectedCount} audience(s) selected`;
+                audienceDisplay.appendChild(display);
+            }
+            
+            // Close sidebar
+            closeSidebar();
+            
+            // Save to localStorage
+            localStorage.setItem('adbid_selected_audiences', selectedCount);
+            
+            console.log(`Applied ${selectedCount} audience(s)`);
+        }
+        
+        // Open audience modal - now opens sidebar
+        function openAudienceModal() {
+            openAudienceSidebar();
+        }
+        
+        // Update selected count
+        function updateSelectedCount() {
+            const checkboxes = document.querySelectorAll('.audience-checkbox input:checked');
+            document.getElementById('selectedCount').textContent = checkboxes.length;
+        }
+        
+        // Handle Advantage+ placements toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const advantageToggle = document.getElementById('advantagePlacements');
+            const manualPlacements = document.getElementById('manualPlacements');
+            
+            if (advantageToggle) {
+                advantageToggle.addEventListener('change', function() {
+                    manualPlacements.style.display = this.checked ? 'none' : 'block';
+                });
+            }
+            
+            // Handle budget type change
+            const budgetType = document.getElementById('budgetType');
+            const budgetPeriod = document.getElementById('budgetPeriod');
+            
+            if (budgetType) {
+                budgetType.addEventListener('change', function() {
+                    budgetPeriod.textContent = this.value === 'daily' ? 'per day' : 'total';
+                });
+            }
+            
+            // Handle bid strategy change
+            const bidStrategy = document.getElementById('bidStrategy');
+            const bidCapField = document.getElementById('bidCapField');
+            
+            if (bidStrategy) {
+                bidStrategy.addEventListener('change', function() {
+                    bidCapField.style.display = 
+                        (this.value === 'bid_cap' || this.value === 'cost_cap') ? 'block' : 'none';
+                });
+            }
+            
+            // Handle different payer checkbox
+            const differentPayerCheckbox = document.getElementById('differentPayer');
+            const payerSelect = document.querySelector('.eu-requirements select:last-of-type');
+            
+            if (differentPayerCheckbox && payerSelect) {
+                differentPayerCheckbox.addEventListener('change', function() {
+                    payerSelect.disabled = !this.checked;
+                    if (!this.checked) {
+                        payerSelect.value = 'Same as beneficiary';
+                    }
+                });
+            }
+            
+            // Attribution options selection
+            document.querySelectorAll('.attribution-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.attribution-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Add event listeners to audience checkboxes
+            document.querySelectorAll('.audience-checkbox input').forEach(checkbox => {
+                checkbox.addEventListener('change', updateSelectedCount);
+            });
+            
+            // Handle New audience button
+            document.querySelector('.new-audience-btn').addEventListener('click', function() {
+                openAudienceSidebar();
+                // Switch to custom tab for creating new audience
+                document.querySelectorAll('.sidebar-tab')[1].click();
+            });
+            
+            // Handle Top audiences card click
+            document.querySelector('.top-audiences-card').addEventListener('click', function() {
+                openAudienceSidebar();
+            });
+        });
     </script>
     
     <!-- Core JavaScript Libraries -->
     <script src="js/storage.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/campaign-wizard.js"></script></body>
+    <script src="js/campaign-wizard.js"></script>
+    <script src="js/sidebar.js"></script>
+        </div>
+    </div>
+</body>
 </html>

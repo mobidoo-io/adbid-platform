@@ -20,31 +20,31 @@ const Footer: React.FC<FooterProps> = ({ onLoginClick }) => {
   const footerLinks = {
     Product: [
       { name: 'Features', href: '#features' },
-      { name: 'Pricing', href: '#pricing' },
+      { name: 'Pricing', href: '/pricing.html' },
       { name: 'Integrations', href: '#integrations' },
-      { name: 'API Docs', href: '#api' },
-      { name: 'Changelog', href: '#changelog' },
+      { name: 'API Docs', href: '/documentation.html' },
+      { name: 'Changelog', href: '/documentation.html#changelog' },
     ],
     Company: [
-      { name: 'About Us', href: '#about' },
-      { name: 'Careers', href: '#careers', badge: 'Hiring' },
-      { name: 'Blog', href: '#blog' },
-      { name: 'Press Kit', href: '#press' },
-      { name: 'Contact', href: '#contact' },
+      { name: 'About Us', href: '/about.html' },
+      { name: 'Careers', href: '/careers.html', badge: 'Hiring' },
+      { name: 'Blog', href: '/blog.html' },
+      { name: 'Press Kit', href: '/about.html#press' },
+      { name: 'Contact', href: '/contact.html' },
     ],
     Resources: [
-      { name: 'Documentation', href: '#docs' },
-      { name: 'Help Center', href: '#help' },
-      { name: 'Community', href: '#community' },
-      { name: 'Webinars', href: '#webinars' },
-      { name: 'Case Studies', href: '#cases' },
+      { name: 'Documentation', href: '/documentation.html' },
+      { name: 'Help Center', href: '/documentation.html#help' },
+      { name: 'Community', href: '/contact.html#community' },
+      { name: 'Webinars', href: '/blog.html#webinars' },
+      { name: 'Case Studies', href: '/blog.html#cases' },
     ],
     Legal: [
-      { name: 'Privacy Policy', href: '#privacy' },
-      { name: 'Terms of Service', href: '#terms' },
-      { name: 'Cookie Policy', href: '#cookies' },
-      { name: 'GDPR', href: '#gdpr' },
-      { name: 'Security', href: '#security' },
+      { name: 'Privacy Policy', href: '/privacy-policy.html' },
+      { name: 'Terms of Service', href: '/terms-of-service.html' },
+      { name: 'Cookie Policy', href: '/cookie-policy.html' },
+      { name: 'GDPR', href: '/gdpr.html' },
+      { name: 'Security', href: '/security.html' },
     ],
   }
 
@@ -111,19 +111,25 @@ const Footer: React.FC<FooterProps> = ({ onLoginClick }) => {
             {/* Social Links */}
             <div className="flex gap-3">
               <a
-                href="#"
+                href="https://twitter.com/adbidai"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://linkedin.com/company/adbidai"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors"
               >
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://github.com/adbidai"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors"
               >
                 <Github className="w-5 h-5" />

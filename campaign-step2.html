@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Campaign - Campaign Settings</title>
+    <link rel="stylesheet" href="css/sidebar.css">
     <style>
         * {
             margin: 0;
@@ -496,14 +497,12 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
+    <div class="dashboard-layout">
+        <!-- Sidebar will be injected here by JavaScript -->
+        <div class="main-wrapper">
+            <!-- Header -->
+            <div class="header">
         <div class="header-left">
-            <button class="back-btn" onclick="window.location.href='new-campaign.html'">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M5 12L12 19M5 12L12 5"/>
-                </svg>
-            </button>
             <h1 class="page-title">New campaign</h1>
         </div>
         <div class="header-right">
@@ -598,6 +597,14 @@
                 <label class="form-label">Conversion location</label>
                 
                 <div class="radio-option">
+                    <input type="radio" id="conversionWebsite" name="conversionLocation">
+                    <label for="conversionWebsite" class="radio-label">
+                        <span class="radio-circle"></span>
+                        <span>Website</span>
+                    </label>
+                </div>
+                
+                <div class="radio-option">
                     <input type="radio" id="conversionApp" name="conversionLocation" checked>
                     <label for="conversionApp" class="radio-label">
                         <span class="radio-circle"></span>
@@ -605,27 +612,32 @@
                     </label>
                 </div>
                 
-                <div class="dropdown-group">
-                    <select class="form-select">
-                        <option>Yess android</option>
-                        <option>App Store Connect</option>
-                        <option>Facebook App Events</option>
-                    </select>
-                    
-                    <select class="form-select">
-                        <option>Google play</option>
-                        <option>App Store</option>
-                        <option>Amazon Appstore</option>
-                    </select>
-                    
-                    <select class="form-select">
-                        <option>Purchase</option>
-                        <option>Add to Cart</option>
-                        <option>Complete Registration</option>
-                        <option>View Content</option>
-                        <option>Search</option>
-                        <option>Add Payment Info</option>
-                    </select>
+                <div class="radio-option">
+                    <input type="radio" id="conversionMessenger" name="conversionLocation">
+                    <label for="conversionMessenger" class="radio-label">
+                        <span class="radio-circle"></span>
+                        <span>Messenger</span>
+                    </label>
+                </div>
+                
+                <div class="radio-option">
+                    <input type="radio" id="conversionWhatsApp" name="conversionLocation">
+                    <label for="conversionWhatsApp" class="radio-label">
+                        <span class="radio-circle"></span>
+                        <span>WhatsApp</span>
+                    </label>
+                </div>
+                
+                <div class="radio-option">
+                    <input type="radio" id="conversionCalls" name="conversionLocation">
+                    <label for="conversionCalls" class="radio-label">
+                        <span class="radio-circle"></span>
+                        <span>Calls</span>
+                    </label>
+                </div>
+                
+                <div id="conversionDropdowns" class="dropdown-group">
+                    <!-- Dropdowns will be dynamically inserted here -->
                 </div>
             </div>
         </div>
@@ -644,9 +656,42 @@
                     </div>
                 </div>
                 <label class="toggle-switch">
-                    <input type="checkbox">
+                    <input type="checkbox" id="specialCategoriesToggle">
                     <span class="slider"></span>
                 </label>
+            </div>
+            
+            <!-- Additional fields shown when toggle is enabled -->
+            <div id="specialCategoriesFields" style="display: none; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e5e7eb;">
+                <div class="form-group">
+                    <label class="form-label">Categories</label>
+                    <select class="form-select" id="specialCategory">
+                        <option value="">Select a category</option>
+                        <option value="credit">Credit</option>
+                        <option value="employment">Employment</option>
+                        <option value="housing">Housing</option>
+                        <option value="social_issues">Social issues, elections or politics</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" style="margin-top: 16px;">
+                    <label class="form-label">Countries</label>
+                    <select class="form-select" id="specialCategoryCountries" multiple style="height: 120px;">
+                        <option value="US" selected>United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <option value="FR">France</option>
+                        <option value="DE">Germany</option>
+                        <option value="IT">Italy</option>
+                        <option value="ES">Spain</option>
+                        <option value="BR">Brazil</option>
+                        <option value="MX">Mexico</option>
+                    </select>
+                    <p class="form-description" style="margin-top: 8px; font-size: 12px; color: #6b7280;">
+                        Hold Ctrl/Cmd to select multiple countries
+                    </p>
+                </div>
             </div>
         </div>
         
@@ -672,6 +717,101 @@
     </div>
     
     <script>
+        // Sidebar toggle functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('campaignSidebar');
+            const toggle = document.getElementById('sidebarToggle');
+            const overlay = document.getElementById('sidebarOverlay');
+            const body = document.body;
+            
+            sidebar.classList.toggle('open');
+            toggle.classList.toggle('open');
+            
+            if (sidebar.classList.contains('open')) {
+                overlay.classList.add('show');
+                body.classList.add('sidebar-open');
+            } else {
+                overlay.classList.remove('show');
+                body.classList.remove('sidebar-open');
+            }
+        }
+        
+        // Select objective from sidebar
+        function selectObjective(type) {
+            // Update radio buttons
+            const radios = document.querySelectorAll('input[name="objective"]');
+            radios.forEach(radio => {
+                const label = radio.parentElement.textContent.trim().toLowerCase();
+                if (label.includes(type.toLowerCase()) || 
+                    (type === 'app' && label.includes('app promotion'))) {
+                    radio.checked = true;
+                    
+                    // Trigger change event
+                    const event = new Event('change');
+                    radio.dispatchEvent(event);
+                }
+            });
+            
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget?.classList.add('active');
+            
+            // Update conversion options
+            updateConversionOptions();
+        }
+        
+        // Quick action functions
+        function loadTemplate() {
+            alert('Template library coming soon! You can save and load campaign templates here.');
+        }
+        
+        function duplicateCampaign() {
+            alert('Select a campaign to duplicate its settings.');
+        }
+        
+        function importSettings() {
+            alert('Import campaign settings from a JSON file.');
+        }
+        
+        function exportSettings() {
+            // Collect current settings
+            const settings = {
+                campaignName: document.querySelector('input[placeholder="New campaign"]')?.value,
+                objective: document.querySelector('input[name="objective"]:checked')?.parentElement.textContent.trim(),
+                conversionLocation: document.querySelector('input[name="conversionLocation"]:checked')?.nextElementSibling.querySelector('span:last-child').textContent,
+                specialCategories: document.getElementById('specialCategoriesToggle')?.checked,
+                advantageBudget: document.querySelector('.toggle-section:last-child input[type="checkbox"]')?.checked
+            };
+            
+            // Download as JSON
+            const dataStr = JSON.stringify(settings, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const exportFileDefaultName = 'campaign-settings.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+        
+        function loadCampaign(campaignId) {
+            console.log('Loading campaign:', campaignId);
+            // Here you would load campaign data from backend
+            alert(`Loading campaign ${campaignId} settings...`);
+        }
+        
+        function openHelp(topic) {
+            const helpContent = {
+                objectives: 'Campaign objectives determine how your ads are optimized. Choose based on your business goals.',
+                budget: 'Set daily or lifetime budgets. Use Advantage campaign budget for automatic optimization.',
+                compliance: 'EU Digital Services Act requires transparency in political and issue ads.'
+            };
+            
+            alert(helpContent[topic] || 'Help documentation coming soon.');
+        }
+        
         // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -694,11 +834,304 @@
                 }
             });
         });
+        
+        // Dynamic Conversion Options Based on Campaign Objective
+        const conversionOptions = {
+            'Awareness': {
+                'Website': [
+                    { value: 'page_view', text: 'Maximize page views' },
+                    { value: 'landing_page', text: 'Landing page visits' },
+                    { value: 'unique_visitors', text: 'Unique visitors' }
+                ],
+                'App': [
+                    { value: 'app_impressions', text: 'App impressions' },
+                    { value: 'app_opens', text: 'App opens' }
+                ],
+                'Messenger': [
+                    { value: 'message_impressions', text: 'Message impressions' }
+                ]
+            },
+            'Engagement': {
+                'Website': [
+                    { value: 'post_engagement', text: 'Post engagement' },
+                    { value: 'page_likes', text: 'Page likes' },
+                    { value: 'comments', text: 'Comments' },
+                    { value: 'shares', text: 'Shares' }
+                ],
+                'App': [
+                    { value: 'app_engagement', text: 'App engagement' },
+                    { value: 'in_app_actions', text: 'In-app actions' }
+                ],
+                'Messenger': [
+                    { value: 'conversations', text: 'Conversation starts' },
+                    { value: 'replies', text: 'Message replies' }
+                ]
+            },
+            'Leads': {
+                'Website': [
+                    { value: 'lead_form', text: 'Lead form submissions' },
+                    { value: 'instant_form', text: 'Instant forms' },
+                    { value: 'contact_form', text: 'Contact forms' },
+                    { value: 'signup', text: 'Sign-ups' }
+                ],
+                'App': [
+                    { value: 'app_registration', text: 'App registrations' },
+                    { value: 'app_lead', text: 'App leads' }
+                ],
+                'Messenger': [
+                    { value: 'messenger_lead', text: 'Messenger leads' },
+                    { value: 'qualified_lead', text: 'Qualified leads' }
+                ],
+                'WhatsApp': [
+                    { value: 'whatsapp_lead', text: 'WhatsApp leads' },
+                    { value: 'whatsapp_form', text: 'WhatsApp forms' }
+                ],
+                'Calls': [
+                    { value: 'call_lead', text: 'Call leads' },
+                    { value: 'callback_request', text: 'Callback requests' }
+                ]
+            },
+            'Sales': {
+                'Website': [
+                    { value: 'purchase', text: 'Purchases' },
+                    { value: 'add_to_cart', text: 'Add to cart' },
+                    { value: 'checkout', text: 'Checkouts' },
+                    { value: 'payment_info', text: 'Add payment info' },
+                    { value: 'value_optimization', text: 'Value optimization' }
+                ],
+                'App': [
+                    { value: 'app_purchase', text: 'App purchases' },
+                    { value: 'in_app_purchase', text: 'In-app purchases' },
+                    { value: 'subscription', text: 'Subscriptions' }
+                ],
+                'WhatsApp': [
+                    { value: 'whatsapp_purchase', text: 'WhatsApp purchases' },
+                    { value: 'catalog_sales', text: 'Catalog sales' }
+                ]
+            },
+            'Traffic': {
+                'Website': [
+                    { value: 'link_clicks', text: 'Link clicks' },
+                    { value: 'landing_page_views', text: 'Landing page views' },
+                    { value: 'daily_unique_reach', text: 'Daily unique reach' }
+                ],
+                'App': [
+                    { value: 'app_installs', text: 'App installs' },
+                    { value: 'app_events', text: 'App events' }
+                ],
+                'Messenger': [
+                    { value: 'messenger_clicks', text: 'Messenger clicks' },
+                    { value: 'conversation_starts', text: 'Conversation starts' }
+                ],
+                'WhatsApp': [
+                    { value: 'whatsapp_clicks', text: 'WhatsApp clicks' }
+                ],
+                'Calls': [
+                    { value: 'call_clicks', text: 'Call clicks' }
+                ]
+            },
+            'App promotion': {
+                'App': [
+                    { value: 'app_installs', text: 'App installs' },
+                    { value: 'app_events', text: 'App events' },
+                    { value: 'app_registrations', text: 'Registrations' },
+                    { value: 'app_purchases', text: 'Purchases' },
+                    { value: 'app_engagement', text: 'Engagement' },
+                    { value: 'value_optimization', text: 'Value optimization' }
+                ]
+            }
+        };
+        
+        // Update conversion options when objective changes
+        function updateConversionOptions() {
+            const selectedObjective = document.querySelector('input[name="objective"]:checked');
+            const conversionDropdowns = document.getElementById('conversionDropdowns');
+            const conversionLocationInputs = document.querySelectorAll('input[name="conversionLocation"]');
+            
+            if (!selectedObjective) return;
+            
+            const objectiveText = selectedObjective.parentElement.textContent.trim();
+            const availableLocations = Object.keys(conversionOptions[objectiveText] || {});
+            
+            // Hide/show conversion locations based on objective
+            conversionLocationInputs.forEach(input => {
+                const locationLabel = input.nextElementSibling.querySelector('span:last-child').textContent;
+                const radioOption = input.closest('.radio-option');
+                
+                if (availableLocations.includes(locationLabel)) {
+                    radioOption.style.display = 'block';
+                } else {
+                    radioOption.style.display = 'none';
+                    if (input.checked) {
+                        input.checked = false;
+                    }
+                }
+            });
+            
+            // Auto-select first available location if none selected
+            const visibleInputs = Array.from(conversionLocationInputs).filter(input => 
+                input.closest('.radio-option').style.display !== 'none'
+            );
+            
+            if (visibleInputs.length > 0 && !Array.from(conversionLocationInputs).some(input => input.checked)) {
+                visibleInputs[0].checked = true;
+            }
+            
+            // Update dropdowns based on selected location
+            updateConversionDropdowns();
+        }
+        
+        // Update dropdowns based on selected conversion location
+        function updateConversionDropdowns() {
+            const selectedObjective = document.querySelector('input[name="objective"]:checked');
+            const selectedLocation = document.querySelector('input[name="conversionLocation"]:checked');
+            const conversionDropdowns = document.getElementById('conversionDropdowns');
+            
+            if (!selectedObjective || !selectedLocation) {
+                conversionDropdowns.innerHTML = '';
+                return;
+            }
+            
+            const objectiveText = selectedObjective.parentElement.textContent.trim();
+            const locationText = selectedLocation.nextElementSibling.querySelector('span:last-child').textContent;
+            
+            const options = conversionOptions[objectiveText]?.[locationText] || [];
+            
+            if (options.length === 0) {
+                conversionDropdowns.innerHTML = '';
+                return;
+            }
+            
+            // Create dropdown HTML
+            let dropdownHTML = `
+                <div class="form-group" style="margin-top: 20px;">
+                    <label class="form-label">Conversion goal</label>
+                    <select class="form-select" id="conversionGoal">
+            `;
+            
+            options.forEach(option => {
+                dropdownHTML += `<option value="${option.value}">${option.text}</option>`;
+            });
+            
+            dropdownHTML += `
+                    </select>
+                </div>
+            `;
+            
+            // Add additional dropdowns based on objective
+            if (objectiveText === 'Sales' && locationText === 'Website') {
+                dropdownHTML += `
+                    <div class="form-group">
+                        <label class="form-label">Product catalog</label>
+                        <select class="form-select" id="productCatalog">
+                            <option value="none">No catalog</option>
+                            <option value="catalog1">Main catalog</option>
+                            <option value="catalog2">Promo catalog</option>
+                            <option value="create_new">+ Create new catalog</option>
+                        </select>
+                    </div>
+                `;
+            }
+            
+            if (objectiveText === 'App promotion') {
+                dropdownHTML += `
+                    <div class="form-group">
+                        <label class="form-label">Application</label>
+                        <select class="form-select" id="appSelect">
+                            <option value="app1">MyApp iOS</option>
+                            <option value="app2">MyApp Android</option>
+                            <option value="add_new">+ Add application</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Optimization events</label>
+                        <select class="form-select" id="appEvents">
+                            <option value="install">Install</option>
+                            <option value="registration">Registration</option>
+                            <option value="purchase">Purchase</option>
+                            <option value="custom">Custom event</option>
+                        </select>
+                    </div>
+                `;
+            }
+            
+            if (locationText === 'Website' && (objectiveText === 'Leads' || objectiveText === 'Sales')) {
+                dropdownHTML += `
+                    <div class="form-group">
+                        <label class="form-label">Pixel</label>
+                        <select class="form-select" id="pixelSelect">
+                            <option value="pixel1">Facebook Pixel #12345</option>
+                            <option value="pixel2">Facebook Pixel #67890</option>
+                            <option value="create_pixel">+ Create pixel</option>
+                        </select>
+                    </div>
+                `;
+            }
+            
+            conversionDropdowns.innerHTML = dropdownHTML;
+        }
+        
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Listen for objective changes
+            document.querySelectorAll('input[name="objective"]').forEach(input => {
+                input.addEventListener('change', updateConversionOptions);
+            });
+            
+            // Listen for conversion location changes
+            document.querySelectorAll('input[name="conversionLocation"]').forEach(input => {
+                input.addEventListener('change', updateConversionDropdowns);
+            });
+            
+            // Special ad categories toggle functionality
+            const specialCategoriesToggle = document.getElementById('specialCategoriesToggle');
+            const specialCategoriesFields = document.getElementById('specialCategoriesFields');
+            
+            if (specialCategoriesToggle && specialCategoriesFields) {
+                specialCategoriesToggle.addEventListener('change', function() {
+                    if (this.checked) {
+                        specialCategoriesFields.style.display = 'block';
+                        // Smooth animation
+                        specialCategoriesFields.style.opacity = '0';
+                        setTimeout(() => {
+                            specialCategoriesFields.style.transition = 'opacity 0.3s ease';
+                            specialCategoriesFields.style.opacity = '1';
+                        }, 10);
+                    } else {
+                        specialCategoriesFields.style.transition = 'opacity 0.3s ease';
+                        specialCategoriesFields.style.opacity = '0';
+                        setTimeout(() => {
+                            specialCategoriesFields.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            }
+            
+            // Advantage campaign budget toggle functionality
+            const advantageBudgetToggle = document.querySelector('.toggle-section:last-child input[type="checkbox"]');
+            if (advantageBudgetToggle) {
+                advantageBudgetToggle.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Here you could add additional fields or functionality for campaign budget optimization
+                        console.log('Advantage campaign budget enabled');
+                    } else {
+                        console.log('Advantage campaign budget disabled');
+                    }
+                });
+            }
+            
+            // Initialize on load
+            updateConversionOptions();
+        });
     </script>
     
     <!-- Core JavaScript Libraries -->
     <script src="js/storage.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/campaign-wizard.js"></script></body>
+    <script src="js/campaign-wizard.js"></script>
+    <script src="js/sidebar.js"></script>
+        </div>
+    </div>
+</body>
 </html>
